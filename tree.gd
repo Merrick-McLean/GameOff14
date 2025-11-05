@@ -1,0 +1,64 @@
+extends Node2D
+var fire_reach = 20
+var neighbors = []
+var on_fire
+var burnt
+
+var _timer: Timer
+var burn_interval = 10
+
+
+func _ready():
+	get_parent().get_parent().get_node("world_timer").tick.connect(_on_tick) #connect tick timer
+	#queue_redraw()
+	
+func setup():
+	var other_trees = get_parent().get_children()
+	on_fire = false
+	burnt = false
+	for tree in other_trees:
+		if is_within_distance(self, tree, fire_reach):
+			neighbors.append(tree)
+	if not on_fire and randf() > 0.99:
+		self.ignite()
+
+func _on_tick():
+	if on_fire:
+		for tree in neighbors:
+			if not (tree is Polygon2D):
+				if randf() > 0.95 and not tree.on_fire and not tree.burnt :
+					tree.ignite()
+
+
+func is_within_distance(node_a: Node2D, node_b: Node2D, radius: float) -> bool:
+	var distance = node_a.global_position.distance_to(node_b.global_position)
+	return distance <= radius
+
+func ignite():
+	self.modulate = Color(1,0,0)
+	on_fire = true
+	queue_redraw()
+	_timer = Timer.new()
+	_timer.wait_time = burn_interval
+	_timer.one_shot = false
+	_timer.autostart = true
+
+	# connect the timer's timeout signal to tick signal
+	_timer.timeout.connect(_on_timer_timeout)
+	add_child(_timer)
+	
+
+func burn_out():
+	self.modulate = Color()
+	on_fire = false
+	burnt = true
+	queue_redraw()
+
+func _on_timer_timeout():
+	burn_out()
+	queue_redraw()
+
+
+func _draw() -> void:
+	if on_fire:
+		draw_circle(Vector2(), 40, Color(1,0,0))
