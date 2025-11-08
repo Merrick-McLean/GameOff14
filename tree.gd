@@ -9,11 +9,11 @@ var burn_interval = 10
 
 
 func _ready():
-	get_parent().get_parent().get_node("world_timer").tick.connect(_on_tick) #connect tick timer
-	#queue_redraw()
+	var root = get_tree().get_current_scene()
+	var world_timer = root.get_node("world_timer")
+	world_timer.tick.connect(_on_tick)
 	
-func setup():
-	var other_trees = get_parent().get_children()
+func setup(other_trees):
 	on_fire = false
 	burnt = false
 	for tree in other_trees:

@@ -1,0 +1,15 @@
+[gd_scene load_steps=5 format=3 uid="uid://iskybyrkguuk"]
+
+[ext_resource type="PackedScene" uid="uid://boqnhwkcmdneh" path="res://camera.tscn" id="1_rgayt"]
+[ext_resource type="Script" uid="uid://3a7ng8l4w34b" path="res://level_generate.gd" id="1_yclhl"]
+[ext_resource type="PackedScene" uid="uid://cb44m6144hhdw" path="res://player.tscn" id="2_yclhl"]
+[ext_resource type="PackedScene" uid="uid://b8mo3i8kja54g" path="res://world_timer.tscn" id="3_i3djf"]
+
+[node name="Level_generate" type="Node2D"]
+script = ExtResource("1_yclhl")
+
+[node name="Camera2D" parent="." instance=ExtResource("1_rgayt")]
+
+[node name="player" parent="." instance=ExtResource("2_yclhl")]
+
+[node name="world_timer" parent="." instance=ExtResource("3_i3djf")]

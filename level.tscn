@@ -2,8 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://boqnhwkcmdneh" path="res://camera.tscn" id="1_0b4ue"]
 [ext_resource type="PackedScene" uid="uid://b8mo3i8kja54g" path="res://world_timer.tscn" id="1_u52ul"]
-[ext_resource type="PackedScene" uid="uid://bf7rt2signydu" path="res://forest.tscn" id="2_vonw3"]
 [ext_resource type="PackedScene" uid="uid://cb44m6144hhdw" path="res://player.tscn" id="3_oi3di"]
+[ext_resource type="PackedScene" uid="uid://iskybyrkguuk" path="res://level_generate.tscn" id="4_0b4ue"]
 
 [node name="Level" type="Node2D"]
 
@@ -13,27 +13,4 @@
 
 [node name="world_timer" parent="." instance=ExtResource("1_u52ul")]
 
-[node name="forest" parent="." instance=ExtResource("2_vonw3")]
-
-[node name="ForestPolygon" type="Polygon2D" parent="forest"]
-polygon = PackedVector2Array(8, 6, 5, 144, 91, 169, 331, 155, 409, 4)
-
-[node name="forest2" parent="." instance=ExtResource("2_vonw3")]
-
-[node name="ForestPolygon" type="Polygon2D" parent="forest2"]
-polygon = PackedVector2Array(5, 144, 93, 172, 332, 157, 455, 196, 456, 346, 1, 347)
-
-[node name="forest3" parent="." instance=ExtResource("2_vonw3")]
-
-[node name="ForestPolygon" type="Polygon2D" parent="forest3"]
-polygon = PackedVector2Array(412, 0, 327, 157, 457, 201, 455, 353, 555, 344, 547, 1)
-
-[node name="forest4" parent="." instance=ExtResource("2_vonw3")]
-
-[node name="ForestPolygon" type="Polygon2D" parent="forest4"]
-polygon = PackedVector2Array(4, 351, 177, 475, 454, 348)
-
-[node name="forest5" parent="." instance=ExtResource("2_vonw3")]
-
-[node name="ForestPolygon" type="Polygon2D" parent="forest5"]
-polygon = PackedVector2Array(2, 349, 176, 475, 454, 347, 451, 640, 11, 647)
+[node name="Level_generate" parent="." instance=ExtResource("4_0b4ue")]

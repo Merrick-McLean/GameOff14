@@ -3,7 +3,7 @@ extends Node2D
 var num_of_trees = 1000
 var fire = true
 
-func _ready() -> void:
+func set_up() -> void:
 	var x = 0
 	while(x<num_of_trees):
 		spawn_tree_in_forest_polygon()
