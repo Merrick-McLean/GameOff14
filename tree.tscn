@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cxndkcbf3v24y"]
 
 [ext_resource type="Script" uid="uid://b6wmv74s2a8hr" path="res://tree.gd" id="1_brfkd"]
-[ext_resource type="Texture2D" uid="uid://0ohi4uvhm44v" path="res://assets/tree_dev_test.png" id="2_nnvrw"]
+[ext_resource type="Texture2D" uid="uid://bfgjxmvtyygut" path="res://assets/Oaktree_1.png" id="2_nnvrw"]
 
 [node name="tree" type="Node2D"]
 scale = Vector2(0.2, 0.2)

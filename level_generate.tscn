@@ -4,6 +4,3 @@
 
 [node name="Level_generate" type="Node2D"]
 script = ExtResource("1_yclhl")
-num_points = null
-show_points = null
-point_size = null

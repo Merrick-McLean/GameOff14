@@ -2,11 +2,10 @@ extends Node2D
 
 @onready var tree_scene: PackedScene = preload("res://tree.tscn")
 
-# Number of seed points for the Voronoi diagram
-@export var num_points: int = 20
+@export var num_points: int = 20 #how many differnt groups
 @export var show_points: bool = true
 @export var point_size: float = 5.0
-@export var num_trees: int = 10000
+@export var num_trees: int = 3000
 
 
 var screen_size: Vector2
@@ -32,10 +31,10 @@ func generate_voronoi():
 		)
 		seed_points.append(point)
 		seed_tree_groups.append([])
-	# Create the Voronoi diagram
+	# Create the Voronoi diagram for debugging ---------
 	voronoi_image = Image.create(int(screen_size.x), int(screen_size.y), false, Image.FORMAT_RGB8)
 	
-	# For each pixel, find the closest seed point
+	# For each pixel, find the closest seed point 
 	for x in range(int(screen_size.x)):
 		for y in range(int(screen_size.y)):
 			var pixel_pos = Vector2(x, y)
@@ -47,6 +46,10 @@ func generate_voronoi():
 	
 	# Create texture from image
 	voronoi_texture = ImageTexture.create_from_image(voronoi_image)
+	
+	# ----------
+	
+	
 	var x = 0
 	var min_x = 0.0
 	var max_x = screen_size.x
@@ -58,7 +61,9 @@ func generate_voronoi():
 	
 	for tree_group in seed_tree_groups:
 		for tree in tree_group:
-			tree.setup(tree_group)
+			tree.setup(tree_group) # activate all the trees last
+			
+			
 	queue_redraw()
 
 func find_closest_point(pos: Vector2) -> int:
@@ -79,6 +84,7 @@ func get_color_for_index(idx: int) -> Color:
 	return Color.from_hsv(hue, 0.7, 0.9)
 
 func spawn_tree(min_x, max_x, min_y, max_y):
+	#spawn each tree and add to seed group
 	var tree = tree_scene.instantiate()
 	var random_point = Vector2()
 	var random_x = randf_range(min_x, max_x)
