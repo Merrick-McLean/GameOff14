@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d4eayrurykshc"
-path="res://.godot/imported/UIVolumeButton.png-552fffa6ed51bd2a5b16fb425c4c7fd6.ctex"
+uid="uid://nnb7506f2th6"
+path="res://.godot/imported/UIStartButton.png-43370f490db2dd2388c8570139f788ef.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/UIVolumeButton.png"
-dest_files=["res://.godot/imported/UIVolumeButton.png-552fffa6ed51bd2a5b16fb425c4c7fd6.ctex"]
+source_file="res://assets/UI/UIStartButton.png"
+dest_files=["res://.godot/imported/UIStartButton.png-43370f490db2dd2388c8570139f788ef.ctex"]
 
 [params]
 

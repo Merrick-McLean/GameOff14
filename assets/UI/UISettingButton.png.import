@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://nnb7506f2th6"
-path="res://.godot/imported/UIStartButton.png-2929b3e940f493659a9f188ca6aa972c.ctex"
+uid="uid://mn2femr1doul"
+path="res://.godot/imported/UISettingButton.png-dbbea86f126fbf4b1528261e3e204f87.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/UIStartButton.png"
-dest_files=["res://.godot/imported/UIStartButton.png-2929b3e940f493659a9f188ca6aa972c.ctex"]
+source_file="res://assets/UI/UISettingButton.png"
+dest_files=["res://.godot/imported/UISettingButton.png-dbbea86f126fbf4b1528261e3e204f87.ctex"]
 
 [params]
 

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://hfcgp5oona0f"
-path="res://.godot/imported/UIGoneFishingStraight.png-5c817fb2aca53ad64faa20173069ef82.ctex"
+path="res://.godot/imported/UIGoneFishingStraight.png-3ced4ff7a50e719473f9275085559dca.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/UIGoneFishingStraight.png"
-dest_files=["res://.godot/imported/UIGoneFishingStraight.png-5c817fb2aca53ad64faa20173069ef82.ctex"]
+source_file="res://assets/UI/UIGoneFishingStraight.png"
+dest_files=["res://.godot/imported/UIGoneFishingStraight.png-3ced4ff7a50e719473f9275085559dca.ctex"]
 
 [params]
 
