@@ -2,7 +2,7 @@ extends Node
 
 signal tick 
 
-@export var interval := 0.5  #seconds between ticks
+@export var interval := 0.25  #seconds between ticks
 var _timer: Timer
 
 func _ready() -> void:

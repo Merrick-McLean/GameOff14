@@ -2,15 +2,16 @@ extends Node2D
 
 @onready var tree_scene: PackedScene = preload("res://tree.tscn")
 
-@export var num_points: int = 20 #how many differnt groups
+@export var num_points: int = 20 #how many different groups
 @export var show_points: bool = true
 @export var point_size: float = 5.0
-@export var num_trees: int = 3000
+@export var num_trees: int = 5000
 
-
+var border_tol = 0.025
 var screen_size: Vector2
 var seed_points: Array = []
 var seed_tree_groups: Array = []
+var trees: Array = []
 var voronoi_image: Image
 var voronoi_texture: ImageTexture
 var polygon_nodes: Array = []
@@ -61,12 +62,17 @@ func generate_voronoi():
 	
 	for tree_group in seed_tree_groups:
 		for tree in tree_group:
-			tree.setup(tree_group) # activate all the trees last
+			tree.other_trees = tree.other_trees + tree_group
 			
-			
+	for tree in trees:
+		tree.setup()
+	
+	trees[0].ignite()
+		
+		
 	queue_redraw()
 
-func find_closest_point(pos: Vector2) -> int:
+func find_closest_point(pos: Vector2) -> int:	
 	var min_dist = INF
 	var closest_idx = 0
 	
@@ -77,6 +83,28 @@ func find_closest_point(pos: Vector2) -> int:
 			closest_idx = i
 	
 	return closest_idx
+	
+func find_closest_point_tree(pos: Vector2, tolerance: float = border_tol) -> Array:
+	var min_dist = INF
+	var closest_idx = -1
+	var close_indices = []
+
+	# First pass — find the minimum distance
+	for i in range(seed_points.size()):
+		var dist = pos.distance_squared_to(seed_points[i])
+		if dist < min_dist:
+			min_dist = dist
+			closest_idx = i
+	close_indices.append(closest_idx)
+
+	# Second pass — find all indices within the tolerance range
+	for i in range(seed_points.size()):
+		var dist = pos.distance_squared_to(seed_points[i])
+		if dist <= min_dist * (1+tolerance):
+			close_indices.append(i)
+			
+
+	return close_indices
 
 func get_color_for_index(idx: int) -> Color:
 	# Generate a unique color for each region
@@ -91,17 +119,19 @@ func spawn_tree(min_x, max_x, min_y, max_y):
 	var random_y = randf_range(min_y, max_y)
 	random_point = Vector2(random_x, random_y)
 	tree.position = random_point
-	var idx = find_closest_point(random_point)
-	seed_tree_groups[idx-1].append(tree)
+	var idxes = find_closest_point_tree(random_point)
+	if idxes.size() > 0:
+		for idx in idxes:
+			seed_tree_groups[idx].append(tree)
+	trees.append(tree)
+	tree.z_index = random_y
 	add_child(tree)
-	
-	tree.modulate = get_color_for_index(idx)
+	tree.modulate = get_color_for_index(idxes[0])
 	
 	
 func _draw():
 	if voronoi_texture:
 		draw_texture(voronoi_texture, Vector2.ZERO)
-	
 	# Draw seed points if enabled
 	if show_points:
 		for point in seed_points:

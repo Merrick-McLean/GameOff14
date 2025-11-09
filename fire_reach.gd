@@ -1,4 +1,4 @@
-extends Sprite2D  # Or just Sprite in Godot 3.x
+extends Sprite2D 
 
 # Radius of the circle
 var r = 50
