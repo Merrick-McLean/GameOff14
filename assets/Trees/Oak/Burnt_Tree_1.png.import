@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b5jot76lpim53"
-path="res://.godot/imported/Burnt_Tree_1.png-3e60c849cd423c33f1f511a063034c6d.ctex"
+path="res://.godot/imported/Burnt_Tree_1.png-2e2c98e67ce1351c59bea5c512b951e2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Burnt_Tree_1.png"
-dest_files=["res://.godot/imported/Burnt_Tree_1.png-3e60c849cd423c33f1f511a063034c6d.ctex"]
+source_file="res://assets/Trees/Oak/Burnt_Tree_1.png"
+dest_files=["res://.godot/imported/Burnt_Tree_1.png-2e2c98e67ce1351c59bea5c512b951e2.ctex"]
 
 [params]
 
