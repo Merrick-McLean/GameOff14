@@ -3,7 +3,7 @@ var fire_reach = 20
 var neighbors = []
 var on_fire
 var burnt
-
+var other_trees = []
 var _timer: Timer
 var burn_interval = 10
 
@@ -13,14 +13,18 @@ func _ready():
 	var world_timer = root.get_node("world_timer")
 	world_timer.tick.connect(_on_tick)
 	
-func setup(other_trees):
+func setup():
 	on_fire = false
 	burnt = false
 	for tree in other_trees:
 		if is_within_distance(self, tree, fire_reach):
 			neighbors.append(tree)
-	if not on_fire and randf() > 0.99:
+	#bug testing
+	"""
+		if not on_fire and randf() > 0.99:
 		self.ignite()
+	
+	"""
 
 func _on_tick():
 	if on_fire:

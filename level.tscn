@@ -8,6 +8,7 @@
 [node name="Level" type="Node2D"]
 
 [node name="Camera2D" parent="." instance=ExtResource("1_0b4ue")]
+position = Vector2(575, 325)
 
 [node name="player" parent="." instance=ExtResource("3_oi3di")]
 
