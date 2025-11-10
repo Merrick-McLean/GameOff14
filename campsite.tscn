@@ -3,15 +3,17 @@
 [ext_resource type="Texture2D" uid="uid://dpbagv3seoioe" path="res://assets/camp_dev_test.png" id="1_6252e"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2jcta"]
-size = Vector2(113.00005, 93.00003)
+size = Vector2(130.00006, 125.00007)
 
 [node name="campsite" type="Node2D"]
+z_index = 100
+scale = Vector2(0.4, 0.4)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(-6.5000005, 8.499994)
-scale = Vector2(0.99999946, 0.99999946)
+position = Vector2(-4.999998, 14.999996)
+scale = Vector2(0.99999934, 0.99999934)
 shape = SubResource("RectangleShape2D_2jcta")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

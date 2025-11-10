@@ -1,17 +1,22 @@
 extends Node2D
 
 @onready var tree_scene: PackedScene = preload("res://tree.tscn")
+@onready var camp_scene: PackedScene = preload("res://campsite.tscn")
 
 @export var num_points: int = 20 #how many different groups
 @export var show_points: bool = true
 @export var point_size: float = 5.0
 @export var num_trees: int = 5000
+@export var num_campsites: int = 2
+@export var campsite_clearing: int = 2*1000
+
 
 var border_tol = 0.025
 var screen_size: Vector2
 var seed_points: Array = []
 var seed_tree_groups: Array = []
 var trees: Array = []
+var camps: Array = []
 var voronoi_image: Image
 var voronoi_texture: ImageTexture
 var polygon_nodes: Array = []
@@ -32,6 +37,9 @@ func generate_voronoi():
 		)
 		seed_points.append(point)
 		seed_tree_groups.append([])
+		
+		
+	'''
 	# Create the Voronoi diagram for debugging ---------
 	voronoi_image = Image.create(int(screen_size.x), int(screen_size.y), false, Image.FORMAT_RGB8)
 	
@@ -49,6 +57,7 @@ func generate_voronoi():
 	voronoi_texture = ImageTexture.create_from_image(voronoi_image)
 	
 	# ----------
+	'''
 	
 	
 	var x = 0
@@ -56,6 +65,13 @@ func generate_voronoi():
 	var max_x = screen_size.x
 	var min_y = 0.0
 	var max_y = screen_size.y
+	while (x<num_campsites):
+		spawn_campsite(x)
+		x = x+1
+
+	
+	x = 0
+	
 	while(x<num_trees):
 		x = x+1
 		spawn_tree(min_x, max_x, min_y, max_y)
@@ -106,18 +122,37 @@ func find_closest_point_tree(pos: Vector2, tolerance: float = border_tol) -> Arr
 
 	return close_indices
 
+func too_close_to_camp(pos: Vector2):
+	for camp in camps:
+		var dist = pos.distance_squared_to(camp.position)
+		if dist < campsite_clearing:
+			return true
+	return false
+
+
 func get_color_for_index(idx: int) -> Color:
 	# Generate a unique color for each region
 	var hue = float(idx) / float(num_points)
 	return Color.from_hsv(hue, 0.7, 0.9)
 
+func spawn_campsite(idx : int):
+	var point = seed_points[idx]
+	var camp = camp_scene.instantiate()
+	camp.position = point
+	camp.z_index = point[1]
+	add_child(camp)
+	camps.append(camp)
+
+
 func spawn_tree(min_x, max_x, min_y, max_y):
 	#spawn each tree and add to seed group
-	var tree = tree_scene.instantiate()
 	var random_point = Vector2()
 	var random_x = randf_range(min_x, max_x)
 	var random_y = randf_range(min_y, max_y)
 	random_point = Vector2(random_x, random_y)
+	if too_close_to_camp(random_point):
+		return
+	var tree = tree_scene.instantiate()
 	tree.position = random_point
 	var idxes = find_closest_point_tree(random_point)
 	if idxes.size() > 0:
