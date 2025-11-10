@@ -1,11 +1,14 @@
 extends Node2D
-var fire_reach = 20
+var fire_reach = 30
+@export var fire_spread = 0.99
 var neighbors = []
 var on_fire
 var burnt
 var other_trees = []
 var _timer: Timer
 var burn_interval = 10
+var camp_tree = false
+@export var camp_fire = 0.99
 
 
 func _ready():
@@ -30,8 +33,11 @@ func _on_tick():
 	if on_fire:
 		for tree in neighbors:
 			if not (tree is Polygon2D):
-				if randf() > 0.95 and not tree.on_fire and not tree.burnt :
+				if not tree.on_fire and not tree.burnt and randf() > fire_spread:
 					tree.ignite()
+	elif camp_tree:
+		if randf() > camp_fire:
+			self.ignite()
 
 
 func is_within_distance(node_a: Node2D, node_b: Node2D, radius: float) -> bool:
