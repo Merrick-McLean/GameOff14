@@ -12,8 +12,7 @@ var camp_tree = false
 
 
 func _ready():
-	var root = get_tree().get_current_scene()
-	var world_timer = root.get_node("world_timer")
+	var world_timer = get_tree().get_current_scene().get_node("Level/world_timer")
 	world_timer.tick.connect(_on_tick)
 	
 func setup():
@@ -72,6 +71,5 @@ func _draw() -> void:
 		draw_circle(Vector2(), 40, Color(1,0,0))
 
 func chop_down():
-	print("test")
-	queue_free()
+	print("chopped")
 	return
