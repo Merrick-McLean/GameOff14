@@ -39,7 +39,6 @@ func _on_tick():
 		if randf() > camp_fire:
 			self.ignite()
 
-
 func is_within_distance(node_a: Node2D, node_b: Node2D, radius: float) -> bool:
 	var distance = node_a.global_position.distance_to(node_b.global_position)
 	return distance <= radius
@@ -68,7 +67,11 @@ func _on_timer_timeout():
 	burn_out()
 	queue_redraw()
 
-
 func _draw() -> void:
 	if on_fire:
 		draw_circle(Vector2(), 40, Color(1,0,0))
+
+func chop_down():
+	print("test")
+	queue_free()
+	return

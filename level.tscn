@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://nf7ensfke5r2"]
+[gd_scene load_steps=6 format=3 uid="uid://nf7ensfke5r2"]
 
 [ext_resource type="PackedScene" uid="uid://boqnhwkcmdneh" path="res://camera.tscn" id="1_0b4ue"]
 [ext_resource type="PackedScene" uid="uid://b8mo3i8kja54g" path="res://world_timer.tscn" id="1_u52ul"]
 [ext_resource type="PackedScene" uid="uid://cb44m6144hhdw" path="res://player.tscn" id="3_oi3di"]
 [ext_resource type="PackedScene" uid="uid://iskybyrkguuk" path="res://level_generate.tscn" id="4_0b4ue"]
+[ext_resource type="Script" uid="uid://cw7t1m5c8rr0" path="res://park_name/park_name_gen.gd" id="5_f2txt"]
 
 [node name="Level" type="Node2D"]
 
@@ -11,6 +12,14 @@
 position = Vector2(575, 325)
 
 [node name="player" parent="." instance=ExtResource("3_oi3di")]
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_top = -59.0
+offset_right = 626.0
+offset_bottom = 2.0
+theme_override_font_sizes/normal_font_size = 30
+text = "Unnamed Park"
+script = ExtResource("5_f2txt")
 
 [node name="world_timer" parent="." instance=ExtResource("1_u52ul")]
 
