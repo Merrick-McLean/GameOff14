@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bfgjxmvtyygut" path="res://assets/Trees/Oak/Oaktree_1.png" id="2_nnvrw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nnvrw"]
-size = Vector2(90.000015, 112.500015)
+size = Vector2(50.000034, 45)
 
 [node name="tree" type="Node2D"]
 scale = Vector2(0.2, 0.2)
@@ -17,6 +17,6 @@ texture = ExtResource("2_nnvrw")
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(0, -1.2499918)
-scale = Vector2(0.99999946, 0.99999946)
+position = Vector2(1.1920924e-06, 32.499977)
+scale = Vector2(0.99999917, 0.99999917)
 shape = SubResource("RectangleShape2D_nnvrw")

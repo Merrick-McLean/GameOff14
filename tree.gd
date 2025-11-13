@@ -73,3 +73,11 @@ func _draw() -> void:
 func chop_down():
 	print("chopped")
 	return
+
+func retardent_cover():
+	print("covered")
+	return
+
+func water_cover():
+	print("covered")
+	return

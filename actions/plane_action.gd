@@ -1,8 +1,8 @@
 extends ActionState
 
-var max_length := 150
+var max_length := 300.0
 var max_trees := 40
-var firebreak_thickness = 14
+var plane_thickness = 30
 var start_point: Vector2
 var start_point_found := false
 var preview_line: Line2D
@@ -12,8 +12,8 @@ var preview_line: Line2D
 func enter() -> void:
 	preview_line = Line2D.new()
 	preview_line.z_index = 1000
-	preview_line.width = firebreak_thickness
-	preview_line.default_color = Color(0.6, 0.3, 0.1, 0.5)
+	preview_line.width = plane_thickness
+	preview_line.default_color = Color(0.1, 0.3, 0.6, 0.5)
 	get_tree().get_current_scene().get_node("Level").add_child(preview_line)
 
 func exit():
@@ -34,7 +34,7 @@ func handle_input(event: InputEvent) -> void:
 			# clear preview line
 			preview_line.points = []
 			var end_point = get_limited_point(mouse_pos)
-			create_firebreak(start_point, end_point)
+			create_plane(start_point, end_point)
 			start_point_found = false
 	
 	elif event is InputEventMouseMotion and start_point_found:
@@ -42,14 +42,13 @@ func handle_input(event: InputEvent) -> void:
 		var end_point = get_limited_point(mouse_pos)
 		preview_line.points = [start_point, end_point]
 
-func create_firebreak(start: Vector2, end: Vector2) -> void:
+func create_plane(start: Vector2, end: Vector2) -> void:
 	var level = get_tree().get_current_scene().get_node("Level")
 	
-	# will probably remove when we get actual mechanic in - or will ust use preview
 	var firebreak = Line2D.new()
 	firebreak.z_index = 1000
-	firebreak.width = firebreak_thickness
-	firebreak.default_color = Color(0.6, 0.3, 0.1, 0.5)
+	firebreak.width = plane_thickness
+	firebreak.default_color = Color(0.1, 0.3, 0.6, 0.5)
 	firebreak.points = [start, end]
 	level.add_child(firebreak)
 	
@@ -57,7 +56,7 @@ func create_firebreak(start: Vector2, end: Vector2) -> void:
 	
 	var firebreak_shape = RectangleShape2D.new()
 	var length = start.distance_to(end)
-	firebreak_shape.extents = Vector2(length * 0.5, firebreak_thickness * 0.5)
+	firebreak_shape.extents = Vector2(length * 0.5, plane_thickness * 0.5)
 	var mid_point = (start + end) * 0.5
 	var angle = (end - start).angle()
 
@@ -71,11 +70,11 @@ func create_firebreak(start: Vector2, end: Vector2) -> void:
 	var results = space_state.intersect_shape(params, max_trees)
 	print(results)
 
-	# work with a tick speed, not instantaneous
+	# switch to dropping retardent
 	for result in results:
 		var collider = result.collider.get_parent()
-		if collider and collider.has_method("chop_down"):
-			collider.chop_down()
+		if collider and collider.has_method("retardent_cover"):
+			collider.retardent_cover()
 
 func get_limited_point(target_point: Vector2) -> Vector2:
 	var direction = target_point - start_point
