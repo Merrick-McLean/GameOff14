@@ -48,7 +48,7 @@ var suff := [
 	"Wilds", "Woods", "Forest", "Greenwood", "Overgrowth", "Heath", "Thicket", "Arbouretum", "Scrublands", "Hurst", "Treeway",
 
 	# Designation Terms  
-	"Point", "Pass", "Retreat", "Lookout", "Overlook", "Outlook", "Vista", "Step", 
+	"Point", "Pass", "Retreat", "Lookout", "Overlook", "Outlook", "Vista", "Steppe", 
 	"Bridge", "Pathlands", "Trail", "Reach", "Crossing", "Landing", "Corridor",
 	"Enclave", "Sanctuary", "Sanctum", "Haven", "Hideaway", "Shire",
 ]

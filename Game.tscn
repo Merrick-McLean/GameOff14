@@ -15,6 +15,7 @@ offset_right = 630.0
 theme_override_font_sizes/normal_font_size = 30
 text = "Unnamed Park"
 script = ExtResource("2_xkndl")
+metadata/_edit_use_anchors_ = true
 
 [node name="action_controller" type="Node2D" parent="."]
 script = ExtResource("3_u44n3")
