@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 
 # Variable to track the game state (paused or running)
 var is_paused : bool = false

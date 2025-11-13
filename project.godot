@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Tree_tech_demo"
-run/main_scene="uid://nf7ensfke5r2"
+run/main_scene="uid://v25q5yp8st2y"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="uid://0ohi4uvhm44v"
 
