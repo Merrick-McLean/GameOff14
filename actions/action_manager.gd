@@ -5,7 +5,7 @@ extends Node2D
 @export var action_state: ActionState = null
 
 func _ready():
-	set_action_state(preload("res://actions/heli_action.gd").new())
+	set_action_state(preload("res://actions/command_heli_action.gd").new())
 
 @export var currency := 0
 

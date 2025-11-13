@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://fips2bl8t7a7"]
+
+[ext_resource type="Script" uid="uid://b8rv64in4ufww" path="res://troops/helicopter.gd" id="1_47f1a"]
+[ext_resource type="SpriteFrames" uid="uid://dhfmlhxy4pr30" path="res://assets/Troops/helicopter.tres" id="1_q6mk2"]
+
+[node name="Helicopter" type="Node2D"]
+script = ExtResource("1_47f1a")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("1_q6mk2")

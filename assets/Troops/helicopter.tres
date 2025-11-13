@@ -1,0 +1,14 @@
+[gd_resource type="SpriteFrames" load_steps=2 format=3 uid="uid://dhfmlhxy4pr30"]
+
+[ext_resource type="Texture2D" uid="uid://ckcq6uirlng7f" path="res://assets/Troops/helicopter.png" id="1_rdbrt"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_rdbrt")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]

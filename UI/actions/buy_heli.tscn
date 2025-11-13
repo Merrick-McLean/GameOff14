@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dwflwc7wux6h4"]
+
+[ext_resource type="Script" uid="uid://cyto5vuw810t1" path="res://UI/actions/buy_heli.gd" id="1_bk8es"]
+
+[node name="BuyHeli" type="Node2D"]
+script = ExtResource("1_bk8es")
