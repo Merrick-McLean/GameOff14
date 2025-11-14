@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://v25q5yp8st2y"]
+
+[ext_resource type="PackedScene" uid="uid://cv3xhf0q270q6" path="res://UI/UI.tscn" id="1_u44n3"]
+[ext_resource type="PackedScene" uid="uid://nf7ensfke5r2" path="res://level.tscn" id="1_wbfu4"]
+[ext_resource type="Script" uid="uid://dbl0sh3lkwanq" path="res://actions/action_manager.gd" id="3_u44n3"]
+
+[node name="Game" type="Node2D"]
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 1.0
+offset_top = -40.0
+offset_right = 306.0
+text = "Unnamed Park"
+
+[node name="Level" parent="." instance=ExtResource("1_wbfu4")]
+
+[node name="action_controller" type="Node2D" parent="."]
+script = ExtResource("3_u44n3")
+
+[node name="ui" parent="." instance=ExtResource("1_u44n3")]
+offset_left = 1461.8594
+offset_top = 176.46997
+offset_right = 1461.8594
+offset_bottom = 176.46997

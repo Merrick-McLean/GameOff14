@@ -12,7 +12,9 @@ var max_trees := 40
 var radius_val := 25.0
 
 # helicopter movement
-var speed := 75
+var max_speed := 75.0
+var velocity: Vector2 = Vector2.ZERO
+var acceleration_time := 0.25
 
 # amount of fuel
 var water_tank := 1.0
@@ -26,24 +28,28 @@ func _ready():
 	area.input_pickable = true
 	area.connect("input_event", Callable(self, "_on_input_event"))
 
-func _on_input_event(event):
+func _on_input_event(viewport, event, shape_idx):
 	"""
 	
 	"""
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		select_heli()
+	elif event is InputEventMouseMotion:
+		display_target()
 
 func select_heli():
 	"""
 	
 	"""
-	print("test")
 	if action_manager:
-		print("test2")
 		var new_action = preload("res://actions/command_heli_action.gd").new()
 		new_action.target_heli = self
 		action_manager.set_action_state(new_action)
-		
+
+func display_target():
+	# display the location of the current target on hover
+	return
+
 func create_water_drop(point: Vector2) -> void:
 	"""
 	
@@ -73,13 +79,20 @@ func create_water_drop(point: Vector2) -> void:
 func _physics_process(delta: float) -> void:
 	if target != null:
 		move_towards_target(delta)
-		
+
+# still iffy about this, play around with more
 func move_towards_target(delta: float) -> void:
-	var direction = (target - global_position)
+	var direction := target - global_position
 	var distance = direction.length()
 
 	if distance < 1.0:
-		return  # close enough / arrived
-
-	direction = direction.normalized()
-	global_position += direction * speed * delta
+		velocity = Vector2.ZERO
+		return 
+	else:
+		var cur_speed := max_speed
+		var acceleration_distance := max_speed * acceleration_time
+		if distance < acceleration_distance:
+			cur_speed = lerp(5.0, max_speed, distance / acceleration_distance)
+		
+		velocity = velocity.move_toward(direction.normalized() * cur_speed, delta * 250) # as long as speed is big enough, doesnt seem to be much of a difference
+		global_position += velocity * delta
