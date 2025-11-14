@@ -1,7 +1,8 @@
 class_name ActionState
 extends Node2D
 
-var controller : Node = null  # reference to player controller
+var controller
+signal completed
 
 func enter() -> void: #previous_state: ActionState arg?
 	# Called when this state becomes active

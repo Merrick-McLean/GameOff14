@@ -1,6 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://dwflwc7wux6h4"]
+[gd_scene load_steps=3 format=3 uid="uid://dwflwc7wux6h4"]
 
-[ext_resource type="Script" uid="uid://cyto5vuw810t1" path="res://UI/actions/buy_heli.gd" id="1_bk8es"]
+[ext_resource type="Script" uid="uid://be8hskrpd31vh" path="res://UI/actions/buy_heli.gd" id="1_bk8es"]
+[ext_resource type="Texture2D" uid="uid://m5lxlbvlf67u" path="res://assets/UI/BuyHeliButton.png" id="2_v7sep"]
 
-[node name="BuyHeli" type="Node2D"]
+[node name="BuyHeli" type="CanvasLayer"]
 script = ExtResource("1_bk8es")
+
+[node name="Button" type="Button" parent="."]
+offset_right = 8.0
+offset_bottom = 8.0
+icon = ExtResource("2_v7sep")
