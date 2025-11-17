@@ -2,15 +2,15 @@ extends Node2D
 
 @onready var tree_scene: PackedScene = preload("res://tree.tscn")
 @onready var camp_scene: PackedScene = preload("res://campsite.tscn")
-
+var noise := FastNoiseLite.new()
 @export var num_points: int = 25 #how many different groups
 @export var show_points: bool = true
 @export var point_size: float = 5.0
 @export var num_trees: int = 5000
 @export var num_campsites: int = 2
 @export var campsite_clearing: int = 2*1000
-@export var lakes: Array = []
-
+var lakes: Array = []
+var rivers: Array = []
 var border_tol = 0.05
 var screen_size: Vector2
 var seed_points: Array = []
@@ -23,6 +23,8 @@ var polygon_nodes: Array = []
 
 func _ready():
 	screen_size = get_viewport_rect().size
+	noise.noise_type = FastNoiseLite.TYPE_PERLIN
+	noise.frequency = 0.3
 	generate_voronoi()
 
 func generate_voronoi():
@@ -36,9 +38,6 @@ func generate_voronoi():
 		)
 		seed_points.append(point)
 		seed_tree_groups.append([])
-
-	
-	# ----------
 	var i = 0
 	var min_x = 0.0
 	var max_x = screen_size.x
@@ -50,6 +49,8 @@ func generate_voronoi():
 	i = 0
 	
 	spawn_lakes()
+	generate_river_network(2)
+	generate_river_network(3)
 	
 	while(i<num_trees):
 		i = i+1
@@ -139,6 +140,58 @@ func spawn_lakes():
 	lakes.append(2) #stupid but good for now
 	lakes.append(3)
 
+# Settings for rivers
+const MAIN_LENGTH := 500
+const BRANCH_COUNT := 2
+const MAIN_STEP := 1
+const BRANCH_STEP := 0.75
+func generate_river_network(start: int):
+	var main_points = generate_river_points(
+		seed_points[start],
+		MAIN_LENGTH,
+		MAIN_STEP,
+		0
+	)
+
+	create_line2d(main_points, 10)
+	# Create branches
+	for i in range(BRANCH_COUNT):
+		var idx = randi_range(0, 500) #WHAT POINT TO MAKE RIVER
+		var branch_start = main_points[idx]
+		var branch_points = generate_river_points(
+			branch_start,
+			MAIN_LENGTH / 2,
+			BRANCH_STEP,
+			0
+		)
+
+		create_line2d(branch_points,  6)
+
+func generate_river_points(start: Vector2, length: int, step: float, noise_offset: int) -> Array:
+	var points: Array = []
+	var pos = start
+	var angel_const = randf_range(-100, 100)
+	var directionf = get_flow_direction(-start)
+	for i in range(length):
+		var t = float(i) * 0.03
+
+		var angle = noise.get_noise_1d(t + noise_offset) * 1.5
+		var direction = directionf.rotated(angle + angel_const)
+
+		pos += direction * step
+		points.append(pos)
+	return points
+
+func create_line2d(points: Array, width := 8):
+	var line := Line2D.new()
+	line.width = 10
+	line.default_color = Color.STEEL_BLUE
+	line.z_index = 1000
+	for p in points:
+		line.add_point(p)
+	add_child(line)
+	rivers.append(line)
+	
 func spawn_campsite(idx : int):
 	var point = seed_points[idx]
 	var camp = camp_scene.instantiate()
@@ -160,6 +213,8 @@ func spawn_tree(min_x, max_x, min_y, max_y):
 	var random_y = randf_range(min_y, max_y)
 	random_point = Vector2(random_x, random_y)
 	if too_close_to_camp_lake(random_point):
+		return
+	if point_too_close_to_river(random_point):
 		return
 	var tree = tree_scene.instantiate()
 	tree.position = random_point
@@ -183,3 +238,22 @@ func _draw():
 		for point in seed_points:
 			draw_circle(point, point_size, Color.BLACK)
 			draw_circle(point, point_size - 1, Color.WHITE)
+			
+func get_flow_direction(pos: Vector2) -> Vector2:
+	return pos.normalized()
+
+func is_point_too_close(p: Vector2, a: Vector2, b: Vector2, threshold: float) -> bool:
+	var ab = b - a
+	var t = (p - a).dot(ab) / ab.length_squared()
+	t = clamp(t, 0, 1)  # restrict to segment
+	var closest = a + ab * t
+	return p.distance_to(closest) < threshold
+
+func point_too_close_to_river(p: Vector2) -> bool:
+	for line in rivers:
+		for i in range(line.points.size() - 1):
+			var a = line.points[i]
+			var b = line.points[i + 1]
+			if is_point_too_close(p, a, b, 15): #cahnge last nmber for river threshold
+				return true
+	return false
