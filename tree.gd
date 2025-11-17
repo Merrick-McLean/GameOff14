@@ -11,6 +11,7 @@ var camp_tree = false
 @export var camp_fire = 0.99
 
 
+
 func _ready():
 	var world_timer = get_tree().get_current_scene().get_node("Level/world_timer")
 	world_timer.tick.connect(_on_tick)
@@ -55,6 +56,19 @@ func ignite():
 	_timer.timeout.connect(_on_timer_timeout)
 	add_child(_timer)
 	
+func set_texture(idx : int):
+	idx = idx%3
+	var new_texture
+	
+	match idx:
+		1:
+			new_texture = load("res://assets/Trees/Birch/BirchTree.png")
+		2:
+			new_texture = load("res://assets/Trees/Oak/Oaktree_1.png")
+		0: #not 3 lol
+			new_texture = load("res://assets/Trees/Pine/Pinetree.png")
+			
+	$Sprite2D.texture = new_texture
 
 func burn_out():
 	self.modulate = Color()
@@ -81,3 +95,4 @@ func retardent_cover():
 func water_cover():
 	print("covered")
 	return
+	

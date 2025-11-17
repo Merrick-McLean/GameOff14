@@ -11,8 +11,6 @@ extends Node2D
 @export var campsite_clearing: int = 2*1000
 @export var lakes: Array = []
 
-
-
 var border_tol = 0.05
 var screen_size: Vector2
 var seed_points: Array = []
@@ -171,6 +169,8 @@ func spawn_tree(min_x, max_x, min_y, max_y):
 			seed_tree_groups[idx].append(tree)
 	trees.append(tree)
 	tree.z_index = random_y
+	
+	tree.set_texture(idxes[0]) #main idx
 	add_child(tree)
 	tree.modulate = get_color_for_index(idxes[0])
 	set_camptree(tree)
