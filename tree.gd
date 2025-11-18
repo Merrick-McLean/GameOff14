@@ -9,7 +9,8 @@ var _timer: Timer
 var burn_interval = 10
 var camp_tree = false
 @export var camp_fire = 0.99
-var moisture = 0.005
+var moisture = 1.0 #hp
+var burn_rate = 0.01
 
 func _ready():
 	var world_timer = get_tree().get_current_scene().get_node("Level/world_timer")
@@ -26,22 +27,19 @@ func setup():
 	for tree in other_trees:
 		if is_within_distance(self, tree, fire_reach):
 			neighbors.append(tree)
-	#bug testing
-	"""
-		if not on_fire and randf() > 0.99:
-		self.ignite()
-	
-	"""
 
 func _on_tick():
-	if on_fire:
-		for tree in neighbors:
-			if not (tree is Polygon2D):
-				if not tree.on_fire and not tree.burnt and randf()*(1-moisture) > fire_spread:
-					tree.ignite()
+	if burnt or on_fire : 
+		return
+	if moisture <= 0:
+		self.ignite()
 	elif camp_tree:
 		if randf() > camp_fire:
 			self.ignite()
+	else:
+		for tree in neighbors:
+			if tree.on_fire:
+				moisture -= burn_rate
 
 func is_within_distance(node_a: Node2D, node_b: Node2D, radius: float) -> bool:
 	var distance = node_a.global_position.distance_to(node_b.global_position)
@@ -101,4 +99,4 @@ func water_cover():
 	return
 
 func _wet_wave():
-	moisture += 0.1
+	moisture += 1.0
