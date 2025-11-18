@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://c4uppe8bby8um"]
+
+[ext_resource type="Shader" uid="uid://bb3h8oc73c44q" path="res://shaders/Game.gdshader" id="1_8sj3r"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mv366"]
+shader = ExtResource("1_8sj3r")
+
+[node name="shader_layer" type="CanvasLayer"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_mv366")
+offset_right = 1160.0
+offset_bottom = 652.0
+color = Color(18.892157, 18.892157, 18.892157, 0)
