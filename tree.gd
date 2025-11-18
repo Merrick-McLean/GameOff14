@@ -11,11 +11,14 @@ var camp_tree = false
 @export var camp_fire = 0.99
 var moisture = 0.005
 
-
-
 func _ready():
 	var world_timer = get_tree().get_current_scene().get_node("Level/world_timer")
 	world_timer.tick.connect(_on_tick)
+	
+	var weather = get_tree().get_current_scene().get_node("Level/weather_control")
+	weather.wet_wave.connect(_wet_wave) 
+	#weather.storm_wave.connect(_storm_wave) 
+	#weather.heat_wave.connect(_heat_wave) 
 	
 func setup():
 	on_fire = false
@@ -96,4 +99,6 @@ func retardent_cover():
 func water_cover():
 	print("covered")
 	return
-	
+
+func _wet_wave():
+	moisture += 0.1

@@ -1,3 +1,6 @@
-[gd_scene format=3 uid="uid://c8obpf36pbca3"]
+[gd_scene load_steps=2 format=3 uid="uid://c8obpf36pbca3"]
+
+[ext_resource type="Script" uid="uid://bw81r6gigawj7" path="res://weather_control.gd" id="1_v1oxi"]
 
 [node name="weather_control" type="Node2D"]
+script = ExtResource("1_v1oxi")
