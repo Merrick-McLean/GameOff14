@@ -1,7 +1,7 @@
 extends Node2D
 
-@onready var tree_scene: PackedScene = preload("res://tree.tscn")
-@onready var camp_scene: PackedScene = preload("res://campsite.tscn")
+@onready var tree_scene: PackedScene = preload("res://level_generation/tree.tscn")
+@onready var camp_scene: PackedScene = preload("res://level_generation/campsite.tscn")
 var noise := FastNoiseLite.new()
 @export var num_points: int = 25 #how many different groups
 @export var show_points: bool = true

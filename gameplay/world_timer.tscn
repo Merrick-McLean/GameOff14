@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b8mo3i8kja54g"]
 
-[ext_resource type="Script" uid="uid://dgw3jmv3o8xi2" path="res://world_timer.gd" id="1_xgpa4"]
+[ext_resource type="Script" uid="uid://dgw3jmv3o8xi2" path="res://gameplay/world_timer.gd" id="1_xgpa4"]
 
 [node name="world_timer" type="Node2D"]
 script = ExtResource("1_xgpa4")

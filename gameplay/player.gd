@@ -8,10 +8,9 @@ func _ready():
 	is_paused = false
 
 func _process(_delta):
-	if Input.is_action_just_pressed("ui_accept"):  # "ui_accept" is the default action for spacebar
+	if Input.is_action_just_pressed("ui_accept"):  
 		toggle_pause()
 
-# Function to toggle the pause state
 func toggle_pause():
 	if is_paused:
 		# Unpause the game
