@@ -9,6 +9,7 @@ var _timer: Timer
 var burn_interval = 10
 var camp_tree = false
 @export var camp_fire = 0.99
+var moisture = 0.005
 
 
 
@@ -33,7 +34,7 @@ func _on_tick():
 	if on_fire:
 		for tree in neighbors:
 			if not (tree is Polygon2D):
-				if not tree.on_fire and not tree.burnt and randf() > fire_spread:
+				if not tree.on_fire and not tree.burnt and randf()*(1-moisture) > fire_spread:
 					tree.ignite()
 	elif camp_tree:
 		if randf() > camp_fire:

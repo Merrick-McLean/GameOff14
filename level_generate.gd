@@ -141,10 +141,10 @@ func spawn_lakes():
 	lakes.append(3)
 
 # Settings for rivers
-const MAIN_LENGTH := 500
+const MAIN_LENGTH := 200
 const BRANCH_COUNT := 2
-const MAIN_STEP := 1
-const BRANCH_STEP := 0.75
+const MAIN_STEP := 5
+const BRANCH_STEP := 2.5
 func generate_river_network(start: int):
 	var main_points = generate_river_points(
 		seed_points[start],
@@ -156,7 +156,7 @@ func generate_river_network(start: int):
 	create_line2d(main_points, 10)
 	# Create branches
 	for i in range(BRANCH_COUNT):
-		var idx = randi_range(0, 500) #WHAT POINT TO MAKE RIVER
+		var idx = randi_range(0, MAIN_LENGTH) #WHAT POINT TO MAKE RIVER
 		var branch_start = main_points[idx]
 		var branch_points = generate_river_points(
 			branch_start,
