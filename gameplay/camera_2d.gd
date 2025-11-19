@@ -3,7 +3,7 @@ extends Camera2D
 @export var pan_speed := 1.0                # how fast to pan
 @export var zoom_speed := 0.1               # how fast to zoom in/out
 @export var min_zoom := Vector2(0.5, 0.5)   # minimum zoom in
-@export var max_zoom := Vector2(2.0, 2.0)   # maximum zoom out
+@export var max_zoom := Vector2(3.0, 3.0)   # maximum zoom out
 
 var panning := false                        # if we are currently panning
 var last_mouse_pos := Vector2.ZERO          # position of mouse

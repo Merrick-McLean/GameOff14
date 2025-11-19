@@ -1,6 +1,7 @@
 extends ActionState
 
 @onready var action_manager = get_tree().get_current_scene().get_node("action_controller")
+@onready var level_features = get_tree().get_current_scene().get_node("Level").get_node("Level_generate")
 
 # helicopter to command
 var target_heli: Node2D = null
@@ -59,6 +60,8 @@ func handle_input(event: InputEvent) -> void:
 		if not point_found:
 			point_found = true
 			target_heli.target = mouse_pos
+			target_heli.source = get_nearest_lake(mouse_pos)
+			
 			var action = preload("res://actions/select_action.gd").new()
 			action_manager.set_action_state(action)
 	elif event is InputEventMouseMotion and not point_found:
@@ -67,3 +70,17 @@ func handle_input(event: InputEvent) -> void:
 		preview_point.queue_redraw()
 		preview_radius.position = mouse_pos
 		preview_radius.queue_redraw()
+
+
+func get_nearest_lake(target: Vector2) -> Vector2:
+	var nearest_pos := Vector2.ZERO
+	var min_distance := INF
+	
+	for lake in level_features.lakes:
+		var lake_pos = level_features.seed_points[lake]
+		var dist := target.distance_to(lake_pos)
+		if dist < min_distance:
+			min_distance = dist
+			nearest_pos = lake_pos
+	
+	return nearest_pos

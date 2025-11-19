@@ -25,3 +25,7 @@ func set_action_state(new_state: ActionState):
 	add_child(action_state)
 	action_state.controller = self
 	action_state.enter()
+
+
+func is_select_state() -> bool:
+	return true

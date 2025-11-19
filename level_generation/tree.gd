@@ -1,16 +1,33 @@
 extends Node2D
+
+var _timer: Timer
+
+# fire capabilities
 var fire_reach = 30
 @export var fire_spread = 0.99
+
+# tree references
+var tree_type
 var neighbors = []
-var on_fire
-var burnt
 var other_trees = []
-var _timer: Timer
-var burn_interval = 10
+
+# camp trees
 var camp_tree = false
 @export var camp_fire = 0.99
-var moisture = 1.0 #hp
+
+# fire states
+var on_fire
+var burnt
+
+# burn stats
 var burn_rate = 0.01
+var burn_interval = 10
+var moisture = 1.0 # hp
+
+# extinguish trackers
+var extinguish_prog = 0.0
+var extinguish_prog_loss = 0.05 # perhaps extinguish progress is lost if you stop extinguishing
+var exitnguish_prog_buffer = 5 # number of ticks before extinguish progress begins to deplete
 
 func _ready():
 	var world_timer = get_tree().get_current_scene().get_node("Level/world_timer")
@@ -29,8 +46,11 @@ func setup():
 			neighbors.append(tree)
 
 func _on_tick():
-	if burnt or on_fire : 
+	if burnt: 
 		return
+	if on_fire:
+		# Merrick (note to self): should be reducing extinguish progress if not currently being extinguished after short delay
+		return 
 	if moisture <= 0:
 		self.ignite()
 	elif camp_tree:
@@ -39,7 +59,12 @@ func _on_tick():
 	else:
 		for tree in neighbors:
 			if tree.on_fire:
-				moisture -= burn_rate
+				moisture -= burn_rate 
+				# Merrick: I am concerned about this absolute reduction - linear/synced burn across neighbour tree
+				# adding moisture (such as through a unit) only delays the fire, rather then reducing likelihood as well
+				# perhaps we could icorporate some likelihood as well, or seperate the 'hp' and moisture content?
+				# also raises the question of what moisture to set back to once extinguished
+				# e.g. a wethave shouldnt just delay fire evenly for X amount of time, but reduce chance/amount of occurances
 
 func is_within_distance(node_a: Node2D, node_b: Node2D, radius: float) -> bool:
 	var distance = node_a.global_position.distance_to(node_b.global_position)
@@ -50,33 +75,47 @@ func ignite():
 	on_fire = true
 	queue_redraw()
 	_timer = Timer.new()
-	_timer.wait_time = burn_interval
+	# i think we could add some variance to burn interval as well
+	# this could make the game feel more dynamic, if we dont use moisture as HP it could factor into this as well!
+	_timer.wait_time = burn_interval 
 	_timer.one_shot = false
 	_timer.autostart = true
 
 	# connect the timer's timeout signal to tick signal
 	_timer.timeout.connect(_on_timer_timeout)
 	add_child(_timer)
-	
+
+func extinguish():
+	on_fire = false
+	extinguish_prog = 0.0
+	moisture = 1.0 # up for debate
+	queue_redraw()
+
 func set_texture(idx : int):
 	idx = idx%3
+	tree_type = idx
 	var new_texture
-	
-	match idx:
+	match tree_type:
+		0:
+			new_texture = load("res://assets/Trees/Pine/PineTree.png")
 		1:
 			new_texture = load("res://assets/Trees/Birch/BirchTree.png")
 		2:
-			new_texture = load("res://assets/Trees/Oak/Oaktree_1.png")
-		0: #not 3 lol
-			new_texture = load("res://assets/Trees/Pine/Pinetree.png")
-			
+			new_texture = load("res://assets/Trees/Oak/OakTree.png")
 	$Sprite2D.texture = new_texture
 
 func burn_out():
-	self.modulate = Color()
 	on_fire = false
 	burnt = true
-	queue_redraw()
+	var new_texture
+	match tree_type:
+		0:
+			new_texture = load("res://assets/Trees/Pine/PineTreeBurnt.png")
+		1:
+			new_texture = load("res://assets/Trees/Birch/BirchTreeBurnt.png")
+		2:
+			new_texture = load("res://assets/Trees/Oak/OakTreeBurnt.png")
+	$Sprite2D.texture = new_texture
 
 func _on_timer_timeout():
 	burn_out()
@@ -86,17 +125,22 @@ func _draw() -> void:
 	if on_fire:
 		draw_circle(Vector2(), 40, Color(1,0,0))
 
-func chop_down():
-	print("chopped")
+func chop():
+	var new_texture
+	match tree_type:
+		0:
+			new_texture = load("res://assets/Trees/Pine/PineTreeStump.png")
+		1:
+			new_texture = load("res://assets/Trees/Birch/BirchTreeStump.png")
+		2:
+			new_texture = load("res://assets/Trees/Oak/OakTreeStump.png")
+	$Sprite2D.texture = new_texture
 	return
 
-func retardent_cover():
-	print("covered")
-	return
-
-func water_cover():
-	print("covered")
-	return
+func douse_water(power):
+	extinguish_prog += power
+	if extinguish_prog >= 1.0:
+		extinguish()
 
 func _wet_wave():
 	moisture += 1.0
