@@ -16,15 +16,17 @@ var camp_tree = false
 @export var camp_fire = 0.99
 
 # fire states
-var on_fire
-var burnt
+var on_fire = false
+var burnt = false
+var protected = false # to mark when a tree has been foamed by a troop
 
 # burn stats
 var burn_rate = 0.01
 var burn_interval = 10
-var moisture = 1.0 # hp
+var moisture = 1.0 
+var hull = 1.0
 
-# extinguish trackers
+# extinguish trackers - to be removed in favour of moisture
 var extinguish_prog = 0.0
 var extinguish_prog_loss = 0.05 # perhaps extinguish progress is lost if you stop extinguishing
 var exitnguish_prog_buffer = 5 # number of ticks before extinguish progress begins to deplete
@@ -60,13 +62,6 @@ func _on_tick():
 		for tree in neighbors:
 			if tree.on_fire:
 				moisture -= burn_rate 
-				# Merrick: I am concerned about this direct subtraction - linear/synced burn across neighbour tree
-				# adding moisture (such as through a unit) only delays the fire, rather then reducing likelihood as well
-				# perhaps we could icorporate some likelihood as well, or seperate the 'hp' and moisture content?
-				# also raises the question of what moisture to set back to once extinguished
-				# e.g. a wethave shouldnt just delay fire evenly for X amount of time, but reduce chance/amount of occurances
-				# also features which increase moisture "heal" trees, in my mind trees would still have permanent damaged by the fire but moisture reduces chance of ignition
-				# depends how complex/simplistic we want to be, moisture "healing" trees is good if we want purposefully to treat it that way
 
 func is_within_distance(node_a: Node2D, node_b: Node2D, radius: float) -> bool:
 	var distance = node_a.global_position.distance_to(node_b.global_position)

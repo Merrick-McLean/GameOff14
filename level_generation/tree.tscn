@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bfgjxmvtyygut" path="res://assets/Trees/Oak/OakTree.png" id="2_nnvrw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nnvrw"]
-size = Vector2(50.000034, 45)
+size = Vector2(50.000034, 80.000015)
 
 [node name="tree" type="Node2D"]
 scale = Vector2(0.2, 0.2)
@@ -12,11 +12,12 @@ script = ExtResource("1_brfkd")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 1
+position = Vector2(0, -54.99997)
 texture = ExtResource("2_nnvrw")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(1.1920924e-06, 32.499977)
-scale = Vector2(0.99999917, 0.99999917)
+position = Vector2(1.192092e-06, -40.00003)
+scale = Vector2(0.9999991, 0.9999991)
 shape = SubResource("RectangleShape2D_nnvrw")
