@@ -25,6 +25,12 @@ var voronoi_image: Image
 var voronoi_texture: ImageTexture
 var polygon_nodes: Array = []
 
+# Settings for rivers
+const MAIN_LENGTH := 100
+const BRANCH_COUNT := 2
+const MAIN_STEP := 5
+const BRANCH_STEP := 2.5
+
 func _ready():
 	screen_size = get_viewport_rect().size
 	noise.noise_type = FastNoiseLite.TYPE_PERLIN
@@ -53,8 +59,7 @@ func generate_voronoi():
 	i = 0
 	
 	spawn_lakes()
-	generate_river_network(2)
-	generate_river_network(3)
+	spawn_rivers()
 	
 	while(i<num_trees):
 		i = i+1
@@ -148,44 +153,53 @@ func get_tile_for_index(idx: int) -> Image:
 func spawn_lakes():
 	lakes.append(2) #stupid but good for now
 	lakes.append(3)
+	
+func spawn_rivers():
+	var flow_dir = get_direction(seed_points[2], seed_points[3])
+	generate_river_network(2, flow_dir)
+	generate_river_network(3, flow_dir)
+	
+func get_direction(start1: Vector2, start2: Vector2):
+	var flow = start2-start1
+	flow =  Vector2(-flow[0], flow[1])
+	return flow.normalized()
+	
 
-# Settings for rivers
-const MAIN_LENGTH := 200
-const BRANCH_COUNT := 2
-const MAIN_STEP := 5
-const BRANCH_STEP := 2.5
-func generate_river_network(start: int):
+func generate_river_network(start: int, flow: Vector2):
 	var main_points = generate_river_points(
 		seed_points[start],
 		MAIN_LENGTH,
 		MAIN_STEP,
-		0
+		0,
+		flow
 	)
 
 	create_line2d(main_points, 10)
 	# Create branches
 	for i in range(BRANCH_COUNT):
-		var idx = randi_range(0, MAIN_LENGTH) #WHAT POINT TO MAKE RIVER
+		var idx = randi_range(0, MAIN_LENGTH-1) #WHAT POINT TO MAKE RIVER
 		var branch_start = main_points[idx]
 		var branch_points = generate_river_points(
 			branch_start,
 			MAIN_LENGTH / 2,
 			BRANCH_STEP,
-			0
+			0,
+			flow
 		) # ERROR: Invalid access of index '200' on a base object of type: 'Array'. Randomly occurs on launch
 
 		create_line2d(branch_points,  6)
 
-func generate_river_points(start: Vector2, length: int, step: float, noise_offset: int) -> Array:
+func generate_river_points(start: Vector2, length: int, step: float, noise_offset: int, flow: Vector2) -> Array:
 	var points: Array = []
 	var pos = start
-	var angel_const = randf_range(-100, 100)
-	var directionf = get_flow_direction(-start)
+	var angel_const = 0
+	if length != MAIN_LENGTH:
+		angel_const = randf_range(-90, 90)
 	for i in range(length):
 		var t = float(i) * 0.03
 
 		var angle = noise.get_noise_1d(t + noise_offset) * 1.5
-		var direction = directionf.rotated(angle + angel_const)
+		var direction = flow.rotated(angle + angel_const)
 
 		pos += direction * step
 		points.append(pos)
@@ -249,7 +263,7 @@ func _draw():
 			draw_circle(point, point_size - 1, Color.WHITE)
 			
 func get_flow_direction(pos: Vector2) -> Vector2:
-	return pos.normalized()
+	return -pos.normalized()
 
 func is_point_too_close(p: Vector2, a: Vector2, b: Vector2, threshold: float) -> bool:
 	var ab = b - a

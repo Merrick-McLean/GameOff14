@@ -50,6 +50,7 @@ func _on_tick():
 		return
 	if on_fire:
 		# Merrick (note to self): should be reducing extinguish progress if not currently being extinguished after short delay
+		# Jett: On timer rn, we can convene and finalize these mechanics
 		return 
 	if moisture <= 0:
 		self.ignite()

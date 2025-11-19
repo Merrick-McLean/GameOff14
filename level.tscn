@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://nf7ensfke5r2"]
+[gd_scene load_steps=9 format=3 uid="uid://nf7ensfke5r2"]
 
 [ext_resource type="PackedScene" uid="uid://boqnhwkcmdneh" path="res://gameplay/camera.tscn" id="1_0b4ue"]
 [ext_resource type="Script" uid="uid://imym1jbbrtw0" path="res://level.gd" id="1_f2txt"]
 [ext_resource type="PackedScene" uid="uid://b8mo3i8kja54g" path="res://gameplay/world_timer.tscn" id="1_u52ul"]
+[ext_resource type="PackedScene" uid="uid://c4uppe8bby8um" path="res://shaders/shader_layer.tscn" id="3_n6hdu"]
 [ext_resource type="PackedScene" uid="uid://cb44m6144hhdw" path="res://gameplay/player.tscn" id="3_oi3di"]
 [ext_resource type="PackedScene" uid="uid://iskybyrkguuk" path="res://level_generation/level_generate.tscn" id="4_0b4ue"]
 [ext_resource type="PackedScene" uid="uid://c8obpf36pbca3" path="res://gameplay/weather_control.tscn" id="6_1ainy"]
@@ -15,6 +16,8 @@ script = ExtResource("1_f2txt")
 
 [node name="Camera2D" parent="." instance=ExtResource("1_0b4ue")]
 position = Vector2(575, 325)
+
+[node name="shader_layer" parent="." instance=ExtResource("3_n6hdu")]
 
 [node name="player" parent="." instance=ExtResource("3_oi3di")]
 
