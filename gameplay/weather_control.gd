@@ -20,5 +20,5 @@ func _ready() -> void:
 func _on_timer_timeout() -> void:
 	emit_signal("wet_wave")
 	var game = get_parent().get_parent()
-	var shader_layer = game.get_node("shader_layer").get_child(0) #one child so should be fine
-	shader_layer.material.set_shader_parameter("poland", true)
+	#var shader_layer = game.get_node("shader_layer").get_child(0) #one child so should be fine
+	#shader_layer.material.set_shader_parameter("poland", true)

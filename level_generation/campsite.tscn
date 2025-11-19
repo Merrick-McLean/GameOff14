@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bgpxybsln8pd2"]
 
-[ext_resource type="Texture2D" uid="uid://dpbagv3seoioe" path="res://assets/camp_dev_test.png" id="1_6252e"]
+[ext_resource type="Texture2D" uid="uid://cea4dulp5kgjk" path="res://assets/Troops/Tent.png" id="1_h1cor"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2jcta"]
 size = Vector2(130.00006, 125.00007)
@@ -18,4 +18,4 @@ shape = SubResource("RectangleShape2D_2jcta")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 1
-texture = ExtResource("1_6252e")
+texture = ExtResource("1_h1cor")

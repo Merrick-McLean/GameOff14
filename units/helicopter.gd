@@ -11,7 +11,7 @@ var source: Vector2
 # water splash parameters
 var max_trees := 40
 var radius_val := 25.0
-var water_power := 0.5
+var water_power := 1.0 # up for change
 
 # helicopter movement
 var max_speed := 75.0
@@ -24,6 +24,12 @@ var tank_use := 1.0 # if we make a use be less than a full tank, we will have to
 var refill_rate := 0.1
 var refilling := false
 
+# hover graphics
+var target_point: Node2D
+var target_radius: Node2D
+var source_point: Node2D
+var heli_radius: Node2D
+
 func _ready():
 	"""
 	
@@ -31,6 +37,10 @@ func _ready():
 	z_index = 1000
 	area.input_pickable = true
 	area.connect("input_event", Callable(self, "_on_input_event"))
+	prepare_displays()
+	
+	area.mouse_entered.connect(_on_hover_enter)
+	area.mouse_exited.connect(_on_hover_exit)
 
 # should the actual respons ena dactions like these occur on tick?
 func _on_input_event(_viewport, event, _shape_idx):
@@ -40,7 +50,7 @@ func _on_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		select_heli()
 	elif event is InputEventMouseMotion:
-		display_target()
+		_on_hover_enter()
 
 func _physics_process(delta: float) -> void:
 	if target == null:
@@ -69,9 +79,30 @@ func select_heli():
 		new_action.target_heli = self
 		action_manager.set_action_state(new_action)
 
-func display_target():
-	# display the location of the current target on hover
-	return
+# could make it move with the movement move_towards_point()
+func _on_hover_enter():
+	target_point.visible = true
+	target_radius.visible = true
+	source_point.visible = true
+	heli_radius.visible = true
+	
+	target_point.position = target
+	target_point.queue_redraw()
+	
+	target_radius.position = target
+	target_radius.queue_redraw()
+	
+	source_point.position = source
+	source_point.queue_redraw()
+	
+	heli_radius.position = global_position
+	heli_radius.queue_redraw()
+
+func _on_hover_exit():
+	target_point.visible = false
+	target_radius.visible = false
+	source_point.visible = false
+	heli_radius.visible = false
 
 func refill_heli() -> void:
 	if water_tank < 1.0:
@@ -100,7 +131,7 @@ func drop_water() -> void:
 	var results = space_state.intersect_shape(params, max_trees)
 	for result in results:
 		var tree = result.collider.get_parent()
-		if tree and tree.on_fire and tree.has_method("douse_water"):
+		if tree and tree.has_method("douse_water") and tree.on_fire:
 			tree.douse_water(water_power)
 			water_dropped = true
 	
@@ -123,3 +154,28 @@ func move_towards_point(delta: float, point: Vector2) -> void:
 		
 		velocity = velocity.move_toward(direction.normalized() * cur_speed, delta * 250) # as long as speed is big enough, doesnt seem to be much of a difference
 		global_position += velocity * delta
+
+func prepare_displays():
+	target_point = preload("res://actions/PreviewPoint.gd").new()
+	target_point.z_index = 1000
+	target_point.radius = 2.0
+	target_point.color = Color(0.1, 0.3, 0.6, 1.0)
+	level.add_child(target_point)
+
+	target_radius = preload("res://actions/PreviewPoint.gd").new()
+	target_radius.z_index = 999
+	target_radius.radius = radius_val
+	target_radius.color = Color(0.1, 0.3, 0.6, 0.5)
+	level.add_child(target_radius)
+	
+	source_point = preload("res://actions/PreviewPoint.gd").new()
+	source_point.z_index = 999
+	source_point.radius = radius_val
+	source_point.color = Color(0.647, 0.722, 0.271, 0.502)
+	level.add_child(source_point)
+	
+	heli_radius = preload("res://actions/PreviewPoint.gd").new()
+	heli_radius.z_index = 999
+	heli_radius.radius = radius_val
+	heli_radius.color = Color(0.647, 0.722, 0.271, 0.502)
+	level.add_child(heli_radius)

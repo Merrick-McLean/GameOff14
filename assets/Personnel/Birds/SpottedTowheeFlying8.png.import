@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dpbagv3seoioe"
-path="res://.godot/imported/camp_dev_test.png-bd82f20be43a7b88e6abb3c0fe0d523c.ctex"
+uid="uid://j076iredhmgj"
+path="res://.godot/imported/SpottedTowheeFlying8.png-8915047e9460e50cd70b5ba3c56502a1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/camp_dev_test.png"
-dest_files=["res://.godot/imported/camp_dev_test.png-bd82f20be43a7b88e6abb3c0fe0d523c.ctex"]
+source_file="res://assets/Personnel/Birds/SpottedTowheeFlying8.png"
+dest_files=["res://.godot/imported/SpottedTowheeFlying8.png-8915047e9460e50cd70b5ba3c56502a1.ctex"]
 
 [params]
 

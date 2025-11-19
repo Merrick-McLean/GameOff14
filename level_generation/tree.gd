@@ -60,11 +60,13 @@ func _on_tick():
 		for tree in neighbors:
 			if tree.on_fire:
 				moisture -= burn_rate 
-				# Merrick: I am concerned about this absolute reduction - linear/synced burn across neighbour tree
+				# Merrick: I am concerned about this direct subtraction - linear/synced burn across neighbour tree
 				# adding moisture (such as through a unit) only delays the fire, rather then reducing likelihood as well
 				# perhaps we could icorporate some likelihood as well, or seperate the 'hp' and moisture content?
 				# also raises the question of what moisture to set back to once extinguished
 				# e.g. a wethave shouldnt just delay fire evenly for X amount of time, but reduce chance/amount of occurances
+				# also features which increase moisture "heal" trees, in my mind trees would still have permanent damaged by the fire but moisture reduces chance of ignition
+				# depends how complex/simplistic we want to be, moisture "healing" trees is good if we want purposefully to treat it that way
 
 func is_within_distance(node_a: Node2D, node_b: Node2D, radius: float) -> bool:
 	var distance = node_a.global_position.distance_to(node_b.global_position)
@@ -84,12 +86,6 @@ func ignite():
 	# connect the timer's timeout signal to tick signal
 	_timer.timeout.connect(_on_timer_timeout)
 	add_child(_timer)
-
-func extinguish():
-	on_fire = false
-	extinguish_prog = 0.0
-	moisture = 1.0 # up for debate
-	queue_redraw()
 
 func set_texture(idx : int):
 	idx = idx%3
@@ -141,6 +137,13 @@ func douse_water(power):
 	extinguish_prog += power
 	if extinguish_prog >= 1.0:
 		extinguish()
+
+func extinguish():
+	_timer.stop()
+	on_fire = false
+	extinguish_prog = 0.0
+	moisture = 1.0 # up for debate
+	queue_redraw()
 
 func _wet_wave():
 	moisture += 1.0

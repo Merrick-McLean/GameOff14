@@ -12,7 +12,6 @@ var point_found := false
 # positioning preview
 var preview_point: Node2D
 var preview_radius: Node2D
-var radius_val: float
 
 # TODO: Only allow clicks to occur within park level area and clamp line from displaying otside of area
 
@@ -26,7 +25,6 @@ func enter() -> void:
 	preview_point.z_index = 1000
 	preview_point.radius = 2.0
 	preview_point.color = Color(0.1, 0.3, 0.6, 1.0)
-	level.add_child(preview_point)
 	level.add_child(preview_point)
 
 	preview_radius = preload("res://actions/PreviewPoint.gd").new()
@@ -70,7 +68,6 @@ func handle_input(event: InputEvent) -> void:
 		preview_point.queue_redraw()
 		preview_radius.position = mouse_pos
 		preview_radius.queue_redraw()
-
 
 func get_nearest_lake(target: Vector2) -> Vector2:
 	var nearest_pos := Vector2.ZERO

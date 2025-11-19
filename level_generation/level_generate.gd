@@ -2,6 +2,10 @@ extends Node2D
 
 @onready var tree_scene: PackedScene = preload("res://level_generation/tree.tscn")
 @onready var camp_scene: PackedScene = preload("res://level_generation/campsite.tscn")
+
+var grass_tile := Image.load_from_file("res://assets/Biome/TextureGrassland.png")
+var water_tile := Image.load_from_file("res://assets/Biome/TextureWater.png")
+
 var noise := FastNoiseLite.new()
 @export var num_points: int = 25 #how many different groups
 @export var show_points: bool = true
@@ -70,9 +74,15 @@ func generate_voronoi():
 			var pixel_pos = Vector2(x, y)
 			var closest_idx = find_closest_point(pixel_pos)
 			
+			# This is non-permanent, does not deal with transition between different ground textures
+			# Mainly a temporary implementation jsut to se what it looks like
+			var tile = get_tile_for_index(closest_idx) 
+			var tx = x % tile.get_width()
+			var ty = y % tile.get_height()
+			var tile_color = tile.get_pixel(tx, ty)
+			
 			# Assign a color based on the closest seed point
-			var color = get_color_for_index_land(closest_idx)
-			voronoi_image.set_pixel(x, y, color)
+			voronoi_image.set_pixel(x, y, tile_color)
 	
 	# Create texture from image
 	voronoi_texture = ImageTexture.create_from_image(voronoi_image)
@@ -128,13 +138,12 @@ func get_color_for_index(idx: int) -> Color:
 	# Generate a unique color for each region
 	var hue = float(idx) / float(num_points)
 	return Color.from_hsv(hue, 0.7, 0.9)
-	
-func get_color_for_index_land(idx: int) -> Color:
-	# Generate a unique color for each region
+
+func get_tile_for_index(idx: int) -> Image:
 	if idx in lakes:
-		return Color(0,0,1)
+		return water_tile
 	else:
-		return Color(0,1,0)
+		return grass_tile
 
 func spawn_lakes():
 	lakes.append(2) #stupid but good for now
@@ -163,7 +172,7 @@ func generate_river_network(start: int):
 			MAIN_LENGTH / 2,
 			BRANCH_STEP,
 			0
-		)
+		) # random crash occured here!!! something about array index 200 idk
 
 		create_line2d(branch_points,  6)
 
