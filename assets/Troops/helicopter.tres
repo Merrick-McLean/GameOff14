@@ -1,14 +1,18 @@
-[gd_resource type="SpriteFrames" load_steps=2 format=3 uid="uid://dhfmlhxy4pr30"]
+[gd_resource type="SpriteFrames" load_steps=3 format=3 uid="uid://dhfmlhxy4pr30"]
 
-[ext_resource type="Texture2D" uid="uid://ckcq6uirlng7f" path="res://assets/Troops/helicopter.png" id="1_rdbrt"]
+[ext_resource type="Texture2D" uid="uid://ba4ou737jl0fk" path="res://assets/Troops/Helicopter1.png" id="1_ewobj"]
+[ext_resource type="Texture2D" uid="uid://s6vr15vif8mx" path="res://assets/Troops/Helicopter2.png" id="2_g3ejl"]
 
 [resource]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_rdbrt")
+"texture": ExtResource("1_ewobj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_g3ejl")
 }],
 "loop": true,
-"name": &"default",
+"name": &"hover",
 "speed": 5.0
 }]

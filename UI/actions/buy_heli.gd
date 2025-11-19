@@ -17,7 +17,7 @@ func _on_button_pressed():
 	var level = game.get_node("Level")
 	var heli = helicopter.instantiate()
 	
-	var action_manager = game.get_node("action_controller")
+	var action_manager = game.get_node("action_manager")
 	var action = preload("res://actions/command_heli_action.gd").new()
 	action.target_heli = heli
 	action_manager.set_action_state(action)

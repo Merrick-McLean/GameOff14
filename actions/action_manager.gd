@@ -20,8 +20,8 @@ func set_action_state(new_state: ActionState):
 	if action_state:
 		action_state.exit()
 		action_state.queue_free()
-		
-	action_state = new_state
+	
+	self.action_state = new_state
 	add_child(action_state)
 	action_state.controller = self
 	action_state.enter()

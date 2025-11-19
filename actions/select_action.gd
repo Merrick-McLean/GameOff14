@@ -1,4 +1,5 @@
 extends ActionState
+class_name SelectAction
 
 func enter() -> void:
 	# show UI

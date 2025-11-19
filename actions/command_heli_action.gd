@@ -1,6 +1,7 @@
 extends ActionState
+class_name CmdHeliAction
 
-@onready var action_manager = get_tree().get_current_scene().get_node("action_controller")
+@onready var action_manager = get_tree().get_current_scene().get_node("action_manager")
 @onready var level_features = get_tree().get_current_scene().get_node("Level").get_node("Level_generate")
 
 # helicopter to command
@@ -60,6 +61,7 @@ func handle_input(event: InputEvent) -> void:
 			target_heli.target = mouse_pos
 			target_heli.source = get_nearest_lake(mouse_pos)
 			
+			get_viewport().set_input_as_handled()
 			var action = preload("res://actions/select_action.gd").new()
 			action_manager.set_action_state(action)
 	elif event is InputEventMouseMotion and not point_found:

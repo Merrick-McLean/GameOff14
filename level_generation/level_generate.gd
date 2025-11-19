@@ -172,7 +172,7 @@ func generate_river_network(start: int):
 			MAIN_LENGTH / 2,
 			BRANCH_STEP,
 			0
-		) # random crash occured here!!! something about array index 200 idk
+		) # ERROR: Invalid access of index '200' on a base object of type: 'Array'.
 
 		create_line2d(branch_points,  6)
 

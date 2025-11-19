@@ -1,8 +1,13 @@
 extends Node2D
 
-@onready var action_manager = get_tree().get_current_scene().get_node("action_controller")
+# scenes
+@onready var action_manager = get_tree().get_current_scene().get_node("action_manager")
 @onready var level = get_tree().get_current_scene().get_node("Level")
+
+# children
 @onready var area = $Area2D
+@onready var animation := $AnimatedSprite2D
+@onready var water_tank_bar = $TextureProgressBar
 
 # target to drop water and source to get water
 var target: Vector2
@@ -14,6 +19,7 @@ var radius_val := 25.0
 var water_power := 1.0 # up for change
 
 # helicopter movement
+var bobbing_time := 0.0
 var max_speed := 75.0
 var velocity: Vector2 = Vector2.ZERO
 var acceleration_time := 0.25
@@ -25,14 +31,15 @@ var refill_rate := 0.1
 var refilling := false
 
 # hover graphics
-var target_point: Node2D
 var target_radius: Node2D
 var source_point: Node2D
 var heli_radius: Node2D
 
 func _ready():
 	"""
-	
+	On ready function when helicopter is initialized
+	Sets up Z vaue and connects to necessary input detection
+	Sets up helper visuals
 	"""
 	z_index = 1000
 	area.input_pickable = true
@@ -41,20 +48,32 @@ func _ready():
 	
 	area.mouse_entered.connect(_on_hover_enter)
 	area.mouse_exited.connect(_on_hover_exit)
+	
+	animation.play("hover")
 
 # should the actual respons ena dactions like these occur on tick?
 func _on_input_event(_viewport, event, _shape_idx):
 	"""
-	
+	On input events for interaction with helicopter object
+	On click sends to commands helicopter
+	Onhover gives useful HUD highlights
 	"""
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		select_heli()
+		command_heli()
 	elif event is InputEventMouseMotion:
 		_on_hover_enter()
 
 func _physics_process(delta: float) -> void:
+	"""
+	process running always
+	Logic for what the helicopters current action is
+	either moving, between target and source, refilling or dropping water
+	"""
 	if target == null:
 		return
+	
+	# progress bar
+	water_tank_bar.value = water_tank * 100.0
 	
 	water_tank = clamp(water_tank, 0.0, 1.0)
 	if refilling:
@@ -68,52 +87,57 @@ func _physics_process(delta: float) -> void:
 		if global_position.distance_to(target) > 1.0:
 			move_towards_point(delta, target)
 		else:
-			drop_water()
+			drop_water() # is it bad tio have this constantly checking?
 
-func select_heli():
+func command_heli():
 	"""
-	
+	Sends to command heli action state
 	"""
-	if action_manager:
-		var new_action = preload("res://actions/command_heli_action.gd").new()
-		new_action.target_heli = self
-		action_manager.set_action_state(new_action)
+	var new_action = preload("res://actions/command_heli_action.gd").new()
+	new_action.target_heli = self
+	action_manager.set_action_state(new_action)
 
 # could make it move with the movement move_towards_point()
 func _on_hover_enter():
-	target_point.visible = true
-	target_radius.visible = true
-	source_point.visible = true
-	heli_radius.visible = true
-	
-	target_point.position = target
-	target_point.queue_redraw()
-	
-	target_radius.position = target
-	target_radius.queue_redraw()
-	
-	source_point.position = source
-	source_point.queue_redraw()
-	
-	heli_radius.position = global_position
-	heli_radius.queue_redraw()
+	"""
+	Visuals for when we hover on helicopter (while in free action mode)
+	"""
+	if action_manager.action_state is SelectAction:
+		target_radius.visible = true
+		source_point.visible = true
+		heli_radius.visible = true
+				
+		target_radius.position = target
+		target_radius.queue_redraw()
+		
+		source_point.position = source
+		source_point.queue_redraw()
+		
+		heli_radius.position = global_position
+		heli_radius.queue_redraw()
 
 func _on_hover_exit():
-	target_point.visible = false
+	"""
+	Hide visuals for heli
+	"""
 	target_radius.visible = false
 	source_point.visible = false
 	heli_radius.visible = false
 
 func refill_heli() -> void:
+	"""
+	Subroutine when we have reached water source and need to fill up on water
+	"""
 	if water_tank < 1.0:
 		water_tank += refill_rate
 	if water_tank >= 1.0:
 		refilling = false
 	return
 
-func drop_water() -> void:
+func drop_water() -> void: # could use updates for efficiency
 	"""
-	
+	Subroutine for when we drop water on trees
+	Queries and calls interaction with trees
 	"""
 	# a delay is necessary for animation and such, currently instantaneous
 	var water_dropped = false
@@ -140,6 +164,9 @@ func drop_water() -> void:
 
 # still iffy about movement, play around with more
 func move_towards_point(delta: float, point: Vector2) -> void:
+	"""
+	Subroutine to move to a point on map
+	"""
 	var direction := point - global_position
 	var distance = direction.length()
 
@@ -156,12 +183,9 @@ func move_towards_point(delta: float, point: Vector2) -> void:
 		global_position += velocity * delta
 
 func prepare_displays():
-	target_point = preload("res://actions/PreviewPoint.gd").new()
-	target_point.z_index = 1000
-	target_point.radius = 2.0
-	target_point.color = Color(0.1, 0.3, 0.6, 1.0)
-	level.add_child(target_point)
-
+	"""
+	Prepares hover HUD
+	"""
 	target_radius = preload("res://actions/PreviewPoint.gd").new()
 	target_radius.z_index = 999
 	target_radius.radius = radius_val
