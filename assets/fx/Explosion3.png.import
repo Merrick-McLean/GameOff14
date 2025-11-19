@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cyngfgfvby5if"
-path="res://.godot/imported/Ignition9.png-cb3fa8e38484bb8f83473bf1c08bf1dc.ctex"
+uid="uid://k22k1x4gtft7"
+path="res://.godot/imported/Explosion3.png-2a9865b9e5ca1739c59a3c133f233265.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Troops/Ignition9.png"
-dest_files=["res://.godot/imported/Ignition9.png-cb3fa8e38484bb8f83473bf1c08bf1dc.ctex"]
+source_file="res://assets/fx/Explosion3.png"
+dest_files=["res://.godot/imported/Explosion3.png-2a9865b9e5ca1739c59a3c133f233265.ctex"]
 
 [params]
 

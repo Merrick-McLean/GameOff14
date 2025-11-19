@@ -4,9 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://m5lxlbvlf67u" path="res://assets/UI/BuyHeliButton.png" id="2_v7sep"]
 
 [node name="BuyHeli" type="CanvasLayer"]
+visible = false
 script = ExtResource("1_bk8es")
 
 [node name="Button" type="Button" parent="."]
+visible = false
 offset_right = 8.0
 offset_bottom = 8.0
 icon = ExtResource("2_v7sep")

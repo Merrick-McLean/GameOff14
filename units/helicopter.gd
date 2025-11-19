@@ -27,12 +27,14 @@ var acceleration_time := 0.25
 # amount of water supply
 var water_tank := 1.0
 var tank_use := 1.0 # if we make a use be less than a full tank, we will have to add a delay between drops
-var refill_rate := 0.1
+var refill_rate := 0.01
 var refilling := false
+
+# perhaps we could differentiate the search/view radius and the hit radius (patrols more area and drops a smaller amount of water within)
 
 # hover graphics
 var target_radius: Node2D
-var source_point: Node2D
+var source_radius: Node2D
 var heli_radius: Node2D
 
 func _ready():
@@ -50,6 +52,10 @@ func _ready():
 	area.mouse_exited.connect(_on_hover_exit)
 	
 	animation.play("hover")
+	
+	target_radius.visible = false
+	source_radius.visible = false
+	heli_radius.visible = false
 
 # should the actual respons ena dactions like these occur on tick?
 func _on_input_event(_viewport, event, _shape_idx):
@@ -74,8 +80,8 @@ func _physics_process(delta: float) -> void:
 	
 	# progress bar
 	water_tank_bar.value = water_tank * 100.0
-	
 	water_tank = clamp(water_tank, 0.0, 1.0)
+	
 	if refilling:
 		refill_heli()
 	elif water_tank < tank_use:
@@ -104,16 +110,15 @@ func _on_hover_enter():
 	"""
 	if action_manager.action_state is SelectAction:
 		target_radius.visible = true
-		source_point.visible = true
+		source_radius.visible = true
 		heli_radius.visible = true
 				
 		target_radius.position = target
 		target_radius.queue_redraw()
 		
-		source_point.position = source
-		source_point.queue_redraw()
+		source_radius.position = source
+		source_radius.queue_redraw()
 		
-		heli_radius.position = global_position
 		heli_radius.queue_redraw()
 
 func _on_hover_exit():
@@ -121,7 +126,7 @@ func _on_hover_exit():
 	Hide visuals for heli
 	"""
 	target_radius.visible = false
-	source_point.visible = false
+	source_radius.visible = false
 	heli_radius.visible = false
 
 func refill_heli() -> void:
@@ -192,14 +197,14 @@ func prepare_displays():
 	target_radius.color = Color(0.1, 0.3, 0.6, 0.5)
 	level.add_child(target_radius)
 	
-	source_point = preload("res://actions/PreviewPoint.gd").new()
-	source_point.z_index = 999
-	source_point.radius = radius_val
-	source_point.color = Color(0.647, 0.722, 0.271, 0.502)
-	level.add_child(source_point)
+	source_radius = preload("res://actions/PreviewPoint.gd").new()
+	source_radius.z_index = 999
+	source_radius.radius = radius_val
+	source_radius.color = Color(0.1, 0.3, 0.6, 0.5)
+	level.add_child(source_radius)
 	
 	heli_radius = preload("res://actions/PreviewPoint.gd").new()
 	heli_radius.z_index = 999
-	heli_radius.radius = radius_val
-	heli_radius.color = Color(0.647, 0.722, 0.271, 0.502)
-	level.add_child(heli_radius)
+	heli_radius.radius = radius_val - 5
+	heli_radius.color = Color(0.65, 0.75, 0.25, 0.5)
+	self.add_child(heli_radius)

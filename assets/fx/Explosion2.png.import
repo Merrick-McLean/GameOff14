@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cdr28bmj76don"
-path="res://.godot/imported/Explosion5.png-90341aec68764dbba9eb8a087bbadeec.ctex"
+uid="uid://pg50twkd8128"
+path="res://.godot/imported/Explosion2.png-aebd3e26fb32d3b9005b8a15505a9a8c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Troops/Explosion5.png"
-dest_files=["res://.godot/imported/Explosion5.png-90341aec68764dbba9eb8a087bbadeec.ctex"]
+source_file="res://assets/fx/Explosion2.png"
+dest_files=["res://.godot/imported/Explosion2.png-aebd3e26fb32d3b9005b8a15505a9a8c.ctex"]
 
 [params]
 

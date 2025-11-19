@@ -16,6 +16,7 @@ var preview_radius: Node2D
 
 # TODO: Only allow clicks to occur within park level area and clamp line from displaying otside of area
 
+
 func enter() -> void:
 	"""
 	
@@ -33,6 +34,9 @@ func enter() -> void:
 	preview_radius.radius = target_heli.radius_val
 	preview_radius.color = Color(0.1, 0.3, 0.6, 0.5)
 	level.add_child(preview_radius)
+	
+	preview_point.visible = false
+	preview_radius.visible = false
 
 func exit():
 	"""
@@ -65,6 +69,9 @@ func handle_input(event: InputEvent) -> void:
 			var action = preload("res://actions/select_action.gd").new()
 			action_manager.set_action_state(action)
 	elif event is InputEventMouseMotion and not point_found:
+		preview_point.visible = true
+		preview_radius.visible = true
+	
 		var mouse_pos = get_global_mouse_position()
 		preview_point.position = mouse_pos
 		preview_point.queue_redraw()

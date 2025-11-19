@@ -143,6 +143,7 @@ func extinguish():
 	on_fire = false
 	extinguish_prog = 0.0
 	moisture = 1.0 # up for debate
+	self.modulate = Color(1, 1, 1, 1)
 	queue_redraw()
 
 func _wet_wave():
