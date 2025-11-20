@@ -25,7 +25,7 @@ var current_state: state = state.alive
 
 # burn stats
 var burn_rate = 0.1
-var burn_spread_chance = 0.05
+var burn_spread_chance = 0.055
 var hull = 100.0
 
 var evaporate = 0.00001
@@ -41,9 +41,10 @@ func _ready():
 	world_timer.tick.connect(_on_tick)
 	
 	var weather = get_tree().get_current_scene().get_node("Level/weather_control")
+	weather.relax.connect(_relax)
 	weather.wet_wave.connect(_wet_wave) 
 	#weather.storm_wave.connect(_storm_wave) 
-	#weather.heat_wave.connect(_heat_wave) 
+	weather.heat_wave.connect(_heat_wave) 
 	
 func setup():
 	on_fire = false
@@ -158,5 +159,12 @@ func extinguish():
 	self.modulate = Color(1, 1, 1, 1)
 	queue_redraw()
 
+#signals for weather
+func _relax():
+	evaporate = 0.00001
+
 func _wet_wave():
-	pass#moisture += 0.01
+	moisture += 0.1
+	
+func _heat_wave():
+	evaporate *= 1.5
