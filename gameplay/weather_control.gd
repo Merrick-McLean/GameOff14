@@ -1,13 +1,20 @@
 extends Node2D
 signal wet_wave
-#signal heat_wave
-#signal storm_wave
+signal heat_wave
+signal camper_wave
+signal illegal_camper_wave
 
-var interval = 25
-
+var interval = 5	
 var _timer : Timer
+var wave = {
+	wet_wave : "wet_wave",
+	heat_wave : "heat_wave",
+	camper_wave : "camper_wave",
+	illegal_camper_wave : "illegal_camper_wave"
+}
 
 func _ready() -> void:
+	
 	_timer = Timer.new()
 	_timer.wait_time = interval
 	_timer.one_shot = false
@@ -21,4 +28,4 @@ func _on_timer_timeout() -> void:
 	emit_signal("wet_wave")
 	var level = get_parent()
 	var shader_layer = level.get_node("shader_layer").get_child(0)
-	shader_layer.material.set_shader_parameter("poland", true)
+	shader_layer.material.set_shader_parameter("heatwave", true)

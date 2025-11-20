@@ -12,11 +12,13 @@ script = ExtResource("1_brfkd")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 1
+position = Vector2(-5.9604645e-08, -44.999996)
 texture = ExtResource("2_nnvrw")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(-0.9999989, -40.999996)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(1.1920924e-06, 32.499977)
+position = Vector2(0.99999887, 21)
 scale = Vector2(0.99999917, 0.99999917)
 shape = SubResource("RectangleShape2D_nnvrw")

@@ -15,7 +15,7 @@ var noise := FastNoiseLite.new()
 @export var campsite_clearing: int = 2*1000
 var lakes: Array = []
 var rivers: Array = []
-var border_tol = 0.05
+var border_tol = 0.1
 var screen_size: Vector2
 var seed_points: Array = []
 var seed_tree_groups: Array = []
@@ -161,7 +161,7 @@ func spawn_rivers():
 	
 func get_direction(start1: Vector2, start2: Vector2):
 	var flow = start2-start1
-	flow =  Vector2(-flow[0], flow[1])
+	flow =  Vector2(-flow[0], -flow[1])
 	return flow.normalized()
 	
 
