@@ -25,7 +25,7 @@ var current_state: state = state.alive
 
 # burn stats
 var burn_rate = 0.1
-var burn_spread_chance = 0.00001
+var burn_spread_chance = 0.05
 var hull = 100.0
 
 var evaporate = 0.00001
