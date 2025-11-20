@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://v25q5yp8st2y"]
+[gd_scene load_steps=6 format=3 uid="uid://v25q5yp8st2y"]
 
 [ext_resource type="Script" uid="uid://cw7t1m5c8rr0" path="res://park_name/park_name_gen.gd" id="1_sb48q"]
 [ext_resource type="PackedScene" uid="uid://cv3xhf0q270q6" path="res://UI/UI.tscn" id="1_u44n3"]
 [ext_resource type="PackedScene" uid="uid://nf7ensfke5r2" path="res://level.tscn" id="1_wbfu4"]
 [ext_resource type="Script" uid="uid://dbl0sh3lkwanq" path="res://actions/action_manager.gd" id="3_u44n3"]
+[ext_resource type="PackedScene" uid="uid://ccclk5it05ktd" path="res://audio/music_control.tscn" id="5_t88pq"]
 
 [node name="Game" type="Node2D"]
 
@@ -24,3 +25,5 @@ offset_left = 1461.8594
 offset_top = 176.46997
 offset_right = 1461.8594
 offset_bottom = 176.46997
+
+[node name="music_control" parent="." instance=ExtResource("5_t88pq")]
