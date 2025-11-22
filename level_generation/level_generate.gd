@@ -110,7 +110,6 @@ func find_closest_point_tree(pos: Vector2, tolerance: float = border_tol) -> Arr
 	var min_dist = INF
 	var closest_idx = -1
 	var close_indices = []
-
 	# First pass — find the minimum distance
 	for i in range(seed_points.size()):
 		var dist = pos.distance_squared_to(seed_points[i])
@@ -118,14 +117,11 @@ func find_closest_point_tree(pos: Vector2, tolerance: float = border_tol) -> Arr
 			min_dist = dist
 			closest_idx = i
 	close_indices.append(closest_idx)
-
 	# Second pass — find all indices within the tolerance range
 	for i in range(seed_points.size()):
 		var dist = pos.distance_squared_to(seed_points[i])
 		if dist <= min_dist * (1+tolerance):
 			close_indices.append(i)
-			
-
 	return close_indices
 
 func too_close_to_camp_lake(pos: Vector2):
@@ -160,10 +156,8 @@ func spawn_rivers():
 	generate_river_network(3, flow_dir)
 	
 func get_direction(start1: Vector2, start2: Vector2):
-	var flow = start2-start1
-	flow =  Vector2(-flow[0], -flow[1])
+	var flow = -start2-start1
 	return flow.normalized()
-	
 
 func generate_river_network(start: int, flow: Vector2):
 	var main_points = generate_river_points(
@@ -173,11 +167,10 @@ func generate_river_network(start: int, flow: Vector2):
 		0,
 		flow
 	)
-
 	create_line2d(main_points, 10)
 	# Create branches
 	for i in range(BRANCH_COUNT):
-		var idx = randi_range(0, MAIN_LENGTH-1) #WHAT POINT TO MAKE RIVER
+		var idx = randi_range(0, main_points.size()-1) #WHAT POINT TO MAKE RIVER
 		var branch_start = main_points[idx]
 		var branch_points = generate_river_points(
 			branch_start,
@@ -202,6 +195,8 @@ func generate_river_points(start: Vector2, length: int, step: float, noise_offse
 		var direction = flow.rotated(angle + angel_const)
 
 		pos += direction * step
+		if 0 > pos.x or pos.x > screen_size.x or 0 > pos.y or pos.y > screen_size.y:
+			break
 		points.append(pos)
 	return points
 

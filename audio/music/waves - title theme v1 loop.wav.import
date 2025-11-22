@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://dgnd7ofiuu7s1"
-path="res://.godot/imported/waves - title theme v1 loop.wav-7a99635bd1d35cc8448f3200db4a8df8.sample"
+path="res://.godot/imported/waves - title theme v1 loop.wav-68a467ecbabc36d6a252eb4917342721.sample"
 
 [deps]
 
-source_file="res://waves - title theme v1 loop.wav"
-dest_files=["res://.godot/imported/waves - title theme v1 loop.wav-7a99635bd1d35cc8448f3200db4a8df8.sample"]
+source_file="res://audio/music/waves - title theme v1 loop.wav"
+dest_files=["res://.godot/imported/waves - title theme v1 loop.wav-68a467ecbabc36d6a252eb4917342721.sample"]
 
 [params]
 
