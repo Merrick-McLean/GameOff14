@@ -1,26 +1,32 @@
 extends Node2D
 
-@onready var tree_scene: PackedScene = preload("res://level_generation/tree.tscn")
+@onready var tree_scene: PackedScene = preload("res://level_generation/tree.tscn") 
 @onready var camp_scene: PackedScene = preload("res://level_generation/campsite.tscn")
 
 var grass_tile := Image.load_from_file("res://assets/Biome/TextureGrassland.png")
 var water_tile := Image.load_from_file("res://assets/Biome/TextureWater.png")
 
-var noise := FastNoiseLite.new()
-@export var num_points: int = 25 #how many different groups
-@export var show_points: bool = true
-@export var point_size: float = 5.0
-@export var num_trees: int = 5000
+var noise := FastNoiseLite.new() # for river movement
+@export var num_points: int = 50 #how many different groups
+@export var show_points: bool = false #for testing
+@export var point_size: float = 5.0 #for testing
+@export var num_trees: int = 5000 
 @export var num_campsites: int = 2
-@export var campsite_clearing: int = 2*1000
+@export var campsite_clearing: int = 2*1000 #for adjusting
+
 var lakes: Array = []
 var rivers: Array = []
-var border_tol = 0.1
+var border_tol = 0.1 # to help trees burn between groups
+
 var screen_size: Vector2
+
 var seed_points: Array = []
 var seed_tree_groups: Array = []
+
+#camps are always 0,1 and lakes are always 2,3,
 var trees: Array = []
 var camps: Array = []
+
 var voronoi_image: Image
 var voronoi_texture: ImageTexture
 var polygon_nodes: Array = []
@@ -40,10 +46,19 @@ var rocky_shore_thickness := 3500.0
 var rocky_color := Color(0.85, 0.82, 0.65)
 
 func _ready():
-	screen_size = get_viewport_rect().size
-	noise.noise_type = FastNoiseLite.TYPE_PERLIN
+	screen_size = get_viewport_rect().size 
+	noise.noise_type = FastNoiseLite.TYPE_PERLIN # for rivers
 	noise.frequency = 0.3
-	generate_voronoi()
+	generate_voronoi() # this should generate everythin
+
+func _draw():
+	if voronoi_texture:
+		draw_texture(voronoi_texture, Vector2.ZERO)
+	# Draw seed points if enabled for debugging
+	if show_points:
+		for point in seed_points:
+			draw_circle(point, point_size, Color.BLACK)
+			draw_circle(point, point_size - 1, Color.WHITE)
 
 func generate_voronoi():
 	# Generate random seed points
@@ -77,7 +92,7 @@ func generate_voronoi():
 			tree.other_trees = tree.other_trees + tree_group
 	for tree in trees:
 		tree.setup()
-	# trees[0].ignite() # debug
+	trees[0].ignite()
 	# Create the Voronoi diagram for debugging ---------
 	voronoi_image = Image.create(int(screen_size.x), int(screen_size.y), false, Image.FORMAT_RGB8)
 	
@@ -126,10 +141,9 @@ func generate_voronoi():
 	voronoi_texture = ImageTexture.create_from_image(voronoi_image)
 	queue_redraw()
 
-func find_closest_point(pos: Vector2) -> int:	
+func find_closest_point(pos: Vector2) -> int: #legacy for before textures
 	var min_dist = INF
 	var closest_idx = 0
-	
 	for i in range(seed_points.size()):
 		var dist = pos.distance_squared_to(seed_points[i])
 		var nx := noise.get_noise_2d(pos.x * wobble_freq + seed_points[i].x * 0.01, pos.y * wobble_freq + seed_points[i].y * 0.01)
@@ -138,10 +152,9 @@ func find_closest_point(pos: Vector2) -> int:
 		if dist < min_dist:
 			min_dist = dist
 			closest_idx = i
-	
 	return closest_idx
 	
-func find_closest_point_tree(pos: Vector2, tolerance: float = border_tol) -> Array:
+func find_closest_point_tree(pos: Vector2, tolerance: float = border_tol) -> Array: #needed for assiging groups to trees
 	var min_dist = INF
 	var closest_idx = -1
 	var close_indices = []
@@ -155,14 +168,14 @@ func find_closest_point_tree(pos: Vector2, tolerance: float = border_tol) -> Arr
 			min_dist = dist
 			closest_idx = i
 	close_indices.append(closest_idx)
-	# Second pass — find all indices within the tolerance range
+	# Second pass find all indices within the tolerance range (for trees that move between groups)
 	for i in range(seed_points.size()):
 		var dist = pos.distance_squared_to(seed_points[i])
 		if dist <= min_dist * (1+tolerance):
 			close_indices.append(i)
 	return close_indices
 
-func too_close_to_camp_lake(pos: Vector2):
+func too_close_to_camp_lake(pos: Vector2): #kill trees to close to camps and lakes
 	for camp in camps:
 		var dist = pos.distance_squared_to(camp.position)
 		if dist < campsite_clearing:
@@ -173,8 +186,7 @@ func too_close_to_camp_lake(pos: Vector2):
 			return true
 	return false
 
-func get_color_for_index(idx: int) -> Color:
-	# Generate a unique color for each region
+func get_color_for_index(idx: int) -> Color: # for debugging, each seed point gets a color
 	var hue = float(idx) / float(num_points)
 	return Color.from_hsv(hue, 0.7, 0.9)
 
@@ -183,7 +195,7 @@ func spawn_lakes():
 	lakes.append(3)
 	
 func spawn_rivers():
-	var flow_dir = get_direction(seed_points[2], seed_points[3])
+	var flow_dir = get_direction(seed_points[2], seed_points[3]) #get a direction so both rivers flow "down"
 	generate_river_network(2, flow_dir)
 	generate_river_network(3, flow_dir)
 	
@@ -235,8 +247,8 @@ func generate_river_points(start: Vector2, length: int, step: float, noise_offse
 func create_line2d(points: Array, width := 10):
 	var line := Line2D.new()
 	line.width = 10
-	line.default_color = Color(0, 0, 0, 0)
-	line.z_index = 1000
+	line.default_color = Color.STEEL_BLUE
+	line.z_index = line.global_position.y # sets rivers to be ordered on their y for illusion 
 	for p in points:
 		line.add_point(p)
 	add_child(line)
@@ -250,10 +262,10 @@ func spawn_campsite(idx : int):
 	add_child(camp)
 	camps.append(camp)
 
-func set_camptree(tree):
+func set_camptree(tree): #calculate which trees are next too camps and can be lit on fire
 	for camp in camps:
 		var dist = tree.position.distance_squared_to(camp.position)
-		if dist < (campsite_clearing + 1000): # may need to review this
+		if dist < (campsite_clearing + CAMP_REACH): # may need to review this
 			tree.camp_tree  = true
 
 func spawn_tree(min_x, max_x, min_y, max_y):

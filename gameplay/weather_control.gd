@@ -6,7 +6,7 @@ signal relax
 signal camper_wave
 signal illegal_camper_wave
 
-var interval = 5
+var interval = 10000
 var _timer : Timer
 
 # ENUM of effects
