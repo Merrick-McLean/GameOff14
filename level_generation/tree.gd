@@ -40,29 +40,30 @@ func _ready():
 	var world_timer = get_tree().get_current_scene().get_node("Level/world_timer")
 	world_timer.tick.connect(_on_tick)
 	
-	var weather = get_tree().get_current_scene().get_node("Level/weather_control")
+	var weather = get_tree().get_current_scene().get_node("Level/weather_control") # node that provides sigals for diffrent weather types
 	weather.relax.connect(_relax)
 	weather.wet_wave.connect(_wet_wave) 
 	#weather.storm_wave.connect(_storm_wave) 
 	weather.heat_wave.connect(_heat_wave) 
 	
 func setup():
+	#runs after all trees made
 	on_fire = false
-	if camp_tree:
+	if camp_tree: #for testing
 		ignite()
 	for tree in other_trees:
 		if is_within_distance(self, tree, fire_reach):
-			neighbors.append(tree)
+			neighbors.append(tree) #calc trees close enough to affect 
 
 func _on_tick():
-	match current_state:
+	match current_state: #state machine
 		state.alive:
 			for tree in neighbors:
 				if tree.on_fire:
 					moisture -= evaporate
 					if randf() > 1 - burn_spread_chance + moisture:
 						ignite()
-		state.recoverable:
+		state.recoverable: # can be made alive again, but not totally alive
 			if hull < 0:
 				burn_out()
 			elif hull > 0 and moisture > burn_rate:
@@ -72,21 +73,21 @@ func _on_tick():
 				for tree in neighbors:
 					if tree.on_fire:
 						moisture -= evaporate
-		state.burnt:
+		state.burnt: #if youre burnt you are screwed
 			pass
 	
 	
-func is_within_distance(node_a: Node2D, node_b: Node2D, radius: float) -> bool:
+func is_within_distance(node_a: Node2D, node_b: Node2D, radius: float) -> bool: #are two nodes close enough together?
 	var distance = node_a.global_position.distance_to(node_b.global_position)
 	return distance <= radius
 
-func ignite():
+func ignite(): #called when a tree is offically on fire
 	self.modulate = Color(1,0,0)
 	on_fire = true
 	current_state = state.recoverable
 	queue_redraw()
 
-func recover():
+func recover(): #called when a tree was on fire but not burnt
 	on_fire = false
 	self.modulate = Color(1,1,1)
 	var new_texture
@@ -100,7 +101,7 @@ func recover():
 	$Sprite2D.texture = new_texture
 	queue_redraw()
 			
-func burn_out():
+func burn_out(): # called when a tree dies
 	on_fire = false
 	current_state = state.burnt
 	var new_texture
@@ -112,10 +113,12 @@ func burn_out():
 			new_texture = load("res://assets/Trees/Birch/BirchTreeBurnt.png")
 		2:
 			new_texture = load("res://assets/Trees/Oak/OakTreeBurnt.png")
+			
+			
 	$Sprite2D.texture = new_texture
 	queue_redraw()
 		
-func set_texture(idx : int):
+func set_texture(idx : int): 
 	idx = idx%3
 	tree_type = idx
 	var new_texture
@@ -129,12 +132,12 @@ func set_texture(idx : int):
 	$Sprite2D.texture = new_texture
 
 
-
-func _draw() -> void:
+func _draw() -> void: # make the fire circle
 	if on_fire:
 		draw_circle(Vector2(), 40, Color(1,0,0))
 
-func chop():
+func chop(): # chop tree
+	burn_out() # stop affecting everything around you
 	var new_texture
 	match tree_type:
 		0:
@@ -152,6 +155,9 @@ func douse_water(power):
 		extinguish()
 
 func extinguish():
+	"""
+	do we need this still? should just be using recover now
+	"""
 	_timer.stop()
 	on_fire = false
 	extinguish_prog = 0.0
@@ -161,10 +167,11 @@ func extinguish():
 
 #signals for weather
 func _relax():
-	evaporate = 0.00001
+	evaporate = 0.00001 # back to normal
 
-func _wet_wave():
+func _wet_wave(): # make the trees wetter
 	moisture += 0.1
 	
-func _heat_wave():
-	evaporate *= 1.5
+func _heat_wave(): # double evap while heat wave - a but of const moist once
+	moisture -= 0.01
+	evaporate *= 2

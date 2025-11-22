@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://b33k84ek0wivg"]
+
+[ext_resource type="Script" uid="uid://bobvd72hj0n0u" path="res://level_generation/camper.gd" id="1_u2nh2"]
+[ext_resource type="Texture2D" uid="uid://b7gg7ppqu0ybr" path="res://assets/Troops/water_troop.png" id="2_nrv5j"]
+
+[node name="Camper" type="Node2D"]
+script = ExtResource("1_u2nh2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_nrv5j")
