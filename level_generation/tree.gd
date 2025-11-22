@@ -3,7 +3,7 @@ extends Node2D
 var _timer: Timer
 
 # fire capabilities
-var fire_reach = 30
+var fire_reach = 20
 # tree references
 var tree_type
 var neighbors = []
@@ -16,20 +16,18 @@ var camp_tree = false
 # fire states
 enum state {
 	alive,
-	recoverable,
+	on_fire,
 	burnt
 }
-var on_fire
-
 var current_state: state = state.alive
 
 # burn stats
-var burn_rate = 0.1
-var burn_spread_chance = 0.055
-var hull = 100.0
-
-var evaporate = 0.00001
-var moisture = 0.1
+var burn_rate = 0.005
+var burn_spread_chance = 0.0005
+var hull = 1.0
+var intensity = 0.0
+var evaporate = 0.0001
+var moisture = 0.02
 
 # extinguish trackers - to be removed in favour of moisture
 var extinguish_prog = 0.0
@@ -48,9 +46,6 @@ func _ready():
 	
 func setup():
 	#runs after all trees made
-	on_fire = false
-	if camp_tree: #for testing
-		ignite()
 	for tree in other_trees:
 		if is_within_distance(self, tree, fire_reach):
 			neighbors.append(tree) #calc trees close enough to affect 
@@ -59,21 +54,26 @@ func _on_tick():
 	match current_state: #state machine
 		state.alive:
 			for tree in neighbors:
-				if tree.on_fire:
+				if tree.current_state == state.on_fire:
 					moisture -= evaporate
-					if randf() > 1 - burn_spread_chance + moisture:
+					if randf() > 1 - burn_spread_chance:
 						ignite()
-		state.recoverable: # can be made alive again, but not totally alive
-			if hull < 0:
-				burn_out()
-			elif hull > 0 and moisture > burn_rate:
-				recover()
-			else:
-				hull -= max(0.01, burn_rate - moisture)
-				for tree in neighbors:
-					if tree.on_fire:
-						moisture -= evaporate
-		state.burnt: #if youre burnt you are screwed
+		state.on_fire: 
+			intensity = sin(hull*PI + 0.3)*3/5 + 0.4 - max(moisture, 0)
+			print(intensity)
+			if intensity <= 0:
+				if hull > 0:
+					recover()
+					return
+				else:
+					burn_out()
+					return
+			hull -= burn_rate
+			moisture -= evaporate/(1-intensity)
+			for tree in neighbors:
+				if tree.current_state == state.on_fire:
+					moisture -= evaporate
+		state.burnt: 
 			pass
 	
 	
@@ -83,12 +83,10 @@ func is_within_distance(node_a: Node2D, node_b: Node2D, radius: float) -> bool: 
 
 func ignite(): #called when a tree is offically on fire
 	self.modulate = Color(1,0,0)
-	on_fire = true
-	current_state = state.recoverable
+	current_state = state.on_fire
 	queue_redraw()
 
 func recover(): #called when a tree was on fire but not burnt
-	on_fire = false
 	self.modulate = Color(1,1,1)
 	var new_texture
 	match tree_type:
@@ -102,10 +100,8 @@ func recover(): #called when a tree was on fire but not burnt
 	queue_redraw()
 			
 func burn_out(): # called when a tree dies
-	on_fire = false
 	current_state = state.burnt
 	var new_texture
-
 	match tree_type:
 		0:
 			new_texture = load("res://assets/Trees/Pine/PineTreeBurnt.png")
@@ -131,9 +127,8 @@ func set_texture(idx : int):
 			new_texture = load("res://assets/Trees/Oak/OakTree.png")
 	$Sprite2D.texture = new_texture
 
-
 func _draw() -> void: # make the fire circle
-	if on_fire:
+	if current_state == state.on_fire:
 		draw_circle(Vector2(), 40, Color(1,0,0))
 
 func chop(): # chop tree
@@ -159,7 +154,7 @@ func extinguish():
 	do we need this still? should just be using recover now
 	"""
 	_timer.stop()
-	on_fire = false
+	
 	extinguish_prog = 0.0
 	moisture = 1.0 # up for debate
 	self.modulate = Color(1, 1, 1, 1)

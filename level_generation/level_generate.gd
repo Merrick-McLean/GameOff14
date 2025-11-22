@@ -7,7 +7,7 @@ var grass_tile := Image.load_from_file("res://assets/Biome/TextureGrassland.png"
 var water_tile := Image.load_from_file("res://assets/Biome/TextureWater.png")
 
 var noise := FastNoiseLite.new() # for river movement
-@export var num_points: int = 25 #how many different groups
+@export var num_points: int = 50 #how many different groups
 @export var show_points: bool = false #for testing
 @export var point_size: float = 5.0 #for testing
 @export var num_trees: int = 5000 
@@ -87,6 +87,7 @@ func generate_voronoi():
 			tree.other_trees = tree.other_trees + tree_group
 	for tree in trees:
 		tree.setup()
+	trees[0].ignite()
 	# Create the Voronoi diagram for debugging ---------
 	voronoi_image = Image.create(int(screen_size.x), int(screen_size.y), false, Image.FORMAT_RGB8)
 	
