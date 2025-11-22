@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=3 uid="uid://cacsyv2mkog15"]
+
+[ext_resource type="Script" uid="uid://dejom155rqytn" path="res://units/lumberjack.gd" id="1_8c3ot"]
+[ext_resource type="Texture2D" uid="uid://b7gg7ppqu0ybr" path="res://assets/Troops/water_troop.png" id="2_8c3ot"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1sv1x"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_8c3ot")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_8c3ot")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_71si8"]
+radius = 82.4
+
+[node name="Lumberjack" type="Node2D"]
+script = ExtResource("1_8c3ot")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -5)
+scale = Vector2(0.25, 0.25)
+sprite_frames = SubResource("SpriteFrames_1sv1x")
+animation = &"idle"
+
+[node name="Area2D" type="Area2D" parent="."]
+scale = Vector2(0.25, 0.25)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1, 1)
+scale = Vector2(0.25, 0.25)
+shape = SubResource("CircleShape2D_71si8")

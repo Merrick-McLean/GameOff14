@@ -20,8 +20,10 @@ enum state {
 	recoverable,
 	burnt
 }
+
 var on_fire
 var protected
+var stump
 
 var current_state: state = state.alive
 
@@ -141,7 +143,7 @@ func chop():
 		2:
 			new_texture = load("res://assets/Trees/Oak/OakTreeStump.png")
 	$Sprite2D.texture = new_texture
-	return
+	stump = true
 
 # decide whether to handle state check here or on troop side...
 func douse_water(power):

@@ -11,7 +11,6 @@ var onscreen_position: Vector2
 var offscreen_position: Vector2
 
 func enter() -> void:
-	print("enter")
 	offscreen_position = ui.position
 	onscreen_position = offscreen_position + slide_offset
 	
@@ -24,7 +23,6 @@ func enter() -> void:
 			 .set_ease(Tween.EaseType.EASE_OUT)
 	
 func exit():
-	print("exit")
 	var tween = ui.create_tween()
 	tween.tween_property(ui, "position", offscreen_position, slide_duration) \
 		 .set_trans(Tween.TransitionType.TRANS_SINE) \
