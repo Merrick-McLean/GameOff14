@@ -9,6 +9,7 @@ shader_parameter/density = 0.5
 shader_parameter/brightness = 0.7
 shader_parameter/wetwave = false
 shader_parameter/heatwave = false
+shader_parameter/fade = 0.0
 
 [node name="shader_layer" type="CanvasLayer"]
 
@@ -16,4 +17,5 @@ shader_parameter/heatwave = false
 material = SubResource("ShaderMaterial_8sj3r")
 offset_right = 1172.0
 offset_bottom = 653.0
+mouse_filter = 2
 color = Color(1, 1, 1, 0)

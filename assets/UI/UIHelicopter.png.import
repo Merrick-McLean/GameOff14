@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://m5lxlbvlf67u"
-path="res://.godot/imported/BuyHeliButton.png-318d9423ecb072bdc987fbde9f5ae0bc.ctex"
+uid="uid://71qaln6behuc"
+path="res://.godot/imported/UIHelicopter.png-12956edfc71084958dcc8e2b2839fca8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/UI/BuyHeliButton.png"
-dest_files=["res://.godot/imported/BuyHeliButton.png-318d9423ecb072bdc987fbde9f5ae0bc.ctex"]
+source_file="res://assets/UI/UIHelicopter.png"
+dest_files=["res://.godot/imported/UIHelicopter.png-12956edfc71084958dcc8e2b2839fca8.ctex"]
 
 [params]
 

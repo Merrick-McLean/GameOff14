@@ -37,8 +37,13 @@ const BRANCH_COUNT := 2
 const MAIN_STEP := 5
 const BRANCH_STEP := 2.5
 
-#settings for camps
-const CAMP_REACH := 1000
+var wobble_freq := 0.0075 # set to 0 if no smoothening wanted
+var wobble_amp  := 25000 # set to 0 if no smoothening wanted
+
+# lake shores
+var grass_shore_thickness := 2200.0
+var rocky_shore_thickness := 3500.0 
+var rocky_color := Color(0.85, 0.82, 0.65)
 
 func _ready():
 	screen_size = get_viewport_rect().size 
@@ -75,7 +80,7 @@ func generate_voronoi():
 		spawn_campsite(i)
 		i = i+1	
 	i = 0
-	
+		
 	spawn_lakes()
 	spawn_rivers()
 	
@@ -95,19 +100,45 @@ func generate_voronoi():
 	for x in range(int(screen_size.x)):
 		for y in range(int(screen_size.y)):
 			var pixel_pos = Vector2(x, y)
-			var closest_idx = find_closest_point(pixel_pos)
+			var color: Color 
 			
-			# This is non-permanent, does not deal with transition between different ground textures
-			var tile = get_tile_for_index(closest_idx) 
-			var tx = x % tile.get_width()
-			var ty = y % tile.get_height()
-			var tile_color = tile.get_pixel(tx, ty)
+			var info = find_two_closest(pixel_pos)
+			var idx = info.closest_idx
+			var d1 = info.closest_dist
+			var d2 = info.second_dist
+			var delta = d2 - d1
 			
-			voronoi_image.set_pixel(x, y, tile_color)
+			var is_river_pixel = false
+			
+			if is_river_pixel:
+				var tile = water_tile
+				var tx = x % tile.get_width()
+				var ty = y % tile.get_height()
+				color = tile.get_pixel(tx, ty) 
+			elif idx in lakes:
+				if delta < grass_shore_thickness:
+					var tile = grass_tile
+					var tx = x % tile.get_width()
+					var ty = y % tile.get_height()
+					color = tile.get_pixel(tx, ty)
+				elif delta < rocky_shore_thickness:
+					color = rocky_color
+				else:
+					var tile = water_tile
+					var tx = x % tile.get_width()
+					var ty = y % tile.get_height()
+					color = tile.get_pixel(tx, ty)
+			else:
+				# Normal non-lake region
+				var tile = grass_tile
+				var tx = x % tile.get_width()
+				var ty = y % tile.get_height()
+				color = tile.get_pixel(tx, ty)
+				
+			voronoi_image.set_pixel(x, y, color)
 	
 	# Create texture from image
 	voronoi_texture = ImageTexture.create_from_image(voronoi_image)
-	
 	queue_redraw()
 
 func find_closest_point(pos: Vector2) -> int: #legacy for before textures
@@ -115,6 +146,9 @@ func find_closest_point(pos: Vector2) -> int: #legacy for before textures
 	var closest_idx = 0
 	for i in range(seed_points.size()):
 		var dist = pos.distance_squared_to(seed_points[i])
+		var nx := noise.get_noise_2d(pos.x * wobble_freq + seed_points[i].x * 0.01, pos.y * wobble_freq + seed_points[i].y * 0.01)
+		dist += nx * wobble_amp
+		
 		if dist < min_dist:
 			min_dist = dist
 			closest_idx = i
@@ -124,9 +158,12 @@ func find_closest_point_tree(pos: Vector2, tolerance: float = border_tol) -> Arr
 	var min_dist = INF
 	var closest_idx = -1
 	var close_indices = []
+	
 	# First pass — find the minimum distance
 	for i in range(seed_points.size()):
 		var dist = pos.distance_squared_to(seed_points[i])
+		var nx := noise.get_noise_2d(pos.x * wobble_freq + seed_points[i].x * 0.01, pos.y * wobble_freq + seed_points[i].y * 0.01)
+		dist += nx * wobble_amp
 		if dist < min_dist:
 			min_dist = dist
 			closest_idx = i
@@ -152,12 +189,6 @@ func too_close_to_camp_lake(pos: Vector2): #kill trees to close to camps and lak
 func get_color_for_index(idx: int) -> Color: # for debugging, each seed point gets a color
 	var hue = float(idx) / float(num_points)
 	return Color.from_hsv(hue, 0.7, 0.9)
-
-func get_tile_for_index(idx: int) -> Image: 
-	if idx in lakes:
-		return water_tile
-	else:
-		return grass_tile
 
 func spawn_lakes():
 	lakes.append(2) #stupid but good for now
@@ -191,8 +222,8 @@ func generate_river_network(start: int, flow: Vector2):
 			BRANCH_STEP,
 			0,
 			flow
-		) # ERROR: Invalid access of index '200' on a base object of type: 'Array'. Randomly occurs on launch (cringe but fixed)
-
+		) # ERROR: Invalid access of index '200' on a base object of type: 'Array'. Randomly occurs on launch
+		# Error: Invalid access of index '0' on a base object of type: 'Array'. Also
 		create_line2d(branch_points,  6)
 
 func generate_river_points(start: Vector2, length: int, step: float, noise_offset: int, flow: Vector2) -> Array:
@@ -213,7 +244,7 @@ func generate_river_points(start: Vector2, length: int, step: float, noise_offse
 		points.append(pos)
 	return points
 
-func create_line2d(points: Array, width := 8):
+func create_line2d(points: Array, width := 10):
 	var line := Line2D.new()
 	line.width = 10
 	line.default_color = Color.STEEL_BLUE
@@ -222,7 +253,7 @@ func create_line2d(points: Array, width := 8):
 		line.add_point(p)
 	add_child(line)
 	rivers.append(line)
-	
+
 func spawn_campsite(idx : int):
 	var point = seed_points[idx]
 	var camp = camp_scene.instantiate()
@@ -260,7 +291,19 @@ func spawn_tree(min_x, max_x, min_y, max_y):
 	add_child(tree)
 	tree.modulate = get_color_for_index(idxes[0])
 	set_camptree(tree)
-			
+
+func _draw():
+	if voronoi_texture:
+		draw_texture(voronoi_texture, Vector2.ZERO)
+	# Draw seed points if enabled
+	if show_points:
+		for point in seed_points:
+			draw_circle(point, point_size, Color.BLACK)
+			draw_circle(point, point_size - 1, Color.WHITE)
+
+func get_flow_direction(pos: Vector2) -> Vector2:
+	return -pos.normalized()
+
 func is_point_too_close(p: Vector2, a: Vector2, b: Vector2, threshold: float) -> bool:
 	var ab = b - a
 	var t = (p - a).dot(ab) / ab.length_squared()
@@ -276,3 +319,30 @@ func point_too_close_to_river(p: Vector2) -> bool:
 			if is_point_too_close(p, a, b, 15): #cahnge last nmber for river threshold
 				return true
 	return false
+
+func find_two_closest(pos: Vector2) -> Dictionary:
+	var best1 := INF
+	var best2 := INF
+	var idx1 := -1
+	var idx2 := -1
+
+	for i in range(seed_points.size()):
+		var dist = pos.distance_squared_to(seed_points[i])
+		var nx := noise.get_noise_2d(pos.x * wobble_freq + seed_points[i].x * 0.01, pos.y * wobble_freq + seed_points[i].y * 0.01)
+		dist += nx * wobble_amp
+
+		if dist < best1:
+			best2 = best1
+			idx2 = idx1
+			best1 = dist
+			idx1 = i
+		elif dist < best2:
+			best2 = dist
+			idx2 = i
+
+	return {
+		"closest_idx": idx1,
+		"second_idx": idx2,
+		"closest_dist": best1,
+		"second_dist": best2
+	}

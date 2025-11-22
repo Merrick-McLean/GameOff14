@@ -29,11 +29,6 @@ var intensity = 0.0
 var evaporate = 0.0001
 var moisture = 0.02
 
-# extinguish trackers - to be removed in favour of moisture
-var extinguish_prog = 0.0
-var extinguish_prog_loss = 0.05 # perhaps extinguish progress is lost if you stop extinguishing
-var exitnguish_prog_buffer = 5 # number of ticks before extinguish progress begins to deplete
-
 func _ready():
 	var world_timer = get_tree().get_current_scene().get_node("Level/world_timer")
 	world_timer.tick.connect(_on_tick)
@@ -142,23 +137,17 @@ func chop(): # chop tree
 		2:
 			new_texture = load("res://assets/Trees/Oak/OakTreeStump.png")
 	$Sprite2D.texture = new_texture
-	return
+	stump = true
 
+# decide whether to handle state check here or on troop side...
 func douse_water(power):
-	extinguish_prog += power
-	if extinguish_prog >= 1.0:
-		extinguish()
+	moisture += power
 
-func extinguish():
-	"""
-	do we need this still? should just be using recover now
-	"""
-	_timer.stop()
-	
-	extinguish_prog = 0.0
-	moisture = 1.0 # up for debate
-	self.modulate = Color(1, 1, 1, 1)
-	queue_redraw()
+func douse_foam(power):
+	moisture += power
+
+func douse_retardent(power):
+	moisture += power
 
 #signals for weather
 func _relax():

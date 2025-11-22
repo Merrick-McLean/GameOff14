@@ -1,13 +1,12 @@
-extends CanvasLayer
+extends Button
 
-@onready var button = $Button
 var helicopter := preload("res://units/Helicopter.tscn")
 
 func _ready():
 	"""
 	
 	"""
-	button.pressed.connect(_on_button_pressed)
+	pressed.connect(_on_button_pressed)
 
 func _on_button_pressed():
 	"""
