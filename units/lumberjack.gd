@@ -55,7 +55,7 @@ func _ready():
 	lookout_pos = Vector2(200, 200)
 	sort_targets_by_distance()
 
-# should the actual respons ena dactions like these occur on tick?
+# need to handle stopping input when on water area
 func _on_input_event(_viewport, event, _shape_idx):
 	"""
 	On input events for interaction with helicopter object
@@ -135,7 +135,6 @@ func sort_targets_by_distance():
 		return a.global_position.distance_to(lookout_pos) < b.global_position.distance_to(lookout_pos)
 	)
 
-# could make it move with the movement move_towards_point()
 func _on_hover_enter():
 	"""
 	Visuals for when we hover over lumberjack (while in free action mode)

@@ -103,7 +103,6 @@ func command_heli():
 	new_action.target_heli = self
 	action_manager.set_action_state(new_action)
 
-# could make it move with the movement move_towards_point()
 func _on_hover_enter():
 	"""
 	Visuals for when we hover on helicopter (while in free action mode)
