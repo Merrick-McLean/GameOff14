@@ -37,6 +37,8 @@ const BRANCH_COUNT := 2
 const MAIN_STEP := 5
 const BRANCH_STEP := 2.5
 
+const CAMP_REACH := 20.0
+
 var wobble_freq := 0.0075 # set to 0 if no smoothening wanted
 var wobble_amp  := 25000 # set to 0 if no smoothening wanted
 
@@ -291,15 +293,6 @@ func spawn_tree(min_x, max_x, min_y, max_y):
 	add_child(tree)
 	tree.modulate = get_color_for_index(idxes[0])
 	set_camptree(tree)
-
-func _draw():
-	if voronoi_texture:
-		draw_texture(voronoi_texture, Vector2.ZERO)
-	# Draw seed points if enabled
-	if show_points:
-		for point in seed_points:
-			draw_circle(point, point_size, Color.BLACK)
-			draw_circle(point, point_size - 1, Color.WHITE)
 
 func get_flow_direction(pos: Vector2) -> Vector2:
 	return -pos.normalized()
