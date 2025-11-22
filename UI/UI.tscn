@@ -1,15 +1,17 @@
 [gd_scene load_steps=3 format=3 uid="uid://cv3xhf0q270q6"]
 
-[ext_resource type="Texture2D" uid="uid://m5lxlbvlf67u" path="res://assets/UI/BuyHeliButton.png" id="1_6dd3c"]
+[ext_resource type="Texture2D" uid="uid://71qaln6behuc" path="res://assets/UI/UIHelicopter.png" id="1_dhe1o"]
 [ext_resource type="Script" uid="uid://be8hskrpd31vh" path="res://UI/actions/buy_heli.gd" id="2_dhe1o"]
 
 [node name="Ui" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 
-[node name="BuyHeli2" type="Button" parent="."]
+[node name="Button" type="Button" parent="."]
 layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
-icon = ExtResource("1_6dd3c")
+offset_left = 10.0
+offset_top = 125.0
+offset_right = 67.0
+offset_bottom = 181.0
+icon = ExtResource("1_dhe1o")
 script = ExtResource("2_dhe1o")

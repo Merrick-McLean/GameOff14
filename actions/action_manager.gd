@@ -5,6 +5,10 @@ extends Node2D
 @export var action_state: ActionState = null
 @export var currency := 0
 
+func _ready() -> void:
+	var action = preload("res://actions/select_action.gd").new()
+	self.set_action_state(action)
+
 func _unhandled_input(event):
 	"""
 	

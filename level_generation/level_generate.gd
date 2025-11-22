@@ -211,6 +211,7 @@ func generate_river_network(start: int, flow: Vector2):
 			0,
 			flow
 		) # ERROR: Invalid access of index '200' on a base object of type: 'Array'. Randomly occurs on launch
+		# Error: Invalid access of index '0' on a base object of type: 'Array'. Also
 		create_line2d(branch_points,  6)
 
 func generate_river_points(start: Vector2, length: int, step: float, noise_offset: int, flow: Vector2) -> Array:
