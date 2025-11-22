@@ -20,7 +20,7 @@ func _process(delta):
 	else:
 		pan_velocity = Vector2.ZERO
 
-func _unhandled_input(event):
+func _input(event):
 	# Handle zoom with mouse wheel
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_RIGHT:

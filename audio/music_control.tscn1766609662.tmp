@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://ccclk5it05ktd"]
+
+[ext_resource type="AudioStream" uid="uid://dgnd7ofiuu7s1" path="res://waves - title theme v1.wav" id="1_oinec"]
+[ext_resource type="Script" uid="uid://c1hc2r4xl554k" path="res://audio/audio_stream_player.gd" id="2_hevmy"]
+
+[node name="music_control" type="Node2D"]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_oinec")
+autoplay = true
+script = ExtResource("2_hevmy")

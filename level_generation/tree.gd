@@ -4,8 +4,6 @@ var _timer: Timer
 
 # fire capabilities
 var fire_reach = 30
-@export var fire_spread = 0.99
-
 # tree references
 var tree_type
 var neighbors = []
@@ -16,15 +14,22 @@ var camp_tree = false
 @export var camp_fire = 0.99
 
 # fire states
-var on_fire = false
-var burnt = false
-var protected = false # to mark when a tree has been foamed by a troop
+enum state {
+	alive,
+	recoverable,
+	burnt
+}
+var on_fire
+
+var current_state: state = state.alive
 
 # burn stats
-var burn_rate = 0.01
-var burn_interval = 10
-var moisture = 1.0 
-var hull = 1.0
+var burn_rate = 0.1
+var burn_spread_chance = 0.055
+var hull = 100.0
+
+var evaporate = 0.00001
+var moisture = 0.1
 
 # extinguish trackers - to be removed in favour of moisture
 var extinguish_prog = 0.0
@@ -36,33 +41,41 @@ func _ready():
 	world_timer.tick.connect(_on_tick)
 	
 	var weather = get_tree().get_current_scene().get_node("Level/weather_control")
+	weather.relax.connect(_relax)
 	weather.wet_wave.connect(_wet_wave) 
 	#weather.storm_wave.connect(_storm_wave) 
-	#weather.heat_wave.connect(_heat_wave) 
+	weather.heat_wave.connect(_heat_wave) 
 	
 func setup():
 	on_fire = false
-	burnt = false
+	if camp_tree:
+		ignite()
 	for tree in other_trees:
 		if is_within_distance(self, tree, fire_reach):
 			neighbors.append(tree)
 
 func _on_tick():
-	if burnt: 
-		return
-	if on_fire:
-		# Merrick (note to self): should be reducing extinguish progress if not currently being extinguished after short delay
-		return 
-	if moisture <= 0:
-		self.ignite()
-	elif camp_tree:
-		if randf() > camp_fire:
-			self.ignite()
-	else:
-		for tree in neighbors:
-			if tree.on_fire:
-				moisture -= burn_rate 
-
+	match current_state:
+		state.alive:
+			for tree in neighbors:
+				if tree.on_fire:
+					moisture -= evaporate
+					if randf() > 1 - burn_spread_chance + moisture:
+						ignite()
+		state.recoverable:
+			if hull < 0:
+				burn_out()
+			elif hull > 0 and moisture > burn_rate:
+				recover()
+			else:
+				hull -= max(0.01, burn_rate - moisture)
+				for tree in neighbors:
+					if tree.on_fire:
+						moisture -= evaporate
+		state.burnt:
+			pass
+	
+	
 func is_within_distance(node_a: Node2D, node_b: Node2D, radius: float) -> bool:
 	var distance = node_a.global_position.distance_to(node_b.global_position)
 	return distance <= radius
@@ -70,18 +83,38 @@ func is_within_distance(node_a: Node2D, node_b: Node2D, radius: float) -> bool:
 func ignite():
 	self.modulate = Color(1,0,0)
 	on_fire = true
+	current_state = state.recoverable
 	queue_redraw()
-	_timer = Timer.new()
-	# i think we could add some variance to burn interval as well
-	# this could make the game feel more dynamic, if we dont use moisture as HP it could factor into this as well!
-	_timer.wait_time = burn_interval 
-	_timer.one_shot = false
-	_timer.autostart = true
 
-	# connect the timer's timeout signal to tick signal
-	_timer.timeout.connect(_on_timer_timeout)
-	add_child(_timer)
+func recover():
+	on_fire = false
+	self.modulate = Color(1,1,1)
+	var new_texture
+	match tree_type:
+		0:
+			new_texture = load("res://assets/Trees/Pine/PineTree.png")
+		1:
+			new_texture = load("res://assets/Trees/Birch/BirchTree.png")
+		2:
+			new_texture = load("res://assets/Trees/Oak/OakTree.png")
+	$Sprite2D.texture = new_texture
+	queue_redraw()
+			
+func burn_out():
+	on_fire = false
+	current_state = state.burnt
+	var new_texture
 
+	match tree_type:
+		0:
+			new_texture = load("res://assets/Trees/Pine/PineTreeBurnt.png")
+		1:
+			new_texture = load("res://assets/Trees/Birch/BirchTreeBurnt.png")
+		2:
+			new_texture = load("res://assets/Trees/Oak/OakTreeBurnt.png")
+	$Sprite2D.texture = new_texture
+	queue_redraw()
+		
 func set_texture(idx : int):
 	idx = idx%3
 	tree_type = idx
@@ -95,22 +128,7 @@ func set_texture(idx : int):
 			new_texture = load("res://assets/Trees/Oak/OakTree.png")
 	$Sprite2D.texture = new_texture
 
-func burn_out():
-	on_fire = false
-	burnt = true
-	var new_texture
-	match tree_type:
-		0:
-			new_texture = load("res://assets/Trees/Pine/PineTreeBurnt.png")
-		1:
-			new_texture = load("res://assets/Trees/Birch/BirchTreeBurnt.png")
-		2:
-			new_texture = load("res://assets/Trees/Oak/OakTreeBurnt.png")
-	$Sprite2D.texture = new_texture
 
-func _on_timer_timeout():
-	burn_out()
-	queue_redraw()
 
 func _draw() -> void:
 	if on_fire:
@@ -141,5 +159,12 @@ func extinguish():
 	self.modulate = Color(1, 1, 1, 1)
 	queue_redraw()
 
+#signals for weather
+func _relax():
+	evaporate = 0.00001
+
 func _wet_wave():
-	moisture += 1.0
+	moisture += 0.1
+	
+func _heat_wave():
+	evaporate *= 1.5
