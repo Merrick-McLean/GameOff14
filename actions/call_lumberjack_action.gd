@@ -41,10 +41,9 @@ func handle_input(event: InputEvent) -> void:
 			preview_line.points = [start_point, start_point]
 			preview_line.visible = true
 		else:
-			# clear preview line
 			preview_line.points = []
 			var end_point = get_limited_point(mouse_pos)
-			var tree_list = create_firebreak(start_point, end_point)
+			var tree_list = create_target_line(start_point, end_point)
 			start_point_found = false
 			
 			target_lumberjack.target_list = tree_list
@@ -58,8 +57,10 @@ func handle_input(event: InputEvent) -> void:
 		var mouse_pos = get_global_mouse_position()
 		var end_point = get_limited_point(mouse_pos)
 		preview_line.points = [start_point, end_point]
+	# add very short rectangle when starting point hasnt been selected, and also set same size rectangle to be minimum selection size
+	# add handling so that selected area includes at least one tree - also solves water issue
 
-func create_firebreak(start: Vector2, end: Vector2) -> Array:
+func create_target_line(start: Vector2, end: Vector2) -> Array:
 	var level = get_tree().get_current_scene().get_node("Level")
 	
 	var space_state = level.get_world_2d().direct_space_state

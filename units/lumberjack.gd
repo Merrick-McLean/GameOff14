@@ -70,7 +70,7 @@ func _physics_process(delta: float) -> void:
 	Logic for what the Lumberjack current action is
 	either moving to tree or chopping tree
 	"""
-	z_index = position.y
+	z_index = int(position.y)
 	if chopping:
 		return
 	
