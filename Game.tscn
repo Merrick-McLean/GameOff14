@@ -20,10 +20,12 @@ script = ExtResource("1_sb48q")
 [node name="action_manager" type="Node2D" parent="."]
 script = ExtResource("3_u44n3")
 
-[node name="UI" parent="." instance=ExtResource("1_u44n3")]
+[node name="music_control" parent="." instance=ExtResource("5_t88pq")]
+
+[node name="UIContainer" type="CanvasLayer" parent="."]
+
+[node name="UI" parent="UIContainer" instance=ExtResource("1_u44n3")]
 offset_left = 1461.8594
 offset_top = 176.46997
 offset_right = 1461.8594
 offset_bottom = 176.46997
-
-[node name="music_control" parent="." instance=ExtResource("5_t88pq")]

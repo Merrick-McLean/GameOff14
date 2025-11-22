@@ -1,9 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://cv3xhf0q270q6"]
+[gd_scene load_steps=3 format=3 uid="uid://cv3xhf0q270q6"]
 
-[ext_resource type="PackedScene" uid="uid://dwflwc7wux6h4" path="res://UI/actions/buy_heli.tscn" id="1_6dd3c"]
+[ext_resource type="Texture2D" uid="uid://m5lxlbvlf67u" path="res://assets/UI/BuyHeliButton.png" id="1_6dd3c"]
+[ext_resource type="Script" uid="uid://be8hskrpd31vh" path="res://UI/actions/buy_heli.gd" id="2_dhe1o"]
 
 [node name="Ui" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 
-[node name="BuyHeli" parent="." instance=ExtResource("1_6dd3c")]
+[node name="BuyHeli2" type="Button" parent="."]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+icon = ExtResource("1_6dd3c")
+script = ExtResource("2_dhe1o")
