@@ -36,8 +36,10 @@ offset_right = 104.0
 offset_bottom = 740.0
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
-offset_left = 1.0
-offset_top = -40.0
-offset_right = 306.0
+offset_left = 5.0
+offset_top = -65.0
+offset_right = 505.0
+offset_bottom = -20.0
+theme_override_font_sizes/normal_font_size = 28
 text = "Unnamed Park"
 script = ExtResource("1_sb48q")
