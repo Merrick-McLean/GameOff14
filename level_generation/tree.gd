@@ -22,6 +22,9 @@ enum state {
 }
 var current_state: state = state.alive
 
+# additional state which is exclusive with alive
+var protected = false
+
 # burn stats
 var burn_rate = 0.005
 var burn_spread_chance = 0.0005

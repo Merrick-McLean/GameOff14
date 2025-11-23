@@ -45,12 +45,14 @@ const BRANCH_STEP := 0.5
 
 const CAMP_REACH := 100
 
-var wobble_freq := 0.0075 # set to 0 if no smoothening wanted
-var wobble_amp  := 25000 # set to 0 if no smoothening wanted
+const CAMP_REACH := 20.0
+
+var wobble_freq := 0.01 # set to 0 if no smoothening wanted
+var wobble_amp  := 20000 # 30000 or higher? # set to 0 if no smoothening wanted
 
 # lake shores
-var grass_shore_thickness := 2200.0
-var rocky_shore_thickness := 3500.0 
+var grass_shore_thickness := 1000.0
+var rocky_shore_thickness := 2200.0 
 var rocky_color := Color(0.85, 0.82, 0.65)
 
 func _ready():

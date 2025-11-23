@@ -70,7 +70,7 @@ func _physics_process(delta: float) -> void:
 	Logic for what the Lumberjack current action is
 	either moving to tree or chopping tree
 	"""
-	z_index = position.y
+	z_index = int(position.y)
 	if chopping:
 		return
 	
@@ -79,15 +79,15 @@ func _physics_process(delta: float) -> void:
 		return
 	
 	# get position to target tree (could sort or something so they are in a line before?
-	var target = target_list[0]
-	var target_pos = target.global_position
+	var tree = target_list[0]
+	var tree_pos = tree.global_position
 	
-	if target.on_fire or target.stump:
+	if not tree.current_state == tree.state.on_fire:
 		target_list.pop_front()	
-	elif global_position.distance_to(target_pos) > 1.0:
-		move_towards_point(delta, target_pos)
+	elif global_position.distance_to(tree_pos) > 1.0:
+		move_towards_point(delta, tree_pos)
 	else:
-		chop_tree(target)
+		chop_tree(tree)
 
 func chop_tree(target_tree):
 	chopping = true
@@ -114,6 +114,7 @@ func move_towards_point(delta: float, point: Vector2) -> void:
 	"""
 	Subroutine to move for path finding
 	Switch to pathfinding and adjust movement behaviour for troops (currently moves like heli)
+	Will need some support functions for identifying lake areas (and identifying rivers for water troops) for pathfinding 
 	"""
 	var direction := point - global_position
 	var distance = direction.length()

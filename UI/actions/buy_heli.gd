@@ -7,6 +7,7 @@ func _ready():
 	
 	"""
 	pressed.connect(_on_button_pressed)
+	tooltip_text = "Helicopter"
 
 func _on_button_pressed():
 	"""
