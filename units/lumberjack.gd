@@ -114,6 +114,7 @@ func move_towards_point(delta: float, point: Vector2) -> void:
 	"""
 	Subroutine to move for path finding
 	Switch to pathfinding and adjust movement behaviour for troops (currently moves like heli)
+	Will need some support functions for identifying lake areas (and identifying rivers for water troops) for pathfinding 
 	"""
 	var direction := point - global_position
 	var distance = direction.length()

@@ -1,0 +1,138 @@
+[gd_scene load_steps=4 format=3 uid="uid://cv3xhf0q270q6"]
+
+[ext_resource type="Texture2D" uid="uid://71qaln6behuc" path="res://assets/UI/UIHelicopter.png" id="1_dhe1o"]
+[ext_resource type="Script" uid="uid://be8hskrpd31vh" path="res://UI/actions/buy_heli.gd" id="2_dhe1o"]
+[ext_resource type="Script" uid="uid://baoxh5mr38un6" path="res://UI/actions/buy_lumberjack.gd" id="3_q0uhn"]
+
+[node name="UIButtons" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="WaterTroopButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 150.0
+offset_right = 85.0
+offset_bottom = 210.0
+icon = ExtResource("1_dhe1o")
+
+[node name="WaterTroopCost" type="RichTextLabel" parent="WaterTroopButton"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 36.0
+offset_right = 49.0
+offset_bottom = 50.0
+theme_override_colors/default_color = Color(1, 1, 0.47058824, 1)
+theme_override_font_sizes/normal_font_size = 9
+text = "$50"
+
+[node name="FoamTroopButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 100.0
+offset_top = 150.0
+offset_right = 160.0
+offset_bottom = 210.0
+icon = ExtResource("1_dhe1o")
+
+[node name="FoamTroopCost" type="RichTextLabel" parent="FoamTroopButton"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 36.0
+offset_right = 49.0
+offset_bottom = 50.0
+theme_override_colors/default_color = Color(1, 1, 0.47058824, 1)
+theme_override_font_sizes/normal_font_size = 9
+text = "$150"
+
+[node name="HeliButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 300.0
+offset_right = 85.0
+offset_bottom = 360.0
+icon = ExtResource("1_dhe1o")
+script = ExtResource("2_dhe1o")
+
+[node name="HeliCost" type="RichTextLabel" parent="HeliButton"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 36.0
+offset_right = 49.0
+offset_bottom = 50.0
+theme_override_colors/default_color = Color(1, 1, 0.47058824, 1)
+theme_override_font_sizes/normal_font_size = 9
+text = "$200"
+
+[node name="PlaneButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 100.0
+offset_top = 300.0
+offset_right = 160.0
+offset_bottom = 360.0
+icon = ExtResource("1_dhe1o")
+
+[node name="PlaneCost" type="RichTextLabel" parent="PlaneButton"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 36.0
+offset_right = 49.0
+offset_bottom = 50.0
+theme_override_colors/default_color = Color(1, 1, 0.47058824, 1)
+theme_override_font_sizes/normal_font_size = 9
+text = "$500"
+
+[node name="LumberjackButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 225.0
+offset_right = 85.0
+offset_bottom = 285.0
+icon = ExtResource("1_dhe1o")
+script = ExtResource("3_q0uhn")
+
+[node name="LumberjackCost" type="RichTextLabel" parent="LumberjackButton"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 36.0
+offset_right = 49.0
+offset_bottom = 50.0
+theme_override_colors/default_color = Color(1, 1, 0.47058824, 1)
+theme_override_font_sizes/normal_font_size = 9
+text = "$75
+"
+
+[node name="RangerButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 100.0
+offset_top = 225.0
+offset_right = 160.0
+offset_bottom = 285.0
+icon = ExtResource("1_dhe1o")
+
+[node name="RangerCost" type="RichTextLabel" parent="RangerButton"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 36.0
+offset_right = 49.0
+offset_bottom = 50.0
+theme_override_colors/default_color = Color(1, 1, 0.47058824, 1)
+theme_override_font_sizes/normal_font_size = 9
+text = "$125"
+
+[node name="CloseCampButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 375.0
+offset_right = 85.0
+offset_bottom = 435.0
+icon = ExtResource("1_dhe1o")
+
+[node name="CloseCampCost" type="RichTextLabel" parent="CloseCampButton"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 36.0
+offset_right = 49.0
+offset_bottom = 50.0
+theme_override_colors/default_color = Color(1, 1, 0.47058824, 1)
+theme_override_font_sizes/normal_font_size = 9
+text = "$0"
