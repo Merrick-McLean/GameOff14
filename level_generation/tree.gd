@@ -17,13 +17,12 @@ var camp_tree = false
 enum state {
 	alive,
 	on_fire,
-	burnt
+	burnt,
+	stump
 }
 var current_state: state = state.alive
 
-# unit logic refs
-var stump = false
-var on_fire = false
+# additional state which is exclusive with alive
 var protected = false
 
 # burn stats
@@ -141,7 +140,7 @@ func chop(): # chop tree
 		2:
 			new_texture = load("res://assets/Trees/Oak/OakTreeStump.png")
 	$Sprite2D.texture = new_texture
-	stump = true
+	current_state = state.stump
 
 # decide whether to handle state check here or on troop side...
 func douse_water(power):

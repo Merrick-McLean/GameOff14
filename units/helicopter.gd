@@ -159,7 +159,7 @@ func drop_water() -> void: # could use updates for efficiency
 	var results = space_state.intersect_shape(params, max_trees)
 	for result in results:
 		var tree = result.collider.get_parent()
-		if tree and tree.has_method("douse_water") and tree.on_fire:
+		if tree and tree.has_method("douse_water") and tree.current_state == tree.state.on_fire:
 			tree.douse_water(water_power)
 			water_dropped = true
 	
