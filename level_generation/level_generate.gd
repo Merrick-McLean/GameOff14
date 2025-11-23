@@ -43,9 +43,7 @@ const BRANCH_COUNT := 2
 const MAIN_STEP := 1
 const BRANCH_STEP := 0.5
 
-const CAMP_REACH := 100
-
-const CAMP_REACH := 20.0
+const CAMP_REACH := 1500
 
 var wobble_freq := 0.01 # set to 0 if no smoothening wanted
 var wobble_amp  := 20000 # 30000 or higher? # set to 0 if no smoothening wanted
@@ -326,6 +324,7 @@ func set_camptree(tree): #calculate which trees are next too camps and can be li
 		var dist = tree.position.distance_squared_to(camp.position)
 		if dist < (campsite_clearing + CAMP_REACH): # may need to review this
 			tree.camp_tree  = true
+			camp.trees.append(tree)
 
 func spawn_tree(min_x, max_x, min_y, max_y):
 	#spawn each tree and add to seed group
