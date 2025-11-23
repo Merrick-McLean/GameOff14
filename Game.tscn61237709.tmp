@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://v25q5yp8st2y"]
+
+[ext_resource type="Script" uid="uid://cw7t1m5c8rr0" path="res://park_name/park_name_gen.gd" id="1_sb48q"]
+[ext_resource type="PackedScene" uid="uid://cv3xhf0q270q6" path="res://UI/UI.tscn" id="1_u44n3"]
+[ext_resource type="PackedScene" uid="uid://nf7ensfke5r2" path="res://level.tscn" id="1_wbfu4"]
+[ext_resource type="Script" uid="uid://dbl0sh3lkwanq" path="res://actions/action_manager.gd" id="3_u44n3"]
+[ext_resource type="PackedScene" uid="uid://ccclk5it05ktd" path="res://audio/music_control.tscn" id="5_t88pq"]
+
+[node name="Game" type="Node2D"]
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 1.0
+offset_top = -40.0
+offset_right = 306.0
+text = "Unnamed Park"
+script = ExtResource("1_sb48q")
+
+[node name="Level" parent="." instance=ExtResource("1_wbfu4")]
+
+[node name="music_control" parent="." instance=ExtResource("5_t88pq")]
+
+[node name="action_manager" type="Node2D" parent="."]
+script = ExtResource("3_u44n3")
+
+[node name="UIContainer" type="CanvasLayer" parent="."]
+
+[node name="UI" parent="UIContainer" instance=ExtResource("1_u44n3")]
+offset_left = -200.0
+offset_right = -200.0

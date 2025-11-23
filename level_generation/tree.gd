@@ -17,7 +17,8 @@ var camp_tree = false
 enum state {
 	alive,
 	on_fire,
-	burnt
+	burnt,
+	stump
 }
 var current_state: state = state.alive
 
@@ -55,7 +56,6 @@ func _on_tick():
 						ignite()
 		state.on_fire: 
 			intensity = sin(hull*PI + 0.3)*3/5 + 0.4 - max(moisture, 0)
-			print(intensity)
 			if intensity <= 0:
 				if hull > 0:
 					recover()
@@ -68,7 +68,7 @@ func _on_tick():
 			for tree in neighbors:
 				if tree.current_state == state.on_fire:
 					moisture -= evaporate
-		state.burnt: 
+		state.burnt or state.stump: 
 			pass
 	
 	
@@ -137,7 +137,7 @@ func chop(): # chop tree
 		2:
 			new_texture = load("res://assets/Trees/Oak/OakTreeStump.png")
 	$Sprite2D.texture = new_texture
-	stump = true
+	current_state = state.stump
 
 # decide whether to handle state check here or on troop side...
 func douse_water(power):

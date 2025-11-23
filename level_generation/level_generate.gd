@@ -5,10 +5,16 @@ extends Node2D
 
 var grass_tile := Image.load_from_file("res://assets/Biome/TextureGrassland.png")
 var water_tile := Image.load_from_file("res://assets/Biome/TextureWater.png")
+var water_Texture := preload("res://assets/Biome/TextureWater.png") # for rivers
+
+var grass_w = grass_tile.get_width()
+var grass_h = grass_tile.get_height()
+var water_w = water_tile.get_width()
+var water_h = water_tile.get_height()
 
 var noise := FastNoiseLite.new() # for river movement
-@export var num_points: int = 50 #how many different groups
-@export var show_points: bool = false #for testing
+@export var num_points: int = 25 #how many different groups
+@export var show_points: bool = true #for testing
 @export var point_size: float = 5.0 #for testing
 @export var num_trees: int = 5000 
 @export var num_campsites: int = 2
@@ -32,10 +38,12 @@ var voronoi_texture: ImageTexture
 var polygon_nodes: Array = []
 
 # Settings for rivers
-const MAIN_LENGTH := 100
+const MAIN_LENGTH := 500
 const BRANCH_COUNT := 2
-const MAIN_STEP := 5
-const BRANCH_STEP := 2.5
+const MAIN_STEP := 1
+const BRANCH_STEP := 0.5
+
+const CAMP_REACH := 100
 
 var wobble_freq := 0.0075 # set to 0 if no smoothening wanted
 var wobble_amp  := 25000 # set to 0 if no smoothening wanted
@@ -64,82 +72,119 @@ func generate_voronoi():
 	# Generate random seed points
 	seed_points.clear()
 	seed_tree_groups.clear()
-	for i in range(num_points):
-		var point = Vector2(
-			randf() * screen_size.x,
-			randf() * screen_size.y
-		)
-		seed_points.append(point)
-		seed_tree_groups.append([])
-	var i = 0
-	var min_x = 0.0
-	var max_x = screen_size.x
-	var min_y = 0.0
-	var max_y = screen_size.y
-	while (i<num_campsites):
-		spawn_campsite(i)
-		i = i+1	
-	i = 0
+	seed_points.resize(num_points)
+	seed_tree_groups.resize(num_points)
+
+	for i in num_points:
+		seed_points[i] = Vector2(randf() * screen_size.x, randf() * screen_size.y)
+		seed_tree_groups[i] = []
 		
+	#  spawn campsites, lakes, rivers 
+	for i in num_campsites:
+		spawn_campsite(i)
 	spawn_lakes()
 	spawn_rivers()
-	
-	while(i<num_trees):
-		i = i+1
-		spawn_tree(min_x, max_x, min_y, max_y)
+	#  spawn trees 
+	for i in num_trees:
+		spawn_tree(0.0, screen_size.x, 0.0, screen_size.y)
+
+	# Build tree adjacency (might wanna tink bout using kd)
 	for tree_group in seed_tree_groups:
 		for tree in tree_group:
-			tree.other_trees = tree.other_trees + tree_group
+			tree.other_trees += tree_group  
+
+	#  tree setup  
 	for tree in trees:
 		tree.setup()
-	trees[0].ignite()
-	# Create the Voronoi diagram for debugging ---------
-	voronoi_image = Image.create(int(screen_size.x), int(screen_size.y), false, Image.FORMAT_RGB8)
+	trees[0].ignite() #test
+
+	# Create Voronoi image
+	var width := int(screen_size.x)
+	var height := int(screen_size.y)
 	
-	# For each pixel, find the closest seed point 
-	for x in range(int(screen_size.x)):
-		for y in range(int(screen_size.y)):
-			var pixel_pos = Vector2(x, y)
-			var color: Color 
-			
-			var info = find_two_closest(pixel_pos)
-			var idx = info.closest_idx
-			var d1 = info.closest_dist
-			var d2 = info.second_dist
-			var delta = d2 - d1
-			
-			var is_river_pixel = false
-			
-			if is_river_pixel:
-				var tile = water_tile
-				var tx = x % tile.get_width()
-				var ty = y % tile.get_height()
-				color = tile.get_pixel(tx, ty) 
-			elif idx in lakes:
+	var thread_count := 4  # avrg num of cores on bad pc
+	var slice_width :=  width / thread_count #need this to be int, no parital pixels
+	#all the diffrent threads
+	var threads = []
+	#start making threads
+	for i in range(thread_count):
+		var x_start := i * slice_width
+		var x_end: int
+		if i == thread_count - 1:
+			x_end = width
+		else:
+			x_end = x_start + slice_width
+
+		var thread := Thread.new()
+		threads.append(thread)
+
+		var args = [x_start, x_end, width, height]
+		var callable = Callable(self, "_generate_voronoi_slice").bindv(args)
+		thread.start(callable)
+		
+	var slices: Array[Image] = []
+	for i in range(thread_count):
+		var slice_img: Image = threads[i].wait_to_finish() #collect image parts after threads are done
+		slices.append(slice_img)
+		
+	var final_img := Image.create(width, height, false, Image.FORMAT_RGB8)
+	
+	for i in range(thread_count):
+		var slice_img := slices[i]
+
+		var x_start := i * slice_width
+		var x_end: int
+		if i == thread_count - 1:
+			x_end = width
+		else:
+			x_end = x_start + slice_width
+		var region_width := x_end - x_start
+
+		final_img.blit_rect(
+			slice_img, 
+			Rect2i(Vector2i(x_start, 0), Vector2i(region_width, height)), 
+			Vector2i(x_start, 0)
+	) #concatinate image parts
+	
+	voronoi_texture = ImageTexture.create_from_image(final_img) #draw!!!!!
+	queue_redraw()
+
+
+func _generate_voronoi_slice(x_start: int, x_end: int, width: int, height: int) -> Image: #thread function
+	var img := Image.create(width, height, false, Image.FORMAT_RGB8)
+
+	for x in range(x_start, x_end):
+		for y in range(height):
+			var pos := Vector2(x, y)
+			var info = find_two_closest(pos)
+			var delta: float = info.second_dist - info.closest_dist
+
+			var color: Color
+
+			if info.closest_idx in lakes:
 				if delta < grass_shore_thickness:
-					var tile = grass_tile
-					var tx = x % tile.get_width()
-					var ty = y % tile.get_height()
-					color = tile.get_pixel(tx, ty)
+					color = sample_grass_tile(x, y)
 				elif delta < rocky_shore_thickness:
 					color = rocky_color
 				else:
-					var tile = water_tile
-					var tx = x % tile.get_width()
-					var ty = y % tile.get_height()
-					color = tile.get_pixel(tx, ty)
+					color = sample_water_tile(x, y)
 			else:
-				# Normal non-lake region
-				var tile = grass_tile
-				var tx = x % tile.get_width()
-				var ty = y % tile.get_height()
-				color = tile.get_pixel(tx, ty)
-				
-			voronoi_image.set_pixel(x, y, color)
+				color = sample_grass_tile(x, y)
+
+			img.set_pixelv(Vector2i(x, y), color)
+
+	return img
 	
-	# Create texture from image
-	voronoi_texture = ImageTexture.create_from_image(voronoi_image)
-	queue_redraw()
+
+func sample_water_tile(x, y): #for cleanup
+	var tx = x % water_w
+	var ty = y % water_h
+	return water_tile.get_pixel(tx, ty)
+	
+func sample_grass_tile(x, y): #for cleanup
+	var tx = x % water_w
+	var ty = y % water_h
+	return grass_tile.get_pixel(tx, ty)
 
 func find_closest_point(pos: Vector2) -> int: #legacy for before textures
 	var min_dist = INF
@@ -159,7 +204,7 @@ func find_closest_point_tree(pos: Vector2, tolerance: float = border_tol) -> Arr
 	var closest_idx = -1
 	var close_indices = []
 	
-	# First pass — find the minimum distance
+	# First pass find the minimum distance
 	for i in range(seed_points.size()):
 		var dist = pos.distance_squared_to(seed_points[i])
 		var nx := noise.get_noise_2d(pos.x * wobble_freq + seed_points[i].x * 0.01, pos.y * wobble_freq + seed_points[i].y * 0.01)
@@ -196,14 +241,23 @@ func spawn_lakes():
 	
 func spawn_rivers():
 	var flow_dir = get_direction(seed_points[2], seed_points[3]) #get a direction so both rivers flow "down"
-	generate_river_network(2, flow_dir)
-	generate_river_network(3, flow_dir)
+	var threads = []
+	var river_seeds = [2,3]
+	for i in range(river_seeds.size()):
+		var thread := Thread.new()
+		threads.append(thread)
+		var args = [river_seeds[i], flow_dir]
+		var callable = Callable(self, "_generate_river_network").bindv(args)
+		thread.start(callable)
+		
+	for i in range(river_seeds.size()):
+		threads[i].wait_to_finish()
 	
 func get_direction(start1: Vector2, start2: Vector2):
 	var flow = -start2-start1
 	return flow.normalized()
 
-func generate_river_network(start: int, flow: Vector2):
+func _generate_river_network(start: int, flow: Vector2):
 	var main_points = generate_river_points(
 		seed_points[start],
 		MAIN_LENGTH,
@@ -247,13 +301,16 @@ func generate_river_points(start: Vector2, length: int, step: float, noise_offse
 func create_line2d(points: Array, width := 10):
 	var line := Line2D.new()
 	line.width = 10
-	line.default_color = Color.STEEL_BLUE
 	line.z_index = line.global_position.y # sets rivers to be ordered on their y for illusion 
 	for p in points:
 		line.add_point(p)
-	add_child(line)
+		
+	line.texture = water_Texture
+	line.texture_mode = Line2D.LINE_TEXTURE_TILE  # best for rivers
+	line.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
+	call_deferred("add_child", line)
 	rivers.append(line)
-
+	
 func spawn_campsite(idx : int):
 	var point = seed_points[idx]
 	var camp = camp_scene.instantiate()
@@ -291,15 +348,6 @@ func spawn_tree(min_x, max_x, min_y, max_y):
 	add_child(tree)
 	tree.modulate = get_color_for_index(idxes[0])
 	set_camptree(tree)
-
-func _draw():
-	if voronoi_texture:
-		draw_texture(voronoi_texture, Vector2.ZERO)
-	# Draw seed points if enabled
-	if show_points:
-		for point in seed_points:
-			draw_circle(point, point_size, Color.BLACK)
-			draw_circle(point, point_size - 1, Color.WHITE)
 
 func get_flow_direction(pos: Vector2) -> Vector2:
 	return -pos.normalized()
