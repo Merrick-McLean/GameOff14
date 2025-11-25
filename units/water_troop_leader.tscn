@@ -1,0 +1,56 @@
+[gd_scene load_steps=9 format=3 uid="uid://cpi3tj44n0gsc"]
+
+[ext_resource type="Texture2D" uid="uid://w84dc5k153do" path="res://assets/Troops/FireFighter.png" id="1_fkklu"]
+[ext_resource type="Script" uid="uid://dvh1unqmkvaso" path="res://units/water_troop_leader.gd" id="1_mr0cg"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cruy2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_fkklu")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_by70d"]
+radius = 200.0
+
+[sub_resource type="Gradient" id="Gradient_71si8"]
+offsets = PackedFloat32Array(0, 0.9927536)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_mr0cg"]
+gradient = SubResource("Gradient_71si8")
+width = 25
+
+[sub_resource type="Gradient" id="Gradient_gdyuq"]
+colors = PackedColorArray(0.004390102, 0.17406863, 0.77961886, 1, 0.17218715, 0.50887936, 0.7612614, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_j7wuu"]
+gradient = SubResource("Gradient_gdyuq")
+width = 25
+
+[node name="WaterTroopLeader" type="Node2D"]
+script = ExtResource("1_mr0cg")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_cruy2")
+animation = &"walk"
+
+[node name="Area2D" type="Area2D" parent="."]
+scale = Vector2(0.25, 0.25)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1, 57)
+shape = SubResource("CircleShape2D_by70d")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+offset_left = -11.0
+offset_top = 14.0
+offset_right = 14.0
+offset_bottom = 15.0
+scale = Vector2(1, 1.75)
+texture_under = SubResource("GradientTexture1D_mr0cg")
+texture_progress = SubResource("GradientTexture1D_j7wuu")

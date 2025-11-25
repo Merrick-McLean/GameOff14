@@ -69,20 +69,20 @@ func create_target_line(start: Vector2, end: Vector2) -> Array:
 	firebreak_shape.extents = Vector2(length * 0.5, target_lumberjack.thickness * 0.5)
 	var mid_point = (start + end) * 0.5
 	var angle = (end - start).angle()
-
+	
 	var params = PhysicsShapeQueryParameters2D.new()
 	params.shape = firebreak_shape
 	params.transform = Transform2D(angle, mid_point)
 	params.collide_with_areas = false
 	params.collide_with_bodies = true
-
+	
 	var results = space_state.intersect_shape(params, target_lumberjack.max_trees)
-
+	
 	var tree_list = []
 	for result in results:
-		var collider = result.collider.get_parent()
-		if collider and collider.has_method("chop"):
-			tree_list.append(collider)
+		var tree = result.collider.get_parent()
+		if tree and tree.has_method("chop"):
+			tree_list.append(tree)
 	return tree_list
 
 func get_limited_point(target_point: Vector2) -> Vector2:

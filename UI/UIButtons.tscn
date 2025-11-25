@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://cv3xhf0q270q6"]
+[gd_scene load_steps=6 format=3 uid="uid://cv3xhf0q270q6"]
 
 [ext_resource type="Texture2D" uid="uid://71qaln6behuc" path="res://assets/UI/UIHelicopter.png" id="1_dhe1o"]
+[ext_resource type="Script" uid="uid://bh3dhbbtrcdw3" path="res://UI/actions/buy_water_troops.gd" id="2_cnqyk"]
 [ext_resource type="Script" uid="uid://be8hskrpd31vh" path="res://UI/actions/buy_heli.gd" id="2_dhe1o"]
 [ext_resource type="Script" uid="uid://d1ihrbbbb4g3v" path="res://UI/actions/buy_plane.gd" id="3_mvqbr"]
 [ext_resource type="Script" uid="uid://baoxh5mr38un6" path="res://UI/actions/buy_lumberjack.gd" id="3_q0uhn"]
@@ -16,6 +17,7 @@ offset_top = 150.0
 offset_right = 85.0
 offset_bottom = 210.0
 icon = ExtResource("1_dhe1o")
+script = ExtResource("2_cnqyk")
 
 [node name="WaterTroopCost" type="RichTextLabel" parent="WaterTroopButton"]
 layout_mode = 0

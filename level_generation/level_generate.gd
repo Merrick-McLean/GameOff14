@@ -14,7 +14,7 @@ var water_h = water_tile.get_height()
 
 var noise := FastNoiseLite.new() # for river movement
 @export var num_points: int = 25 #how many different groups
-@export var show_points: bool = true #for testing
+@export var show_points: bool = false  #for testing
 @export var point_size: float = 5.0 #for testing
 @export var num_trees: int = 5000 
 @export var num_campsites: int = 2
@@ -45,12 +45,11 @@ const BRANCH_STEP := 0.5
 
 const CAMP_REACH := 1500
 
+# LAKE PARAMETERS
 var wobble_freq := 0.01 # set to 0 if no smoothening wanted
-var wobble_amp  := 20000 # 30000 or higher? # set to 0 if no smoothening wanted
-
-# lake shores
+var wobble_amp  := 20000 # set to 0 if no smoothening wanted
 var grass_shore_thickness := 1000.0
-var rocky_shore_thickness := 2200.0 
+var rocky_shore_thickness := 2200.0 # adjust this, or adjust the function that calculates with this
 var rocky_color := Color(0.85, 0.82, 0.65)
 
 func _ready():

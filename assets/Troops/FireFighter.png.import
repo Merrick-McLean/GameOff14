@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b7gg7ppqu0ybr"
-path="res://.godot/imported/water_troop.png-92ffe0cc01ec959affc96a3326645fe3.ctex"
+uid="uid://w84dc5k153do"
+path="res://.godot/imported/FireFighter.png-9400023da11c2a9339add13c922da558.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Troops/water_troop.png"
-dest_files=["res://.godot/imported/water_troop.png-92ffe0cc01ec959affc96a3326645fe3.ctex"]
+source_file="res://assets/Troops/FireFighter.png"
+dest_files=["res://.godot/imported/FireFighter.png-9400023da11c2a9339add13c922da558.ctex"]
 
 [params]
 
