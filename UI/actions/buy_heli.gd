@@ -7,7 +7,7 @@ func _ready():
 	
 	"""
 	pressed.connect(_on_button_pressed)
-	tooltip_text = "Helicopter"
+	tooltip_text = "Water Bomber" # possibly Helibucket instead?
 
 func _on_button_pressed():
 	"""
@@ -29,15 +29,15 @@ func _on_button_pressed():
 	level.add_child(heli)
 
 func compute_spawn_from_target(level, target_pos):
-	var rect: Rect2 = level.get_level_rect()
+	var spawn_bounds: Rect2 = level.get_level_rect()
 	
 	var offset = 100
 	var rand_offset = randf_range(-offset, offset)
 	
-	var left = Vector2(rect.position.x - offset, target_pos.y + rand_offset)
-	var right = Vector2(rect.position.x + rect.size.x + offset, target_pos.y + rand_offset)
-	var top = Vector2(target_pos.x + rand_offset, rect.position.y - offset)
-	var bottom = Vector2(target_pos.x + rand_offset, rect.position.y + rect.size.y + offset)
+	var left = Vector2(spawn_bounds.position.x - offset, target_pos.y + rand_offset)
+	var right = Vector2(spawn_bounds.position.x + spawn_bounds.size.x + offset, target_pos.y + rand_offset)
+	var top = Vector2(target_pos.x + rand_offset, spawn_bounds.position.y - offset)
+	var bottom = Vector2(target_pos.x + rand_offset, spawn_bounds.position.y + spawn_bounds.size.y + offset)
 	var candidates = [left, right, top, bottom]
 
 	var min_point = null

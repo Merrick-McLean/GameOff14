@@ -8,7 +8,7 @@ extends Node2D
 @onready var area = $Area2D
 @onready var animation := $AnimatedSprite2D
 
-# target to drop water and source to get water
+# target to chop trees
 var target_list: Array
 var target_line: Array
 

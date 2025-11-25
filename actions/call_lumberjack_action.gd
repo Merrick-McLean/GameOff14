@@ -23,7 +23,6 @@ func enter() -> void:
 	preview_line.visible = false
 
 func exit():
-	# Clean up if we exit the state early
 	if preview_line and preview_line.is_inside_tree():
 		preview_line.queue_free()
 	preview_line = null

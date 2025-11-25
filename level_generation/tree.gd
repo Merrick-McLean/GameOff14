@@ -144,13 +144,20 @@ func chop(): # chop tree
 
 # decide whether to handle state check here or on troop side...
 func douse_water(power):
-	moisture += power
+	if current_state == state.on_fire:
+		moisture += power
 
 func douse_foam(power):
-	moisture += power
+	if current_state != state.on_fire and not protected:
+		#protected = true # probably wanna assign protected here by foam troops since they have continuous addition
+		moisture += power
 
-func douse_retardent(power):
-	moisture += power
+func douse_retardent(fire_power, non_fire_power):
+	if current_state == state.on_fire:
+		moisture += fire_power
+	elif not protected:
+		protected = true
+		moisture += non_fire_power
 
 #signals for weather
 func _relax():

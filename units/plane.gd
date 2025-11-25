@@ -1,0 +1,126 @@
+extends Node2D
+
+# scenes
+@onready var action_manager = get_tree().get_current_scene().get_node("action_manager")
+@onready var level = get_tree().get_current_scene().get_node("Level")
+
+@onready var area = $Area2D
+
+# target to chop trees
+var target_list: Array
+var target_line: Array
+var destination: Vector2
+
+# selection size
+var max_length := 250
+var max_trees := 40
+var thickness = 20
+
+# plane values
+var speed := 275
+
+# retardent values
+var fire_power = 1.0
+var non_fire_power = 0.5
+var doused = false
+
+# preview graphics
+var preview_line: Node2D
+
+func _ready():
+	"""
+	On ready function when plane is initialized
+	Sets up Z vaue and connects to necessary input detection
+	Sets up helper visuals
+	"""
+	z_index = 1000
+	area.input_pickable = true
+	area.connect("input_event", Callable(self, "_on_input_event"))
+	prepare_displays()
+	
+	preview_line.visible = false
+	
+	area.mouse_entered.connect(_on_hover_enter)
+	area.mouse_exited.connect(_on_hover_exit)
+
+func _physics_process(delta: float) -> void:
+	"""
+	process running always
+	Logic for what the Lumberjack current action is
+	either moving to tree or chopping tree
+	"""
+	if destination == null:
+		return
+	
+	move_towards_position(delta)
+	check_target_line_status()
+
+func move_towards_position(delta: float) -> void:
+	var dir := destination - global_position
+	var dist := dir.length()
+
+	if dist <= speed * delta:
+		global_position = destination
+		despawn_plane()
+		return
+	global_position += dir.normalized() * speed * delta
+
+func check_target_line_status() -> void:
+	if target_line.size() < 2:
+		despawn_plane()
+	
+	var a: Vector2 = target_line[0]
+	var b: Vector2 = target_line[1]
+	var progress: float = clamp((global_position - a).dot(b - a) / (b - a).length_squared(), 0.0, 1.0)
+	
+	#var closest: Vector2 = a + (b - a) * progress
+	#var dist := global_position.distance_to(closest)
+
+	# dist < 5.0
+	if  progress > 0.0 and progress < 1.0:
+		print("Plane plays retardent animation")
+	
+	if progress == 1.0 and not doused:
+		print("spray")
+		doused = true
+		for tree in target_list:
+			tree.douse_retardent(fire_power, non_fire_power)
+
+func despawn_plane():
+	if preview_line and preview_line.is_inside_tree():
+		preview_line.queue_free()
+	preview_line = null
+	
+	self.queue_free()
+
+func prepare_displays():
+	"""
+	Prepares hover HUD
+	"""
+	preview_line = Line2D.new()
+	preview_line.z_index = 1000
+	preview_line.width = thickness
+	preview_line.points = target_line
+	preview_line.default_color = Color(0.6, 0.3, 0.1, 0.5)
+	get_tree().get_current_scene().get_node("Level").add_child(preview_line)
+
+func _on_input_event(_viewport, event, _shape_idx):
+	"""
+	On input events for interaction with helicopter object
+	Onhover gives useful HUD highlights
+	"""
+	if event is InputEventMouseMotion:
+		_on_hover_enter()
+
+func _on_hover_enter():
+	"""
+	Visuals for when we hover over lumberjack (while in free action mode)
+	"""
+	if action_manager.action_state is SelectAction:
+		preview_line.visible = true
+
+func _on_hover_exit():
+	"""
+	Hide visuals for lumberjack
+	"""
+	preview_line.visible = false
