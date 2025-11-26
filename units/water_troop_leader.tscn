@@ -17,19 +17,19 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_by70d"]
 radius = 200.0
 
-[sub_resource type="Gradient" id="Gradient_71si8"]
+[sub_resource type="Gradient" id="Gradient_mr0cg"]
 offsets = PackedFloat32Array(0, 0.9927536)
 colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_mr0cg"]
-gradient = SubResource("Gradient_71si8")
+gradient = SubResource("Gradient_mr0cg")
 width = 25
 
-[sub_resource type="Gradient" id="Gradient_gdyuq"]
+[sub_resource type="Gradient" id="Gradient_j7wuu"]
 colors = PackedColorArray(0.004390102, 0.17406863, 0.77961886, 1, 0.17218715, 0.50887936, 0.7612614, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_j7wuu"]
-gradient = SubResource("Gradient_gdyuq")
+gradient = SubResource("Gradient_j7wuu")
 width = 25
 
 [node name="WaterTroopLeader" type="Node2D"]
