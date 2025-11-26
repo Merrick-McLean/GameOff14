@@ -24,8 +24,8 @@ func _on_button_pressed():
 	
 	await action.completed
 	
-	lumberjack.position = compute_spawn_from_target(level)
+	lumberjack.position = compute_spawn_from_target(level, lumberjack)
 	level.add_child(lumberjack)
 
-func compute_spawn_from_target(level):
-	return Vector2(200,200)
+func compute_spawn_from_target(level, lumberjack):
+	return lumberjack.lookout_pos

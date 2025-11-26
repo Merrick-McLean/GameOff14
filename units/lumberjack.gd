@@ -53,7 +53,6 @@ func _ready():
 	animation.play("idle")
 	
 	lookout_pos = Vector2(200, 200)
-	sort_targets_by_distance()
 
 # need to handle stopping input when on water area
 func _on_input_event(_viewport, event, _shape_idx):
@@ -78,7 +77,6 @@ func _physics_process(delta: float) -> void:
 		return_lumberjack(delta)
 		return
 	
-	# get position to target tree (could sort or something so they are in a line before?
 	var tree = target_list[0]
 	var tree_pos = tree.global_position
 	
@@ -130,11 +128,6 @@ func move_towards_point(delta: float, point: Vector2) -> void:
 		
 		velocity = velocity.move_toward(direction.normalized() * cur_speed, delta * 250) # as long as speed is big enough, doesnt seem to be much of a difference
 		global_position += velocity * delta
-
-func sort_targets_by_distance():
-	target_list.sort_custom(func(a, b):
-		return a.global_position.distance_to(lookout_pos) < b.global_position.distance_to(lookout_pos)
-	)
 
 func _on_hover_enter():
 	"""

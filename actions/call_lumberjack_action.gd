@@ -45,7 +45,7 @@ func handle_input(event: InputEvent) -> void:
 			var tree_list = create_target_line(start_point, end_point)
 			start_point_found = false
 			
-			target_lumberjack.target_list = tree_list
+			target_lumberjack.target_list = sort_targets_by_distance(tree_list)
 			target_lumberjack.target_line = [start_point, end_point]
 			
 			get_viewport().set_input_as_handled()
@@ -58,6 +58,12 @@ func handle_input(event: InputEvent) -> void:
 		preview_line.points = [start_point, end_point]
 	# add very short rectangle when starting point hasnt been selected, and also set same size rectangle to be minimum selection size
 	# add handling so that selected area includes at least one tree - also solves water issue
+
+func sort_targets_by_distance(target_list):
+	target_list.sort_custom(func(a, b):
+		return a.global_position.distance_to(target_lumberjack.lookout_pos) < b.global_position.distance_to(target_lumberjack.lookout_pos)
+	)
+	return target_list
 
 func create_target_line(start: Vector2, end: Vector2) -> Array:
 	var level = get_tree().get_current_scene().get_node("Level")

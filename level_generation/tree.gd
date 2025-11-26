@@ -151,6 +151,7 @@ func douse_foam(power):
 	if current_state != state.on_fire and not protected:
 		#protected = true # probably wanna assign protected here by foam troops since they have continuous addition
 		moisture += power
+		# add foam texture for protected
 
 func douse_retardent(fire_power, non_fire_power):
 	if current_state == state.on_fire:
@@ -158,6 +159,7 @@ func douse_retardent(fire_power, non_fire_power):
 	elif not protected:
 		protected = true
 		moisture += non_fire_power
+		# add retardent texture for protected
 
 #signals for weather
 func _relax():

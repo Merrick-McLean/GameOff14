@@ -7,32 +7,42 @@ extends Node2D
 @onready var animation := $AnimatedSprite2D
 @onready var water_tank_bar = $TextureProgressBar
 
+var crew_member = preload("res://units/water_troop_crew.tscn")
+
 # target to drop water and source to get water
 var target: Vector2
 var source: Vector2
 
-var target_list: Array
-
 # troop params
+var max_trees := 40
 var radius_val := 40.0 # search for trees region
+
+var target_list: Array
 var troop_count := 4
+var troop_list: Array = []
+var troop_status: Array = []
 
 # water troop movement
 var max_speed := 25.0
 var velocity: Vector2 = Vector2.ZERO
 var acceleration_time := 0.25
 
+var travelling := false # temp fix
+
 # amount of water supply
 var water_tank := 1.0
-var tank_use := 0.05 # decide how to impliment (per tree or  per tick)
+var tank_use := 0.05 # decide how to impliment (per tree or per tick) - right now per tick
 var refill_rate := 0.01
 var refilling := false
-var water_power := 0.05 # per tick
+var water_power := 0.08 # per tick
 
 # hover graphics
 var target_radius: Node2D
 var source_radius: Node2D
 var water_troop_radius: Node2D
+
+# home base
+var lookout_pos: Vector2
 
 func _ready():
 	"""
@@ -40,7 +50,6 @@ func _ready():
 	Sets up Z vaue and connects to necessary input detection
 	Sets up helper visuals
 	"""
-	z_index = 1000
 	area.input_pickable = true
 	area.connect("input_event", Callable(self, "_on_input_event"))
 	prepare_displays()
@@ -48,16 +57,33 @@ func _ready():
 	area.mouse_entered.connect(_on_hover_enter)
 	area.mouse_exited.connect(_on_hover_exit)
 	
-	animation.play("hover")
+	animation.play("idle")
 	
 	target_radius.visible = false
 	source_radius.visible = false
 	water_troop_radius.visible = false
+	
+	lookout_pos = Vector2(200, 200)
+	create_troops()
 
 func create_troops():
-	# make troops to be commanded
-	# they will wait for a command to go to a tree or to follow the leader
-	return
+	troop_list.clear()
+	troop_status.clear()
+	
+	for num in range(troop_count):
+		var new_crew_member = crew_member.instantiate()
+		new_crew_member.leader = self
+		new_crew_member.id = num
+		var coeff = even_or_odd_sign(num)
+		var variance = Vector2((coeff * num) * 8, (-coeff * (troop_count - num)) * 8)
+		new_crew_member.position = global_position + variance
+		
+		troop_status.append(false)
+		troop_list.append(new_crew_member)
+		level.add_child(new_crew_member)
+
+func even_or_odd_sign(x: int) -> int:
+	return 1 if x % 2 == 0 else -1
 
 func _on_input_event(_viewport, event, _shape_idx):
 	"""
@@ -75,7 +101,7 @@ func command_leader():
 	Sends to command heli action state
 	"""
 	var new_action = preload("res://actions/command_water_troops_action.gd").new()
-	new_action.target_heli = self
+	new_action.target_leader = self
 	action_manager.set_action_state(new_action)
 
 func _physics_process(delta: float) -> void:
@@ -84,6 +110,7 @@ func _physics_process(delta: float) -> void:
 	Logic for what the helicopters current action is
 	either moving, between target and source, refilling or dropping water
 	"""
+	z_index = int(position.y)
 	if target == null:
 		return
 	
@@ -96,21 +123,29 @@ func _physics_process(delta: float) -> void:
 	elif water_tank < tank_use:
 		if global_position.distance_to(source) > 1.0:
 			move_towards_point(delta, source)
+			travelling = true
 		else:
 			refilling = true
+			travelling = false
 	else:
 		if global_position.distance_to(target) > 1.0:
 			move_towards_point(delta, target)
+			travelling = true
 		else:
 			command_troops()
+			travelling = false
 
 func command_troops():
-	# query trees from tree list
-	# sort by closest (or maybe moisture content, or maybe hull?)
-	# the optimized would be to pick the one with least hull that can still be saved - i.e. calculate?
-	# if one is on fire, go through troop list until one returns true and takes it
-	return
+	if troop_status.has(false):
+		for tree in target_list:
+			if tree.current_state == tree.state.on_fire:
+				for id in range(troop_count):
+					if !troop_status[id]:
+						troop_list[id].target = tree
+						troop_status[id] = true
+						break # ensure this break is proper, do not want multiple troops going to same tree
 
+# PATH FINDING!!!!!
 func move_towards_point(delta: float, point: Vector2) -> void:
 	"""
 	Subroutine to move for path finding

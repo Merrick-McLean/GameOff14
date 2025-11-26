@@ -24,8 +24,8 @@ func _on_button_pressed():
 	
 	await action.completed
 	
-	leader.position = compute_spawn_from_target(level)
+	leader.position = compute_spawn_from_target(level, leader)
 	level.add_child(leader)
 
-func compute_spawn_from_target(level):
-	return Vector2(200,200)
+func compute_spawn_from_target(level, leader):
+	return leader.lookout_pos
