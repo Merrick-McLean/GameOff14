@@ -1,5 +1,7 @@
 extends Node2D
 
+var camps = []
+
 signal wet_wave
 signal heat_wave
 signal relax
@@ -34,14 +36,14 @@ func _ready() -> void:
 	_timer.wait_time = interval
 	_timer.one_shot = false
 	_timer.autostart = true
-	
 	_timer.timeout.connect(_on_timer_timeout)
 	add_child(_timer)
-
-	# material ref
+	
 	var level = get_parent()
 	shader_layer = level.get_node("shader_layer").get_child(0)
 	shader_material = shader_layer.material
+	
+	var world_timer = get_tree().get_current_scene().get_node("Level/world_timer")
 
 
 func _process(delta: float) -> void:
@@ -72,14 +74,10 @@ func _on_timer_timeout() -> void:
 		4: # RELAX (fade everything out)
 			emit_signal("relax")
 			fade_target = 0.0   # fade OUT all waves
-			
-			
 
-	# Cycle between wave → relax → wave → relax
 	if next != 4:
 		next = 4
 	else:
 		next = randi_range(0,1)
 	_timer.wait_time = interval
 	_timer.start()
-	
