@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://cb3dm4rd2x5ik"]
+
+[ext_resource type="Texture2D" uid="uid://w84dc5k153do" path="res://assets/Troops/FireFighter.png" id="1_fvu33"]
+[ext_resource type="Script" uid="uid://bq1ii0ewdd2ys" path="res://units/water_troop_crew.gd" id="1_tppvh"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ahh2m"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_fvu33")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="WaterTroopCrew" type="Node2D"]
+script = ExtResource("1_tppvh")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -10)
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_ahh2m")
+animation = &"idle"

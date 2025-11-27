@@ -5,11 +5,11 @@ extends Node2D
 
 @onready var area = $Area2D
 @onready var animation := $AnimatedSprite2D
-@onready var water_tank_bar = $TextureProgressBar
+@onready var foam_tank_bar = $TextureProgressBar
 
-var crew_member = preload("res://units/water_troop_crew.tscn")
+var crew_member = preload("res://units/foam_troop_crew.tscn")
 
-# target to drop water and source to get water
+# target to drop foam and source to get foam
 var target: Vector2
 var source: Vector2
 
@@ -22,24 +22,22 @@ var troop_count := 4
 var troop_list: Array = []
 var troop_status: Array = []
 
-# water troop movement
+# foam troop movement
 var max_speed := 25.0
 var velocity: Vector2 = Vector2.ZERO
 var acceleration_time := 0.25
 
 var travelling := false # temp fix
 
-# amount of water supply
-var water_tank := 1.0
+# amount of foam supply
+var foam_tank := 1.0
 var tank_use := 0.05 # decide how to impliment (per tree or per tick) - right now per tick
-var refill_rate := 0.01
-var refilling := false
-var water_power := 0.08 # per tick
+var foam_power := 0.08 # per tick 
+# also need to add a max moisture or max amount applied per tree
 
 # hover graphics
 var target_radius: Node2D
-var source_radius: Node2D
-var water_troop_radius: Node2D
+var foam_troop_radius: Node2D
 
 # home base
 var lookout_pos: Vector2
@@ -60,8 +58,7 @@ func _ready():
 	animation.play("idle")
 	
 	target_radius.visible = false
-	source_radius.visible = false
-	water_troop_radius.visible = false
+	foam_troop_radius.visible = false
 	
 	lookout_pos = Vector2(200, 200)
 	create_troops()
@@ -87,7 +84,7 @@ func even_or_odd_sign(x: int) -> int:
 
 func _on_input_event(_viewport, event, _shape_idx):
 	"""
-	On input events for interaction with water troops object
+	On input events for interaction with foam troops object
 	On click sends to commands troops
 	Onhover gives useful HUD highlights
 	"""
@@ -100,7 +97,7 @@ func command_leader():
 	"""
 	Sends to command heli action state
 	"""
-	var new_action = preload("res://actions/command_water_troops_action.gd").new()
+	var new_action = preload("res://actions/command_foam_troops_action.gd").new()
 	new_action.target_leader = self
 	action_manager.set_action_state(new_action)
 
@@ -108,25 +105,18 @@ func _physics_process(delta: float) -> void:
 	"""
 	process running always
 	Logic for what the helicopters current action is
-	either moving, between target and source, refilling or dropping water
+	either moving, between target and source, refilling or dropping foam
 	"""
 	z_index = int(position.y)
 	if target == null:
 		return
 	
 	# progress bar
-	water_tank_bar.value = water_tank * 100.0
-	water_tank = clamp(water_tank, 0.0, 1.0)
+	foam_tank_bar.value = foam_tank * 100.0
+	foam_tank = clamp(foam_tank, 0.0, 1.0)
 	
-	if refilling:
-		refill_troops()
-	elif water_tank < tank_use: # need to add better handling for this/control of crew members - because right now they will get stuck with no tank left
-		if global_position.distance_to(source) > 1.0:
-			move_towards_point(delta, source)
-			travelling = true
-		else:
-			refilling = true
-			travelling = false
+	if foam_tank < tank_use: # need to add better handling for this/control of crew members - because right now they will get stuck with no tank left
+		return_foam_crew(delta)
 	else:
 		if global_position.distance_to(target) > 1.0:
 			move_towards_point(delta, target)
@@ -134,6 +124,20 @@ func _physics_process(delta: float) -> void:
 		else:
 			command_troops()
 			travelling = false
+
+func return_foam_crew(delta): # need to also add handling to remove children - maybe add children as children to leader, rather than level?
+	if global_position.distance_to(lookout_pos) > 1.0:
+		move_towards_point(delta, lookout_pos)
+	else:
+		if target_radius and target_radius.is_inside_tree():
+			target_radius.queue_free()
+		target_radius = null
+		
+		if foam_troop_radius and foam_troop_radius.is_inside_tree():
+			foam_troop_radius.queue_free()
+		foam_troop_radius = null
+		
+		self.queue_free()
 
 func command_troops():
 	if troop_status.has(false):
@@ -150,7 +154,6 @@ func move_towards_point(delta: float, point: Vector2) -> void:
 	"""
 	Subroutine to move for path finding
 	Switch to pathfinding and adjust movement behaviour for troops (currently moves like heli)
-	Will need some support functions for identifying lake areas (and identifying rivers for water troops) for pathfinding 
 	"""
 	var direction := point - global_position
 	var distance = direction.length()
@@ -167,42 +170,27 @@ func move_towards_point(delta: float, point: Vector2) -> void:
 		velocity = velocity.move_toward(direction.normalized() * cur_speed, delta * 250) # as long as speed is big enough, doesnt seem to be much of a difference
 		global_position += velocity * delta
 
-func refill_troops() -> void:
-	"""
-	Subroutine when we have reached water source and need to fill up on water
-	"""
-	if water_tank < 1.0:
-		water_tank += refill_rate
-	if water_tank >= 1.0:
-		refilling = false
-	return
-
 func _on_hover_enter():
 	"""
 	Visuals for when we hover on helicopter (while in free action mode)
 	"""
 	if action_manager.action_state is SelectAction:
 		target_radius.visible = true
-		source_radius.visible = true
-		water_troop_radius.visible = true
+		foam_troop_radius.visible = true
 				
 		target_radius.position = target
 		target_radius.queue_redraw()
-		
-		source_radius.position = source
-		source_radius.queue_redraw()
-		
-		water_troop_radius.queue_redraw()
+				
+		foam_troop_radius.queue_redraw()
 
 func _on_hover_exit():
 	"""
 	Hide visuals for heli
 	"""
 	target_radius.visible = false
-	source_radius.visible = false
-	water_troop_radius.visible = false
+	foam_troop_radius.visible = false
 
-func prepare_displays():
+func prepare_displays(): # could have a source as the lookout tower? seems unnnecessary
 	"""
 	Prepares hover HUD
 	"""
@@ -212,14 +200,8 @@ func prepare_displays():
 	target_radius.color = Color(0.1, 0.3, 0.6, 0.5)
 	level.add_child(target_radius)
 	
-	source_radius = preload("res://actions/PreviewPoint.gd").new()
-	source_radius.z_index = 999
-	source_radius.radius = radius_val
-	source_radius.color = Color(0.1, 0.3, 0.6, 0.5)
-	level.add_child(source_radius)
-	
-	water_troop_radius = preload("res://actions/PreviewPoint.gd").new()
-	water_troop_radius.z_index = 999
-	water_troop_radius.radius = radius_val - 5
-	water_troop_radius.color = Color(0.65, 0.75, 0.25, 0.5)
-	self.add_child(water_troop_radius)
+	foam_troop_radius = preload("res://actions/PreviewPoint.gd").new()
+	foam_troop_radius.z_index = 999
+	foam_troop_radius.radius = radius_val - 5
+	foam_troop_radius.color = Color(0.65, 0.75, 0.25, 0.5)
+	self.add_child(foam_troop_radius)

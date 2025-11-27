@@ -50,8 +50,9 @@ func handle_input(event: InputEvent) -> void:
 		if not point_found:
 			point_found = true
 			target_leader.target = mouse_pos
-			target_leader.source = get_nearest_lake(mouse_pos)
-			target_leader.target_list = get_trees(mouse_pos)
+			target_leader.source = get_nearest_river_segment(mouse_pos)
+			var trees_in_area = get_trees(mouse_pos)
+			target_leader.target_list = sort_targets_by_distance(trees_in_area)
 			
 			get_viewport().set_input_as_handled()
 			var action = preload("res://actions/select_action.gd").new()
@@ -63,19 +64,38 @@ func handle_input(event: InputEvent) -> void:
 		preview_radius.position = mouse_pos
 		preview_radius.queue_redraw()
 
-# TODO: switch to nearest lake
-func get_nearest_lake(target: Vector2) -> Vector2:
-	var nearest_pos := Vector2.ZERO
-	var min_distance := INF
+# sort based on distance to leader, could sort dynaically during process of leader - based on hull or intensity or moisture or some calc
+func sort_targets_by_distance(target_list):
+	target_list.sort_custom(func(a, b):
+		return a.global_position.distance_to(target_leader.lookout_pos) < b.global_position.distance_to(target_leader.lookout_pos)
+	)
+	return target_list
+
+# TODO: switch to nearest lake to river
+func get_nearest_river_segment(target: Vector2) -> Vector2:
+	var best_pos := Vector2.ZERO
+	var best_dist := INF
+	for river in level_features.rivers:
+		var pts: PackedVector2Array = river.points
+		var count: int = pts.size()
+		if count < 2:
+			continue
+		
+		for i in range(count - 1):
+			var a: Vector2 = pts[i]
+			var b: Vector2 = pts[i + 1]
+			
+			var ab = b - a
+			var t = (target - a).dot(ab) / ab.length_squared()
+			t = clamp(t, 0.0, 1.0)
+			var closest = a + ab * t
+			
+			var dist = target.distance_squared_to(closest)
+			if dist < best_dist:
+				best_dist = dist
+				best_pos = closest
 	
-	for lake in level_features.lakes:
-		var lake_pos = level_features.seed_points[lake]
-		var dist := target.distance_to(lake_pos)
-		if dist < min_distance:
-			min_distance = dist
-			nearest_pos = lake_pos
-	
-	return nearest_pos
+	return best_pos
 
 func get_trees(target):
 	var level = get_tree().get_current_scene().get_node("Level")
@@ -95,5 +115,4 @@ func get_trees(target):
 		var tree = result.collider.get_parent()
 		if tree and tree.has_method("douse_water"):
 			tree_list.append(tree)
-	
 	return tree_list
