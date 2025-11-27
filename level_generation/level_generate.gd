@@ -317,7 +317,7 @@ func spawn_campsite(idx : int):
 	camp.z_index = point[1]
 	add_child(camp)
 	camps.append(camp)
-	camp.source_camp = true # so that camp can spawn illegal camps
+	#camp.source_camp = true # so that camp can spawn illegal camps
 
 func set_camptree(tree): #calculate which trees are next too camps and can be lit on fire
 	for camp in camps:
