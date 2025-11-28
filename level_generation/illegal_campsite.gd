@@ -27,7 +27,7 @@ func _on_tick() -> void:
 		spawn_camper()
 	
 	n = randf()
-	if n < 0.1:
+	if n < 0.001:
 			despawn_illegal_campsite()
 			
 func despawn_illegal_campsite():
