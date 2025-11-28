@@ -8,7 +8,7 @@ signal relax
 signal camper_wave
 signal illegal_camper_wave
 
-var interval = 10000
+var interval = 10
 var _timer : Timer
 
 # ENUM of effects
@@ -43,7 +43,6 @@ func _ready() -> void:
 	shader_layer = level.get_node("shader_layer").get_child(0)
 	shader_material = shader_layer.material
 	
-	var world_timer = get_tree().get_current_scene().get_node("Level/world_timer")
 
 
 func _process(delta: float) -> void:

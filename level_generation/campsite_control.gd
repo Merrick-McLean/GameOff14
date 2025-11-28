@@ -35,11 +35,10 @@ func _on_tick() -> void:
 		spawn_camper()
 		
 		
-	if source_camp:
-		n = randf()
+	n = randf()
 		
-		if n < 0.1:
-			spawn_illegal_campsite()
+	if n < 0.1:
+		spawn_illegal_campsite()
 		
 func despawn_camper() -> void:
 	if campers.is_empty():
@@ -78,9 +77,16 @@ func spawn_illegal_campsite():
 	var camp = illegal_camp_scene.instantiate()
 	camp.z_index = global_position.y
 	add_child(camp)
-	camps.append(camp)
 	var screen_size = get_viewport_rect().size 
-	var idx = randi_range(4,24) # need to not make this manual
+	var idx_range = range(4,25)
+	for x in camps:
+		idx_range.erase(x.idx)
+	var idx = idx_range.pick_random() # need to not make this manual
 	var pos = get_parent().seed_points[idx]
 	var near_trees = get_parent().seed_tree_groups[idx]
+	camps.append(camp)
+	camp.idx = idx
 	camp.set_pos(pos, near_trees)
+	
+func remove_illegal_camp(node):
+	camps.erase(node)
