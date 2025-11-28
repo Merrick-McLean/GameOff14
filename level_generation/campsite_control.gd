@@ -75,7 +75,6 @@ func light_tree() -> void:
 	
 func spawn_illegal_campsite():
 	var camp = illegal_camp_scene.instantiate()
-	camp.z_index = global_position.y
 	add_child(camp)
 	var screen_size = get_viewport_rect().size 
 	var idx_range = range(4,25)
@@ -87,6 +86,7 @@ func spawn_illegal_campsite():
 	camps.append(camp)
 	camp.idx = idx
 	camp.set_pos(pos, near_trees)
-	
+	camp.z_index = global_position.y
+
 func remove_illegal_camp(node):
 	camps.erase(node)
