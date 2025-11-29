@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://cacsyv2mkog15"]
+[gd_scene load_steps=7 format=3 uid="uid://cacsyv2mkog15"]
 
 [ext_resource type="Script" uid="uid://dejom155rqytn" path="res://units/lumberjack.gd" id="1_8c3ot"]
 [ext_resource type="Texture2D" uid="uid://dsb6sq85a7he0" path="res://assets/Troops/LumberJack1.png" id="2_1sv1x"]
-[ext_resource type="Texture2D" path="res://assets/Troops/Camper.png" id="2_8c3ot"]
+[ext_resource type="Texture2D" uid="uid://bqfv3molbgd65" path="res://assets/Troops/LumberJack2.png" id="3_uigel"]
+[ext_resource type="Texture2D" uid="uid://ctcy2gyyifn18" path="res://assets/Troops/LumberJack3.png" id="4_4p5tk"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_1sv1x"]
 animations = [{
@@ -16,7 +17,16 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_8c3ot")
+"texture": ExtResource("2_1sv1x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_uigel")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_1sv1x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_4p5tk")
 }],
 "loop": true,
 "name": &"walk",
@@ -33,7 +43,7 @@ script = ExtResource("1_8c3ot")
 position = Vector2(0, -2)
 scale = Vector2(0.4, 0.4)
 sprite_frames = SubResource("SpriteFrames_1sv1x")
-animation = &"idle"
+animation = &"walk"
 
 [node name="Area2D" type="Area2D" parent="."]
 scale = Vector2(0.25, 0.25)
