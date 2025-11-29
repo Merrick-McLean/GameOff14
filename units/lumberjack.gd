@@ -73,6 +73,7 @@ func _physics_process(delta: float) -> void:
 	if chopping:
 		return
 	
+	print(target_list)
 	if target_list == null or target_list.is_empty():
 		return_lumberjack(delta)
 		return
@@ -80,7 +81,7 @@ func _physics_process(delta: float) -> void:
 	var tree = target_list[0]
 	var tree_pos = tree.global_position
 	
-	if not tree.current_state == tree.state.on_fire:
+	if not tree.current_state == tree.state.alive:
 		target_list.pop_front()	
 	elif global_position.distance_to(tree_pos) > 1.0:
 		move_towards_point(delta, tree_pos)

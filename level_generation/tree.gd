@@ -131,7 +131,6 @@ func _draw() -> void: # make the fire circle
 		draw_circle(Vector2(), 40, Color(1,0,0))
 
 func chop(): # chop tree
-	burn_out() # stop affecting everything around you
 	var new_texture
 	match tree_type:
 		0:

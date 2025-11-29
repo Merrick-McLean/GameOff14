@@ -1,13 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://cacsyv2mkog15"]
+[gd_scene load_steps=6 format=3 uid="uid://cacsyv2mkog15"]
 
 [ext_resource type="Script" uid="uid://dejom155rqytn" path="res://units/lumberjack.gd" id="1_8c3ot"]
-[ext_resource type="Texture2D" uid="uid://b7gg7ppqu0ybr" path="res://assets/Troops/Camper.png" id="2_8c3ot"]
+[ext_resource type="Texture2D" uid="uid://dsb6sq85a7he0" path="res://assets/Troops/LumberJack1.png" id="2_1sv1x"]
+[ext_resource type="Texture2D" path="res://assets/Troops/Camper.png" id="2_8c3ot"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_1sv1x"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_8c3ot")
+"texture": ExtResource("2_1sv1x")
 }],
 "loop": true,
 "name": &"idle",
@@ -29,7 +30,8 @@ radius = 82.4
 script = ExtResource("1_8c3ot")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -21)
+position = Vector2(0, -2)
+scale = Vector2(0.4, 0.4)
 sprite_frames = SubResource("SpriteFrames_1sv1x")
 animation = &"idle"
 
