@@ -1,7 +1,7 @@
 extends Node2D
 
 @onready var tree_scene: PackedScene = preload("res://level_generation/tree.tscn") 
-@onready var camp_scene: PackedScene = preload("res://level_generation/campsite.tscn")
+@onready var camp_control_scene: PackedScene = preload("res://level_generation/campsite_control.tscn")
 
 var grass_tile := Image.load_from_file("res://assets/Biome/TextureGrassland.png")
 var water_tile := Image.load_from_file("res://assets/Biome/TextureWater.png")
@@ -79,8 +79,9 @@ func generate_voronoi():
 		seed_tree_groups[i] = []
 		
 	#  spawn campsites, lakes, rivers 
-	for i in num_campsites:
-		spawn_campsite(i)
+	
+	
+	spawn_campsite_control()
 	spawn_lakes()
 	spawn_rivers()
 	#  spawn trees 
@@ -310,14 +311,9 @@ func create_line2d(points: Array, width := 10):
 	call_deferred("add_child", line)
 	rivers.append(line)
 	
-func spawn_campsite(idx : int):
-	var point = seed_points[idx]
-	var camp = camp_scene.instantiate()
-	camp.position = point
-	camp.z_index = point[1]
+func spawn_campsite_control():
+	var camp = camp_control_scene.instantiate()
 	add_child(camp)
-	camps.append(camp)
-	#camp.source_camp = true # so that camp can spawn illegal camps
 
 func set_camptree(tree): #calculate which trees are next too camps and can be lit on fire
 	for camp in camps:
