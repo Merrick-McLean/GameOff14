@@ -27,11 +27,11 @@ var protected = false
 
 # burn stats
 var burn_rate = 0.005
-var burn_spread_chance = 0.0005
+var burn_spread_chance = 0.001
 var hull = 1.0
 var intensity = 0.0
-var evaporate = 0.0001
-var moisture = 0.02
+var evaporate = 0.001
+var moisture = 0.015
 
 func _ready():
 	var world_timer = get_tree().get_current_scene().get_node("Level/world_timer")
@@ -86,6 +86,7 @@ func ignite(): #called when a tree is offically on fire
 
 func recover(): #called when a tree was on fire but not burnt
 	self.modulate = Color(1,1,1)
+	current_state = state.alive
 	var new_texture
 	match tree_type:
 		0:

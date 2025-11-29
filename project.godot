@@ -17,6 +17,8 @@ config/icon="uid://0ohi4uvhm44v"
 
 [display]
 
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 mouse_cursor/tooltip_position_offset=Vector2(5, 5)
 
 [gui]

@@ -8,7 +8,7 @@ size = Vector2(130.00006, 125.00007)
 
 [node name="campsite" type="Node2D"]
 z_index = 100
-scale = Vector2(0.4, 0.4)
+scale = Vector2(0.5, 0.5)
 script = ExtResource("1_gotxa")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
