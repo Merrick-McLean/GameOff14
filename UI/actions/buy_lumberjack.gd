@@ -1,5 +1,6 @@
 extends Button
 
+@onready var level = get_tree().get_current_scene().get_node("Level/Level_generate")
 var lumberjack_unit := preload("res://units/Lumberjack.tscn")
 
 func _ready():
@@ -24,8 +25,10 @@ func _on_button_pressed():
 	
 	await action.completed
 	
-	lumberjack.position = compute_spawn_from_target(level, lumberjack)
+	lumberjack.lookout_pos = compute_spawn_from_target(level, lumberjack)
+	lumberjack.position = lumberjack.lookout_pos
 	level.add_child(lumberjack)
 
 func compute_spawn_from_target(level, lumberjack):
-	return lumberjack.lookout_pos
+	return Vector2(200,200)
+	#level.lookout.position

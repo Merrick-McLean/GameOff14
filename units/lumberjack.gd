@@ -32,7 +32,7 @@ var thickness = 14
 # preview graphics
 var lumberjack_radius: Node2D
 var preview_line: Node2D
-var radius_val := 5
+var radius_val := 10
 
 func _ready():
 	"""
@@ -49,10 +49,6 @@ func _ready():
 	
 	area.mouse_entered.connect(_on_hover_enter)
 	area.mouse_exited.connect(_on_hover_exit)
-	
-	animation.play("idle")
-	
-	lookout_pos = Vector2(200, 200)
 
 # need to handle stopping input when on water area
 func _on_input_event(_viewport, event, _shape_idx):
@@ -69,7 +65,7 @@ func _physics_process(delta: float) -> void:
 	Logic for what the Lumberjack current action is
 	either moving to tree or chopping tree
 	"""
-	z_index = int(position.y)
+	z_index = int(position.y) + 1
 	if chopping:
 		return
 	
@@ -80,11 +76,13 @@ func _physics_process(delta: float) -> void:
 	var tree = target_list[0]
 	var tree_pos = tree.global_position
 	
-	if not tree.current_state == tree.state.on_fire:
+	if not tree.current_state == tree.state.alive:
 		target_list.pop_front()	
 	elif global_position.distance_to(tree_pos) > 1.0:
 		move_towards_point(delta, tree_pos)
 	else:
+		if animation.animation != "idle":
+			animation.play("idle")
 		chop_tree(tree)
 
 func chop_tree(target_tree):
@@ -116,11 +114,20 @@ func move_towards_point(delta: float, point: Vector2) -> void:
 	"""
 	var direction := point - global_position
 	var distance = direction.length()
-
+	
 	if distance < 1.0:
 		velocity = Vector2.ZERO
 		return 
 	else:
+		# visual
+		if animation.animation != "walk":
+			animation.play("walk")
+		if velocity.x < -1:
+			animation.flip_h = true
+		elif velocity.x > 1:
+			animation.flip_h = false
+		
+		# mechanical
 		var cur_speed := max_speed
 		var acceleration_distance := max_speed * acceleration_time
 		if distance < acceleration_distance:
@@ -158,7 +165,7 @@ func prepare_displays():
 	
 	preview_line = Line2D.new()
 	preview_line.z_index = 1000
-	preview_line.width = thickness
+	preview_line.width = thickness * 2
 	preview_line.points = target_line
 	preview_line.default_color = Color(0.6, 0.3, 0.1, 0.5)
 	get_tree().get_current_scene().get_node("Level").add_child(preview_line)
