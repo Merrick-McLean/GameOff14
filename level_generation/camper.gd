@@ -7,12 +7,11 @@ var center_point: Vector2
 var target_point: Vector2
 var target_tree = null
 
-var lighter
+var lighter = false
 
 func _ready():
-	center_point = global_position # start with center
+	center_point = get_parent().position # start with center
 	pick_new_point()
-	lighter = false
 	
 func pick_new_point():
 	var angle = randf() * TAU # TAU = PI*2,so gereate random angel
@@ -30,7 +29,7 @@ func _process(_delta): # move and slide here does mose the lifting, just kinda w
 	var direction = (target_point - global_position).normalized()
 	velocity = direction * move_speed
 	move_and_slide()
-	self.z_index = global_position.y
+	z_index = global_position.y
 	# If close enough select a new point
 	if global_position.distance_to(target_point) < 10.0:
 		if lighter == true:

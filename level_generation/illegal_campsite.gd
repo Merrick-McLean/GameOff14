@@ -1,9 +1,8 @@
 extends  Camp
 
-var idx = null
+var idx
 
-	
 func set_pos(pos, near_trees):
-	global_position = pos
+	position = pos
 	trees = near_trees 
 		
