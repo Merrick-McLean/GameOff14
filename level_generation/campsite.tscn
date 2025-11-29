@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bgpxybsln8pd2"]
 
-[ext_resource type="Script" uid="uid://eyj48q7fh545" path="res://level_generation/campsite_control.gd" id="1_gotxa"]
+[ext_resource type="Script" uid="uid://w4tngpee65w5" path="res://level_generation/campsite.gd" id="1_gotxa"]
 [ext_resource type="Texture2D" uid="uid://cea4dulp5kgjk" path="res://assets/Troops/Tent.png" id="1_h1cor"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2jcta"]

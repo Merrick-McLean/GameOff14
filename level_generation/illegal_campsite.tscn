@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://k22k1x4gtft7" path="res://assets/fx/Explosion3.png" id="3_6tmmy"]
 
 [node name="illegal_campsite" type="Node2D"]
+scale = Vector2(0.4, 0.4)
 script = ExtResource("1_c7p6c")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

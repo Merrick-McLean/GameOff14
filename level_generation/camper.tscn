@@ -1,11 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://b33k84ek0wivg"]
+[gd_scene load_steps=4 format=3 uid="uid://b33k84ek0wivg"]
 
 [ext_resource type="Script" uid="uid://bobvd72hj0n0u" path="res://level_generation/camper.gd" id="1_u2nh2"]
-[ext_resource type="Texture2D" uid="uid://b7gg7ppqu0ybr" path="res://assets/Troops/Camper.png" id="2_nrv5j"]
+[ext_resource type="Texture2D" uid="uid://bq4ylvvthoorn" path="res://assets/Troops/Camper1.png" id="2_u2nh2"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_u2nh2"]
 
 [node name="Camper" type="CharacterBody2D"]
 z_as_relative = false
 script = ExtResource("1_u2nh2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_nrv5j")
+position = Vector2(-1, -18)
+texture = ExtResource("2_u2nh2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 0)
+shape = SubResource("CapsuleShape2D_u2nh2")
+disabled = true
