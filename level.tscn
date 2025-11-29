@@ -9,13 +9,13 @@
 [ext_resource type="PackedScene" uid="uid://c8obpf36pbca3" path="res://gameplay/weather_control.tscn" id="6_1ainy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0b4ue"]
-size = Vector2(1152, 648)
+size = Vector2(1934, 1087)
 
 [node name="Level" type="Node2D"]
+position = Vector2(380, 113)
 script = ExtResource("1_f2txt")
 
 [node name="Camera2D" parent="." instance=ExtResource("1_0b4ue")]
-position = Vector2(575, 325)
 
 [node name="shader_layer" parent="." instance=ExtResource("3_n6hdu")]
 
@@ -28,7 +28,6 @@ position = Vector2(575, 325)
 [node name="Bounds" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Bounds"]
-position = Vector2(575, 325)
 shape = SubResource("RectangleShape2D_0b4ue")
 
 [node name="weather_control" parent="." instance=ExtResource("6_1ainy")]

@@ -9,7 +9,6 @@ func _ready() -> void:
 	var world_timer = get_tree().get_current_scene().get_node("Level/world_timer")
 	world_timer.tick.connect(_on_tick)
 
-
 func _on_tick():
 	var n = randf()
 	if n > 0.99:
@@ -34,7 +33,7 @@ func spawn_campsite(idx : int):
 	
 func spawn_illegal_campsite():
 	var camp = illegal_camp_scene.instantiate()
-	var idx_range = range(4,25)
+	var idx_range = range(5,25) # hardcoded but fine for now
 	for x in illegal_camps:
 		idx_range.erase(x.idx)
 	if idx_range.is_empty():

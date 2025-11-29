@@ -7,6 +7,8 @@ var fire_chance: float = 0.0
 var open: bool = true
 var source_camp = false
 
+var revenue = 0
+
 @export var max_campers: int = 10
 @onready var camper_scene: PackedScene = preload("res://level_generation/camper.tscn")
 
@@ -18,12 +20,15 @@ func _ready() -> void:
 	spawn_camper()
 
 func _on_tick() -> void:
+	
+	revenue += campers.size()
+	
 	if campers.size() == 0:
 		return  
 
 	var n = randf()
 
-	if n < 0.0001 * campers.size():
+	if n < 0.0005 * campers.size():
 		light_tree()
 
 	elif n > 0.9999 and campers.size() < max_campers and open:

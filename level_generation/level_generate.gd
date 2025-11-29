@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var tree_scene: PackedScene = preload("res://level_generation/tree.tscn") 
 @onready var camp_control_scene: PackedScene = preload("res://level_generation/campsite_control.tscn")
+@onready var lookout_scene : PackedScene = preload("res://level_generation/lookout.tscn")
 
 var grass_tile := Image.load_from_file("res://assets/Biome/TextureGrassland.png")
 var water_tile := Image.load_from_file("res://assets/Biome/TextureWater.png")
@@ -32,6 +33,7 @@ var seed_tree_groups: Array = []
 #camps are always 0,1 and lakes are always 2,3,
 var trees: Array = []
 var camps: Array = []
+var lookout
 
 var voronoi_image: Image
 var voronoi_texture: ImageTexture
@@ -51,6 +53,8 @@ var wobble_amp  := 20000 # set to 0 if no smoothening wanted
 var grass_shore_thickness := 1000.0
 var rocky_shore_thickness := 2200.0 # adjust this, or adjust the function that calculates with this
 var rocky_color := Color(0.85, 0.82, 0.65)
+
+var lookout_pos = null
 
 func _ready():
 	screen_size = get_viewport_rect().size 
@@ -84,6 +88,7 @@ func generate_voronoi():
 	spawn_campsite_control()
 	spawn_lakes()
 	spawn_rivers()
+	spawn_look_out()
 	#  spawn trees 
 	for i in num_trees:
 		spawn_tree(0.0, screen_size.x, 0.0, screen_size.y)
@@ -229,6 +234,9 @@ func too_close_to_camp_lake(pos: Vector2): #kill trees to close to camps and lak
 	for lake in lakes: # this will need to be replaced soon
 		if lake == idx:
 			return true
+	var dist = pos.distance_squared_to(lookout.position) 
+	if dist < campsite_clearing:
+			return true
 	return false
 
 func get_color_for_index(idx: int) -> Color: # for debugging, each seed point gets a color
@@ -310,6 +318,12 @@ func create_line2d(points: Array, width := 10):
 	line.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
 	call_deferred("add_child", line)
 	rivers.append(line)
+	
+func spawn_look_out():
+	var lookouttemp = lookout_scene.instantiate()
+	lookouttemp.position = seed_points[4]
+	lookout = lookouttemp
+	add_child(lookout)
 	
 func spawn_campsite_control():
 	var camp = camp_control_scene.instantiate()

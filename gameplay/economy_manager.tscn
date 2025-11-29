@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://drhu1ro1h6blp"]
+
+[ext_resource type="Script" uid="uid://bo40ypxrhsg7l" path="res://economy_manager.gd" id="1_b7ew6"]
+
+[node name="economy_manager" type="Node2D"]
+script = ExtResource("1_b7ew6")

@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dcuyftq71h362"]
+
+[ext_resource type="Texture2D" uid="uid://mn2femr1doul" path="res://assets/UI/UISettingButton.png" id="1_rnd3j"]
+[ext_resource type="Script" uid="uid://d31d0qxidxi5i" path="res://level_generation/lookout.gd" id="1_uq0ki"]
+
+[node name="lookout" type="Node2D"]
+script = ExtResource("1_uq0ki")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("1_rnd3j")

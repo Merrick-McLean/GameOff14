@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cod6dkyhrw137" path="res://level_generation/illegal_campsite.gd" id="1_c7p6c"]
 [ext_resource type="Texture2D" uid="uid://cea4dulp5kgjk" path="res://assets/Troops/Tent.png" id="2_6tmmy"]
-[ext_resource type="Texture2D" uid="uid://k22k1x4gtft7" path="res://assets/fx/Explosion3.png" id="3_6tmmy"]
+[ext_resource type="Texture2D" uid="uid://u0bdqlse6khp" path="res://assets/Troops/smoke_dev.png" id="3_6tmmy"]
 
 [node name="illegal_campsite" type="Node2D"]
 scale = Vector2(0.4, 0.4)
@@ -12,5 +12,5 @@ script = ExtResource("1_c7p6c")
 texture = ExtResource("2_6tmmy")
 
 [node name="HERE I AM!" type="Sprite2D" parent="."]
-position = Vector2(3, -49)
+position = Vector2(154.99998, -247.49998)
 texture = ExtResource("3_6tmmy")

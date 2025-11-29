@@ -15,7 +15,7 @@ shader_parameter/fade = 0.0
 
 [node name="ColorRect" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_8sj3r")
-offset_right = 1172.0
-offset_bottom = 653.0
+offset_right = 1937.0
+offset_bottom = 1088.0
 mouse_filter = 2
 color = Color(1, 1, 1, 0)
