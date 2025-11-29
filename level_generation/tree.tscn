@@ -7,7 +7,7 @@
 size = Vector2(50.000034, 80.000015)
 
 [node name="tree" type="Node2D"]
-scale = Vector2(0.353, 0.353)
+scale = Vector2(0.35, 0.35)
 script = ExtResource("1_brfkd")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
