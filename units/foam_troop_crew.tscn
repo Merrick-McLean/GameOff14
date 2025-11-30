@@ -1,16 +1,79 @@
-[gd_scene load_steps=4 format=3 uid="uid://bd0sg04142v0b"]
+[gd_scene load_steps=16 format=3 uid="uid://bd0sg04142v0b"]
 
 [ext_resource type="Script" uid="uid://d4lgree4snj6h" path="res://units/foam_troop_crew.gd" id="1_2wr8q"]
-[ext_resource type="Texture2D" uid="uid://w84dc5k153do" path="res://assets/Troops/FireFighter.png" id="2_b7eoa"]
+[ext_resource type="Texture2D" uid="uid://dais4ltfn2cbo" path="res://assets/Troops/FoamTrooper1.png" id="2_alqo2"]
+[ext_resource type="Texture2D" uid="uid://k8g68jd5mkto" path="res://assets/Troops/FoamTrooper2.png" id="3_7eewu"]
+[ext_resource type="Texture2D" uid="uid://bpcpj8vks7ndk" path="res://assets/Troops/FoamTrooper3.png" id="4_evdov"]
+[ext_resource type="Texture2D" uid="uid://c2s36dfeqsbcm" path="res://assets/Troops/Effect Animations/FireFighter_FoamAnimation1.png" id="5_a2nbo"]
+[ext_resource type="Texture2D" uid="uid://eu0ijo3j4cqc" path="res://assets/Troops/Effect Animations/FireFighter_FoamAnimation2.png" id="6_ft5mj"]
+[ext_resource type="Texture2D" uid="uid://d312qhhuk14jb" path="res://assets/Troops/Effect Animations/FireFighter_FoamAnimation3.png" id="7_r6dqa"]
+[ext_resource type="Texture2D" uid="uid://dj8odaoc2y5le" path="res://assets/Troops/Effect Animations/FireFighter_FoamAnimation4.png" id="8_72co6"]
+[ext_resource type="Texture2D" uid="uid://ce02uhh05nrsr" path="res://assets/Troops/Effect Animations/FireFighter_FoamAnimation5.png" id="9_2o5bb"]
+[ext_resource type="Texture2D" uid="uid://3nnvw23f6t6t" path="res://assets/Troops/Effect Animations/FireFighter_FoamAnimation6.png" id="10_6ggw5"]
+[ext_resource type="Texture2D" uid="uid://cbijss4713ndv" path="res://assets/Troops/Effect Animations/FireFighter_FoamAnimation7.png" id="11_fq0m2"]
+[ext_resource type="Texture2D" uid="uid://5ki4rwk23t7q" path="res://assets/Troops/Effect Animations/FireFighter_FoamAnimation8.png" id="12_1ax0c"]
+[ext_resource type="Texture2D" uid="uid://tjitlnn53oj4" path="res://assets/Troops/Effect Animations/FireFighter_FoamAnimation9.png" id="13_1cggi"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_bqi3g"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_b7eoa")
+"texture": ExtResource("2_alqo2")
 }],
 "loop": true,
 "name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_alqo2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_7eewu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_alqo2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_evdov")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_21aoh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_a2nbo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_ft5mj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_r6dqa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_72co6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_2o5bb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_6ggw5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_fq0m2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_1ax0c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_1cggi")
+}],
+"loop": true,
+"name": &"spray",
 "speed": 5.0
 }]
 
@@ -20,4 +83,9 @@ script = ExtResource("1_2wr8q")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_bqi3g")
-animation = &"idle"
+animation = &"walk"
+
+[node name="AnimatedFoam2D" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = SubResource("SpriteFrames_21aoh")
+animation = &"spray"

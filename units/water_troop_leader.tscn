@@ -1,7 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://cpi3tj44n0gsc"]
+[gd_scene load_steps=12 format=3 uid="uid://cpi3tj44n0gsc"]
 
 [ext_resource type="Texture2D" uid="uid://w84dc5k153do" path="res://assets/Troops/FireFighter.png" id="1_fkklu"]
 [ext_resource type="Script" uid="uid://dvh1unqmkvaso" path="res://units/water_troop_leader.gd" id="1_mr0cg"]
+[ext_resource type="Texture2D" uid="uid://dp0ejuphijeor" path="res://assets/Troops/FireFighter1.png" id="3_qphnv"]
+[ext_resource type="Texture2D" uid="uid://dsacsuqgn01hd" path="res://assets/Troops/FireFighter2.png" id="4_brkqy"]
+[ext_resource type="Texture2D" uid="uid://crkq0i3vtea1i" path="res://assets/Troops/FireFighter3.png" id="5_6jptm"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_cruy2"]
 animations = [{
@@ -11,6 +14,23 @@ animations = [{
 }],
 "loop": true,
 "name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_qphnv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_brkqy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_qphnv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_6jptm")
+}],
+"loop": true,
+"name": &"walk",
 "speed": 5.0
 }]
 
@@ -39,7 +59,7 @@ script = ExtResource("1_mr0cg")
 position = Vector2(0, -10.000001)
 scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_cruy2")
-animation = &"idle"
+animation = &"walk"
 
 [node name="Area2D" type="Area2D" parent="."]
 scale = Vector2(0.25, 0.25)

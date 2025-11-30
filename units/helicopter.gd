@@ -43,19 +43,19 @@ func _ready():
 	Sets up Z vaue and connects to necessary input detection
 	Sets up helper visuals
 	"""
-	z_index = 1000
+	z_index = 1500
 	area.input_pickable = true
 	area.connect("input_event", Callable(self, "_on_input_event"))
 	prepare_displays()
+	
+	target_radius.visible = false
+	source_radius.visible = false
+	heli_radius.visible = false
 	
 	area.mouse_entered.connect(_on_hover_enter)
 	area.mouse_exited.connect(_on_hover_exit)
 	
 	animation.play("hover")
-	
-	target_radius.visible = false
-	source_radius.visible = false
-	heli_radius.visible = false
 
 # should the actual respons ena dactions like these occur on tick?
 func _on_input_event(_viewport, event, _shape_idx):

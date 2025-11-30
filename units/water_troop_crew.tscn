@@ -1,7 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://cb3dm4rd2x5ik"]
+[gd_scene load_steps=17 format=3 uid="uid://cb3dm4rd2x5ik"]
 
 [ext_resource type="Texture2D" uid="uid://w84dc5k153do" path="res://assets/Troops/FireFighter.png" id="1_fvu33"]
 [ext_resource type="Script" uid="uid://bq1ii0ewdd2ys" path="res://units/water_troop_crew.gd" id="1_tppvh"]
+[ext_resource type="Texture2D" uid="uid://dp0ejuphijeor" path="res://assets/Troops/FireFighter1.png" id="3_1k8qe"]
+[ext_resource type="Texture2D" uid="uid://dsacsuqgn01hd" path="res://assets/Troops/FireFighter2.png" id="4_hj4xn"]
+[ext_resource type="Texture2D" uid="uid://crkq0i3vtea1i" path="res://assets/Troops/FireFighter3.png" id="5_lj2mm"]
+[ext_resource type="Texture2D" uid="uid://cjmgns6sqs5mp" path="res://assets/Troops/Effect Animations/FireFighter_WaterAnimation1.png" id="6_dpag5"]
+[ext_resource type="Texture2D" uid="uid://ch8ke8ny3apld" path="res://assets/Troops/Effect Animations/FireFighter_WaterAnimation2.png" id="7_mg8o8"]
+[ext_resource type="Texture2D" uid="uid://cnl6nmwbdsvhl" path="res://assets/Troops/Effect Animations/FireFighter_WaterAnimation3.png" id="8_hv55j"]
+[ext_resource type="Texture2D" uid="uid://dyvoi4ehmqies" path="res://assets/Troops/Effect Animations/FireFighter_WaterAnimation4.png" id="9_ropy8"]
+[ext_resource type="Texture2D" uid="uid://dmgdhqpecmagm" path="res://assets/Troops/Effect Animations/FireFighter_WaterAnimation5.png" id="10_aksr6"]
+[ext_resource type="Texture2D" uid="uid://dpvwubg3m8f4a" path="res://assets/Troops/Effect Animations/FireFighter_WaterAnimation6.png" id="11_yy2so"]
+[ext_resource type="Texture2D" uid="uid://beo1cdhs4dakb" path="res://assets/Troops/Effect Animations/FireFighter_WaterAnimation7.png" id="12_dpag5"]
+[ext_resource type="Texture2D" uid="uid://d1vjgac7iecli" path="res://assets/Troops/Effect Animations/FireFighter_WaterAnimation8.png" id="12_w1vk5"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ahh2m"]
 animations = [{
@@ -12,6 +23,61 @@ animations = [{
 "loop": true,
 "name": &"idle",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_1k8qe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_hj4xn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_1k8qe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_lj2mm")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_mg8o8"]
+load_path = "res://.godot/imported/FireFighter_WaterAnimation9.png-c5b8a419ee0a68078e76b2fff10b711e.ctex"
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cterc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_dpag5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_mg8o8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_hv55j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_ropy8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_aksr6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_yy2so")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_dpag5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_w1vk5")
+}, {
+"duration": 1.0,
+"texture": SubResource("CompressedTexture2D_mg8o8")
+}],
+"loop": true,
+"name": &"spray",
+"speed": 5.0
 }]
 
 [node name="WaterTroopCrew" type="Node2D"]
@@ -21,4 +87,9 @@ script = ExtResource("1_tppvh")
 position = Vector2(0, -10)
 scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_ahh2m")
-animation = &"idle"
+animation = &"walk"
+
+[node name="AnimatedWater2D" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = SubResource("SpriteFrames_cterc")
+animation = &"spray"

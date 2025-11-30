@@ -5,6 +5,7 @@ extends Node2D
 @onready var level = get_tree().get_current_scene().get_node("Level")
 
 @onready var area = $Area2D
+@onready var animation := $AnimatedSprite2D
 
 # target to chop trees
 var target_list: Array
@@ -33,7 +34,7 @@ func _ready():
 	Sets up Z vaue and connects to necessary input detection
 	Sets up helper visuals
 	"""
-	z_index = 1000
+	z_index = 1500
 	area.input_pickable = true
 	area.connect("input_event", Callable(self, "_on_input_event"))
 	prepare_displays()
@@ -42,6 +43,10 @@ func _ready():
 	
 	area.mouse_entered.connect(_on_hover_enter)
 	area.mouse_exited.connect(_on_hover_exit)
+	
+	animation.play("fly")
+	
+	apply_direction()
 
 func _physics_process(delta: float) -> void:
 	"""
@@ -75,7 +80,6 @@ func check_target_line_status() -> void:
 	
 	#var closest: Vector2 = a + (b - a) * progress
 	#var dist := global_position.distance_to(closest)
-
 	# dist < 5.0
 	if  progress > 0.0 and progress < 1.0:
 		print("Plane plays retardent animation")
@@ -92,6 +96,15 @@ func despawn_plane():
 	preview_line = null
 	
 	self.queue_free()
+
+func apply_direction() -> void:
+	var dir = destination - global_position
+	var max_tilt := deg_to_rad(30)
+	var vertical_dir := dir.normalized().y 
+	rotation = clamp(vertical_dir * max_tilt, -max_tilt, max_tilt)
+	if destination.x < global_position.x:
+		animation.flip_h = true
+		rotation *= -1
 
 func prepare_displays():
 	"""
@@ -114,7 +127,7 @@ func _on_input_event(_viewport, event, _shape_idx):
 
 func _on_hover_enter():
 	"""
-	Visuals for when we hover over lumberjack (while in free action mode)
+	Visuals for when we hover over plane (while in free action mode)
 	"""
 	if action_manager.action_state is SelectAction:
 		preview_line.visible = true
