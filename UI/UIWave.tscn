@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://db8jgupq38yy4"]
 
-[ext_resource type="Texture2D" uid="uid://nnb7506f2th6" path="res://assets/UI/UIStartButton.png" id="1_igfdu"]
+[ext_resource type="Texture2D" uid="uid://c10u4ah3u2wxe" path="res://assets/UI/UIWaveSign.png" id="1_od6ms"]
 
 [node name="UIWave" type="Control"]
 layout_mode = 3
@@ -9,12 +9,12 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_igfdu")
+texture = ExtResource("1_od6ms")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Sprite2D"]
 offset_left = -32.0
-offset_top = -29.0
-offset_right = 45.0
+offset_top = -26.0
+offset_right = 40.0
 theme_override_colors/default_color = Color(1, 1, 0.47058824, 1)
 text = "Wave 1"
 horizontal_alignment = 1

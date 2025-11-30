@@ -74,18 +74,23 @@ animations = [{
 }],
 "loop": true,
 "name": &"spray",
-"speed": 5.0
+"speed": 10.0
 }]
 
 [node name="FoamTroopCrew" type="Node2D"]
 script = ExtResource("1_2wr8q")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -9)
 scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_bqi3g")
 animation = &"walk"
 
-[node name="AnimatedFoam2D" type="AnimatedSprite2D" parent="."]
-visible = false
+[node name="Foam" type="Node2D" parent="."]
+
+[node name="AnimatedFoam2D" type="AnimatedSprite2D" parent="Foam"]
+position = Vector2(15, -1.0000018)
+scale = Vector2(0.25, 0.25)
 sprite_frames = SubResource("SpriteFrames_21aoh")
 animation = &"spray"
+frame_progress = 0.9660504

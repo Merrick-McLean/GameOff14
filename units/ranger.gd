@@ -5,22 +5,14 @@ extends Node2D
 
 @onready var area = $Area2D
 @onready var animation := $AnimatedSprite2D
-@onready var foam_tank_bar = $TextureProgressBar
-
-var crew_member = preload("res://units/foam_troop_crew.tscn")
+@onready var ranger_prog_bar = $TextureProgressBar
 
 # target to drop foam and source to get foam
 var target: Vector2
-var source: Vector2
+var camp: Vector2
 
 # troop params
-var max_trees := 40
-var radius_val := 40.0 # search for trees region
-
-var target_list: Array
-var troop_count := 4
-var troop_list: Array = []
-var troop_status: Array = []
+var radius_val := 40.0 # search for illegal camps region
 
 # foam troop movement
 var max_speed := 25.0
@@ -28,21 +20,20 @@ var velocity: Vector2 = Vector2.ZERO
 var acceleration_time := 0.25
 
 # amount of foam supply
-var foam_tank := 1.0
-var tank_use := 10 # this many trees will be fully protected in a single use of these troops
-# also need to add a max moisture or max amount applied per tree
+var ranger_timer := 1.0
+var ranger_use := 30 # how many seconds it will last
 
 # hover graphics
 var target_radius: Node2D
-var foam_troop_radius: Node2D
+var ranger_radius: Node2D
 
 # home base
 var lookout_pos: Vector2
 
 func _ready():
 	"""
-	On ready function when foam leader is initialized
-	Sets up Z vaue and connects to necessary input detection
+	On ready function when ranger is initialized
+	Sets up and connects to necessary input detection
 	Sets up helper visuals
 	"""
 	area.input_pickable = true
@@ -53,46 +44,25 @@ func _ready():
 	area.mouse_exited.connect(_on_hover_exit)
 	
 	target_radius.visible = false
-	foam_troop_radius.visible = false
-	
-	create_troops()
-
-func create_troops():
-	troop_list.clear()
-	troop_status.clear()
-	
-	for num in range(troop_count):
-		var new_crew_member = crew_member.instantiate()
-		new_crew_member.leader = self
-		new_crew_member.id = num
-		var coeff = even_or_odd_sign(num)
-		var variance = Vector2((coeff * num) * 8, (-coeff * (troop_count - num)) * 8)
-		new_crew_member.position = global_position + variance
-		
-		troop_status.append(false)
-		troop_list.append(new_crew_member)
-		level.add_child(new_crew_member)
-
-func even_or_odd_sign(x: int) -> int:
-	return 1 if x % 2 == 0 else -1
+	ranger_radius.visible = false
 
 func _on_input_event(_viewport, event, _shape_idx):
 	"""
-	On input events for interaction with foam troops object
+	On input events for interaction with ranger object
 	On click sends to commands troops
 	Onhover gives useful HUD highlights
 	"""
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		command_leader()
+		command_ranger()
 	elif event is InputEventMouseMotion:
 		_on_hover_enter()
 
-func command_leader():
+func command_ranger():
 	"""
 	Sends to command heli action state
 	"""
-	var new_action = preload("res://actions/command_foam_troops_action.gd").new()
-	new_action.target_leader = self
+	var new_action = preload("res://actions/command_ranger_action.gd").new()
+	new_action.target_ranger = self
 	action_manager.set_action_state(new_action)
 
 func _physics_process(delta: float) -> void:
@@ -106,19 +76,20 @@ func _physics_process(delta: float) -> void:
 		return
 	
 	# progress bar
-	foam_tank_bar.value = foam_tank * 100.0
-	foam_tank = clamp(foam_tank, 0.0, 1.0)
+	ranger_prog_bar.value = ranger_timer * 100.0
+	ranger_timer -= 1 / (ranger_use *  60)
+	ranger_timer = clamp(ranger_timer, 0.0, 1.0)
 	
-	if foam_tank <= 0: 
-		return_foam_crew(delta)
+	if ranger_timer <= 0: 
+		return_ranger(delta)
 	else:
 		if global_position.distance_to(target) > 1.0:
 			move_towards_point(delta, target)
 		else:
-			command_troops()
+			campsite_search()
 			animation.play("idle")
 
-func return_foam_crew(delta): # need to also add handling to remove children - maybe add children as children to leader, rather than level?
+func return_ranger(delta): # need to also add handling to remove children - maybe add children as children to leader, rather than level?
 	if global_position.distance_to(lookout_pos) > 1.0:
 		move_towards_point(delta, lookout_pos)
 	else:
@@ -126,24 +97,15 @@ func return_foam_crew(delta): # need to also add handling to remove children - m
 			target_radius.queue_free()
 		target_radius = null
 		
-		if foam_troop_radius and foam_troop_radius.is_inside_tree():
-			foam_troop_radius.queue_free()
-		foam_troop_radius = null
+		if ranger_radius and ranger_radius.is_inside_tree():
+			ranger_radius.queue_free()
+		ranger_radius = null
 		
 		self.queue_free() # should wait for foam crew to make it before we free him maybe
 
-func command_troops():
-	if troop_status.has(false):
-		for tree in target_list:
-			if tree.current_state == tree.state.alive and not tree.occupied:
-				for id in range(troop_count):
-					if !troop_status[id]:
-						troop_list[id].target = tree
-						tree.occupied = true
-						troop_status[id] = true
-						return 
+func campsite_search():
+	return
 
-# PATH FINDING!!!!!
 func move_towards_point(delta: float, point: Vector2) -> void:
 	"""
 	Subroutine to move for path finding
@@ -169,26 +131,25 @@ func move_towards_point(delta: float, point: Vector2) -> void:
 	elif direction.x > 0:
 		animation.flip_h = false
 
-
 func _on_hover_enter():
 	"""
 	Visuals for when we hover on helicopter (while in free action mode)
 	"""
 	if action_manager.action_state is SelectAction:
 		target_radius.visible = true
-		foam_troop_radius.visible = true
+		ranger_radius.visible = true
 				
 		target_radius.position = target
 		target_radius.queue_redraw()
 				
-		foam_troop_radius.queue_redraw()
+		ranger_radius.queue_redraw()
 
 func _on_hover_exit():
 	"""
 	Hide visuals for heli
 	"""
 	target_radius.visible = false
-	foam_troop_radius.visible = false
+	ranger_radius.visible = false
 
 func prepare_displays(): # could have a source as the lookout tower? seems unnnecessary
 	"""
@@ -200,8 +161,8 @@ func prepare_displays(): # could have a source as the lookout tower? seems unnne
 	target_radius.color = Color(0.1, 0.3, 0.6, 0.5)
 	level.add_child(target_radius)
 	
-	foam_troop_radius = preload("res://actions/PreviewPoint.gd").new()
-	foam_troop_radius.z_index = 999
-	foam_troop_radius.radius = radius_val - 5
-	foam_troop_radius.color = Color(0.65, 0.75, 0.25, 0.5)
-	self.add_child(foam_troop_radius)
+	ranger_radius = preload("res://actions/PreviewPoint.gd").new()
+	ranger_radius.z_index = 999
+	ranger_radius.radius = radius_val - 5
+	ranger_radius.color = Color(0.65, 0.75, 0.25, 0.5)
+	self.add_child(ranger_radius)

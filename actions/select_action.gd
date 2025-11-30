@@ -11,17 +11,14 @@ class_name SelectAction
 
 var slide_duration: float = 0.3
 
-var button_slide_offset: Vector2 = Vector2(200, 0)
-var button_onscreen_position: Vector2
-var button_offscreen_position: Vector2
+var button_onscreen_position: Vector2 = Vector2(0, 0)
+var button_offscreen_position: Vector2 = Vector2(-300, 0)
 
-var economy_slide_offset: Vector2 = Vector2(0, 100)
-var economy_onscreen_position: Vector2
-var economy_offscreen_position: Vector2
+var economy_onscreen_position: Vector2 = Vector2(0, 0)
+var economy_offscreen_position: Vector2 = Vector2(0, -100)
 
-var wave_slide_offset: Vector2 = Vector2(0, -100)
-var wave_onscreen_position: Vector2
-var wave_offscreen_position: Vector2
+var wave_onscreen_position: Vector2 = Vector2(100, 900)
+var wave_offscreen_position: Vector2 = Vector2(100, 1100)
 
 func enter() -> void:
 	buttons_enter()
@@ -29,9 +26,6 @@ func enter() -> void:
 	wave_enter()
 
 func buttons_enter():
-	button_offscreen_position = ui_buttons.position
-	button_onscreen_position = button_offscreen_position + button_slide_offset
-	
 	ui_buttons.position = button_offscreen_position
 	ui_buttons.show()
 	
@@ -41,9 +35,6 @@ func buttons_enter():
 			 .set_ease(Tween.EaseType.EASE_OUT)
 
 func economy_enter():
-	economy_offscreen_position = ui_economy.position
-	economy_onscreen_position = economy_offscreen_position + economy_slide_offset
-	
 	ui_economy.position = economy_offscreen_position
 	ui_economy.show()
 	
@@ -53,9 +44,6 @@ func economy_enter():
 			 .set_ease(Tween.EaseType.EASE_OUT)
 
 func wave_enter():
-	wave_offscreen_position = ui_wave.position
-	wave_onscreen_position = wave_offscreen_position + wave_slide_offset
-	
 	ui_wave.position = wave_offscreen_position
 	ui_wave.show()
 	

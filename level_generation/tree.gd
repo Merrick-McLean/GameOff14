@@ -25,6 +25,7 @@ var current_state: state = state.alive
 
 # additional state which is exclusive with alive
 var protected = false
+var occupied = false
 
 # burn stats
 var burn_rate = 0.0001
@@ -76,7 +77,6 @@ func _on_tick():
 					moisture -= evaporate
 		state.burnt or state.stump: 
 			pass
-	
 	
 func is_within_distance(node_a: Node2D, node_b: Node2D, radius: float) -> bool: #are two nodes close enough together?
 	var distance = node_a.global_position.distance_to(node_b.global_position)
@@ -156,17 +156,21 @@ func douse_water(power):
 
 func douse_foam(power):
 	if current_state != state.on_fire and not protected:
-		#protected = true # probably wanna assign protected here by foam troops since they have continuous addition
 		moisture += power
-		# add foam texture for protected
 
 func douse_retardent(fire_power, non_fire_power):
 	if current_state == state.on_fire:
 		moisture += fire_power
 	elif not protected:
-		protected = true
+		protect(false)
 		moisture += non_fire_power
-		# add retardent texture for protected
+
+func protect(foam):
+	protected = true
+	if foam:
+		self.modulate = Color(0.6, 0.35, 0.55)
+	else:
+		self.modulate = Color(0.8, 0.1, 0.07)
 
 #signals for weather
 func _relax():

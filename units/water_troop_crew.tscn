@@ -77,7 +77,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"spray",
-"speed": 5.0
+"speed": 10.0
 }]
 
 [node name="WaterTroopCrew" type="Node2D"]
@@ -88,8 +88,14 @@ position = Vector2(0, -10)
 scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_ahh2m")
 animation = &"walk"
+frame = 2
+frame_progress = 0.8328227
 
-[node name="AnimatedWater2D" type="AnimatedSprite2D" parent="."]
-visible = false
+[node name="Water" type="Node2D" parent="."]
+
+[node name="AnimatedWater2D" type="AnimatedSprite2D" parent="Water"]
+position = Vector2(17, -1)
+scale = Vector2(0.25, 0.25)
 sprite_frames = SubResource("SpriteFrames_cterc")
 animation = &"spray"
+frame_progress = 0.84391445

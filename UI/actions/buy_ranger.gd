@@ -1,13 +1,13 @@
 extends Button
 
-var lumberjack_unit := preload("res://units/Lumberjack.tscn")
+var ranger_unit := preload("res://units/ranger.tscn")
 
 func _ready():
 	"""
 	
 	"""
 	pressed.connect(_on_button_pressed)
-	tooltip_text = "Lumberjack"
+	tooltip_text = "Park Ranger"
 
 func _on_button_pressed():
 	"""
@@ -15,18 +15,18 @@ func _on_button_pressed():
 	"""
 	var game = get_tree().get_current_scene()
 	var level = game.get_node("Level")
-	var lumberjack = lumberjack_unit.instantiate()
+	var ranger = ranger_unit.instantiate()
 	
 	var action_manager = game.get_node("action_manager")
-	var action = preload("res://actions/call_lumberjack_action.gd").new()
-	action.target_lumberjack = lumberjack
+	var action = preload("res://actions/command_ranger_action.gd").new()
+	action.target_ranger = ranger
 	action_manager.set_action_state(action)
 	
 	await action.completed
 	
-	lumberjack.lookout_pos = compute_spawn_from_target(level)
-	lumberjack.position = lumberjack.lookout_pos
-	level.add_child(lumberjack)
+	ranger.lookout_pos = compute_spawn_from_target(level)
+	ranger.position = ranger.lookout_pos
+	level.add_child(ranger)
 
 func compute_spawn_from_target(level):
 	var level_gen = level.get_node("Level_generate")

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bb1ascbc20sgm"]
 
 [ext_resource type="Script" uid="uid://bxrlhjwvgihwn" path="res://UI/economy.gd" id="1_dfm0r"]
-[ext_resource type="Texture2D" uid="uid://hfcgp5oona0f" path="res://assets/UI/UIGoneFishingStraight.png" id="1_n84lp"]
+[ext_resource type="Texture2D" uid="uid://ccubx3uyhhkuy" path="res://assets/UI/UIMoneySign.png" id="2_dfm0r"]
 
 [node name="UIEconomy" type="Control"]
 layout_mode = 3
@@ -11,13 +11,14 @@ offset_bottom = 40.0
 script = ExtResource("1_dfm0r")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_n84lp")
+position = Vector2(100, 0)
+texture = ExtResource("2_dfm0r")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Sprite2D"]
 offset_left = -40.0
-offset_top = 4.0
+offset_top = 10.0
 offset_right = 40.0
-offset_bottom = 40.0
+offset_bottom = 38.0
 theme_override_colors/default_color = Color(1, 1, 0.47058824, 1)
 text = "$5000"
 horizontal_alignment = 1

@@ -4,7 +4,7 @@
 [ext_resource type="SpriteFrames" uid="uid://dhfmlhxy4pr30" path="res://assets/Troops/helicopter.tres" id="1_q6mk2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_71si8"]
-radius = 82.4
+radius = 40.0
 
 [sub_resource type="Gradient" id="Gradient_71si8"]
 offsets = PackedFloat32Array(0, 0.9927536)
@@ -33,7 +33,6 @@ animation = &"hover"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(-1, 1)
-scale = Vector2(0.4, 0.4)
 shape = SubResource("CircleShape2D_71si8")
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="."]
