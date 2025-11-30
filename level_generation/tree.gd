@@ -1,9 +1,6 @@
 extends Node2D
-
-var _timer: Timer
-
 # fire capabilities
-var fire_reach = 20
+var fire_reach = 30
 # tree references
 var tree_type
 var neighbors = []
@@ -12,6 +9,10 @@ var other_trees = []
 # camp trees
 var camp_tree = false
 @export var camp_fire = 0.99
+var seed
+
+
+
 
 # fire states
 enum state {
@@ -27,12 +28,12 @@ var protected = false
 var occupied = false
 
 # burn stats
-var burn_rate = 0.005
+var burn_rate = 0.0001
 var burn_spread_chance = 0.001
 var hull = 1.0
 var intensity = 0.0
-var evaporate = 0.001
-var moisture = 0.015
+var evaporate = 0.1
+var moisture = 0.1
 
 func _ready():
 	var world_timer = get_tree().get_current_scene().get_node("Level/world_timer")
@@ -43,7 +44,9 @@ func _ready():
 	weather.wet_wave.connect(_wet_wave) 
 	#weather.storm_wave.connect(_storm_wave) 
 	weather.heat_wave.connect(_heat_wave) 
-	
+
+
+
 func setup():
 	#runs after all trees made
 	for tree in other_trees:
@@ -59,7 +62,7 @@ func _on_tick():
 					if randf() > 1 - burn_spread_chance:
 						ignite()
 		state.on_fire: 
-			intensity = sin(hull*PI + 0.3)*3/5 + 0.4 - max(moisture, 0)
+			intensity = sin(hull*PI + 0.3)*3/5 + 0.4 - max(moisture, 0) * 0.1
 			if intensity <= 0:
 				if hull > 0:
 					recover()
@@ -85,7 +88,7 @@ func ignite(): #called when a tree is offically on fire
 	queue_redraw()
 
 func recover(): #called when a tree was on fire but not burnt
-	self.modulate = Color(1,1,1)
+	self.modulate = get_parent().get_color_for_index(seed)
 	current_state = state.alive
 	var new_texture
 	match tree_type:
@@ -128,7 +131,11 @@ func set_texture(idx : int):
 
 func _draw() -> void: # make the fire circle
 	if current_state == state.on_fire:
-		draw_circle(Vector2(), 40, Color(1,0,0))
+		var center := Vector2(0,1)
+		var base_r := 40
+		draw_circle(center, base_r * 0.9, Color(1, 0.1, 0.1, 0.7))
+
+
 
 func chop(): # chop tree
 	var new_texture

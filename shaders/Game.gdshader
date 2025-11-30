@@ -1,8 +1,8 @@
 shader_type canvas_item;
 
-uniform float speed : hint_range(0.1, 5.0) = 1.5;
-uniform float density : hint_range(0.1, 1.0) = 0.5;
-uniform float brightness : hint_range(0.0, 1.0) = 0.7;
+uniform float speed : hint_range(0.1, 5.0) = 0.1;
+uniform float density : hint_range(0.1, 1.0) = 0.01;
+uniform float brightness : hint_range(0.0, 1.0) = 0.5;
 
 uniform bool wetwave = false;
 uniform bool heatwave = false;
@@ -10,7 +10,7 @@ uniform bool heatwave = false;
 uniform float fade : hint_range(0.0, 1.0) = 0.0;
 
 float hash(vec2 p) {
-    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+    return fract(sin(dot(p, vec2(127.221, 31121.7))) * 1234.123);
 }
 
 void fragment() {

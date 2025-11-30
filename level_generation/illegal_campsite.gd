@@ -17,6 +17,16 @@ func _ready():
 	_timer.autostart = true
 	_timer.timeout.connect(_on_timer_timeout)
 	add_child(_timer)
+	spawn_camper()
+
+func _on_tick() -> void:
+	var n = randf()
+
+	if n < 0.005 * campers.size():
+		light_tree()
+
+	elif n > 0.999 and campers.size() < max_campers and open:
+		spawn_camper()
 
 
 func _on_timer_timeout():

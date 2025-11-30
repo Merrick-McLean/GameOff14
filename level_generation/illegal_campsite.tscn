@@ -12,5 +12,6 @@ script = ExtResource("1_c7p6c")
 texture = ExtResource("2_6tmmy")
 
 [node name="HERE I AM!" type="Sprite2D" parent="."]
+z_index = 4090
 position = Vector2(154.99998, -247.49998)
 texture = ExtResource("3_6tmmy")

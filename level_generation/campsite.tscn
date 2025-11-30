@@ -24,6 +24,7 @@ z_index = 1
 texture = ExtResource("1_h1cor")
 
 [node name="HERE I AM!" type="Sprite2D" parent="."]
+z_index = 4096
 position = Vector2(154.99997, -247.49995)
 scale = Vector2(0.99999994, 0.99999994)
 texture = ExtResource("3_je87a")
