@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://boqnhwkcmdneh"]
+[gd_scene load_steps=3 format=3 uid="uid://boqnhwkcmdneh"]
 
 [ext_resource type="Script" uid="uid://cp5262nj5s3f8" path="res://gameplay/camera_2d.gd" id="1_u5kg4"]
+[ext_resource type="PackedScene" uid="uid://0j3da0rd3xy7" path="res://gameplay/end_of_summer.tscn" id="2_rn4d7"]
 
 [node name="Camera2D" type="Camera2D"]
 script = ExtResource("1_u5kg4")
+
+[node name="end_of_summer" parent="." instance=ExtResource("2_rn4d7")]

@@ -1,6 +1,7 @@
 extends Button
 
 var helicopter := preload("res://units/Helicopter.tscn")
+const cost = 300
 
 func _ready():
 	"""
@@ -27,6 +28,9 @@ func _on_button_pressed():
 	var target_dest = heli.target
 	heli.position = compute_spawn_from_target(level, target_dest)
 	level.add_child(heli)
+	
+	var eco = get_tree().get_current_scene().get_node("UIEconomy")
+	eco.cash -= cost
 
 func compute_spawn_from_target(level, target_pos):
 	var spawn_bounds: Rect2 = level.get_level_rect()

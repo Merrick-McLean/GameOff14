@@ -95,7 +95,7 @@ func _on_timer_timeout() -> void:
 	else:
 		next = randi_range(0,3)
 	num_of_waves+= 1
-	if num_of_waves > 8:
+	if num_of_waves > 2:
 		new_summer_reset()
 	
 	_timer.wait_time = interval

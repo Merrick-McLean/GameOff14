@@ -1,6 +1,7 @@
 extends Button
 
 var plane_unit := preload("res://units/Plane.tscn")
+const cost = 400
 
 func _ready():
 	"""
@@ -28,6 +29,8 @@ func _on_button_pressed():
 	var target_end = plane.target_line[1]
 	plane.position = compute_spawn_from_target(level, plane, target_start, target_end)
 	level.add_child(plane)
+	var eco = get_tree().get_current_scene().get_node("UIEconomy")
+	eco.cash -= cost
 
 func compute_spawn_from_target(level, plane, target_start, target_end):
 	var spawn_bounds: Rect2 = level.get_level_rect()

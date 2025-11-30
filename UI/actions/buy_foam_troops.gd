@@ -1,6 +1,8 @@
 extends Button
 
 var foam_troop_leader := preload("res://units/foam_troop_leader.tscn")
+const cost = 200
+
 
 func _ready():
 	"""
@@ -26,6 +28,9 @@ func _on_button_pressed():
 	
 	leader.position = compute_spawn_from_target(level, leader)
 	level.add_child(leader)
+	
+	var eco = get_tree().get_current_scene().get_node("UIEconomy")
+	eco.cash -= cost
 
 func compute_spawn_from_target(level, leader):
 	return leader.lookout_pos
