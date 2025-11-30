@@ -22,7 +22,7 @@ func _ready():
 func _on_tick() -> void:
 	var n = randf()
 
-	if n < 0.001 * campers.size():
+	if n < 0.005 * campers.size():
 		light_tree()
 
 	elif n > 0.999 and campers.size() < max_campers and open:

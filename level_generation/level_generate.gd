@@ -23,7 +23,7 @@ var noise := FastNoiseLite.new() # for river movement
 
 var lakes: Array = []
 var rivers: Array = []
-var border_tol = 0.1 # to help trees burn between groups
+var border_tol = 0.15 # to help trees burn between groups
 
 var screen_size: Vector2
 
@@ -354,7 +354,7 @@ func spawn_tree(min_x, max_x, min_y, max_y):
 			seed_tree_groups[idx].append(tree)
 	trees.append(tree)
 	tree.z_index = random_y
-	
+	tree.seed = idxes[0]
 	tree.set_texture(idxes[0]) #main idx
 	add_child(tree)
 	tree.modulate = get_color_for_index(idxes[0])
