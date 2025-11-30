@@ -115,6 +115,7 @@ func _physics_process(delta: float) -> void:
 	
 	if refilling:
 		refill_troops()
+		animation.play("idle")
 	elif water_tank < tank_use: # need to add better handling for this/control of crew members - because right now they will get stuck with no tank left
 		if global_position.distance_to(source) > 1.0:
 			move_towards_point(delta, source)
@@ -125,6 +126,7 @@ func _physics_process(delta: float) -> void:
 			move_towards_point(delta, target)
 		else:
 			command_troops()
+			animation.play("idle")
 
 func command_troops():
 	if troop_status.has(false):
@@ -157,16 +159,11 @@ func move_towards_point(delta: float, point: Vector2) -> void:
 		velocity = velocity.move_toward(direction.normalized() * cur_speed, delta * 250) # as long as speed is big enough, doesnt seem to be much of a difference
 		global_position += velocity * delta
 	
-	if distance < 1.0:
-		if animation.animation != "idle":
-			animation.play("idle")
-	else:
-		if animation.animation != "walk":
-			animation.play("walk")
-		if direction.x < 0:
-			animation.flip_h = true
-		elif direction.x > 0:
-			animation.flip_h = false
+	animation.play("walk")
+	if direction.x < 0:
+		animation.flip_h = true
+	elif direction.x > 0:
+		animation.flip_h = false
 
 func refill_troops() -> void:
 	"""

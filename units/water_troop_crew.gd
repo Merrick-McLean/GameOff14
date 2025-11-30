@@ -25,10 +25,13 @@ func _physics_process(delta: float) -> void:
 	if target == null:
 		if global_position.distance_to(leader.position + variance) > 1.0:
 			move_towards_point(delta, leader.position + variance)
+		else:
+			animation.play("idle")
 	else:
 		if global_position.distance_to(target.position) > tree_distance_threshold:
 			move_towards_point(delta, target.position)
 		else:
+			animation.play("idle")
 			if target.current_state == target.state.on_fire:
 				target.douse_water(leader.water_power) 
 				leader.water_tank -= leader.tank_use
@@ -60,14 +63,8 @@ func move_towards_point(delta: float, point: Vector2) -> void:
 		velocity = velocity.move_toward(direction.normalized() * cur_speed, delta * 250) # as long as speed is big enough, doesnt seem to be much of a difference
 		global_position += velocity * delta
 	
-	# animation
-	if velocity.length() <= 0:
-		if animation.animation != "idle":
-			animation.play("idle")
-	else:
-		if animation.animation != "walk":
-			animation.play("walk")
-		if direction.x < 0:
-			animation.flip_h = true
-		elif direction.x > 0:
-			animation.flip_h = false
+	animation.play("walk")
+	if direction.x < 0:
+		animation.flip_h = true
+	elif direction.x > 0:
+		animation.flip_h = false

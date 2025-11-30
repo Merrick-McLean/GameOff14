@@ -24,10 +24,10 @@ func _on_button_pressed():
 	
 	await action.completed
 	
-	lumberjack.lookout_pos = compute_spawn_from_target(level, lumberjack)
+	lumberjack.lookout_pos = compute_spawn_from_target(level)
 	lumberjack.position = lumberjack.lookout_pos
 	level.add_child(lumberjack)
 
-func compute_spawn_from_target(level, lumberjack):
+func compute_spawn_from_target(level):
 	var level_gen = level.get_node("Level_generate")
 	return level_gen.lookout.global_position

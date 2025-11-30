@@ -45,7 +45,7 @@ gradient = SubResource("Gradient_71si8")
 width = 25
 
 [sub_resource type="Gradient" id="Gradient_gdyuq"]
-colors = PackedColorArray(0.6117647, 0.8039216, 0.8235294, 1, 0.8439484, 0.944994, 0.9490643, 1)
+colors = PackedColorArray(0.7261938, 0.3226369, 0.5347165, 1, 0.926936, 0.49898404, 0.7939966, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_m8bqi"]
 gradient = SubResource("Gradient_gdyuq")
