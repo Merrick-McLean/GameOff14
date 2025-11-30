@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cv3xhf0q270q6"]
+[gd_scene load_steps=11 format=3 uid="uid://cv3xhf0q270q6"]
 
 [ext_resource type="Texture2D" uid="uid://3hhiae731my2" path="res://assets/UI/UIButtonHolderSign.png" id="1_8hgu8"]
 [ext_resource type="Texture2D" uid="uid://71qaln6behuc" path="res://assets/UI/UIHelicopter.png" id="1_dhe1o"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://dskvb4glf05me" path="res://UI/actions/buy_foam_troops.gd" id="3_ai8rc"]
 [ext_resource type="Script" uid="uid://d1ihrbbbb4g3v" path="res://UI/actions/buy_plane.gd" id="3_mvqbr"]
 [ext_resource type="Script" uid="uid://baoxh5mr38un6" path="res://UI/actions/buy_lumberjack.gd" id="3_q0uhn"]
+[ext_resource type="Script" uid="uid://bjttto38rc2pm" path="res://UI/cost_label.gd" id="4_fpda8"]
 [ext_resource type="Script" uid="uid://bst1ccgvawigm" path="res://UI/actions/buy_ranger.gd" id="8_j6b01"]
 [ext_resource type="Script" uid="uid://cocnehrk4o5rg" path="res://UI/actions/buy_close_camp.gd" id="9_66a6d"]
 
@@ -53,6 +54,7 @@ mouse_filter = 2
 theme_override_colors/default_color = Color(1, 1, 0.47058824, 1)
 theme_override_font_sizes/normal_font_size = 9
 text = "$50"
+script = ExtResource("4_fpda8")
 
 [node name="FoamTroopButton" type="Button" parent="."]
 layout_mode = 0
@@ -73,6 +75,7 @@ mouse_filter = 2
 theme_override_colors/default_color = Color(1, 1, 0.47058824, 1)
 theme_override_font_sizes/normal_font_size = 9
 text = "$150"
+script = ExtResource("4_fpda8")
 
 [node name="HeliButton" type="Button" parent="."]
 layout_mode = 0
@@ -93,6 +96,7 @@ mouse_filter = 2
 theme_override_colors/default_color = Color(1, 1, 0.47058824, 1)
 theme_override_font_sizes/normal_font_size = 9
 text = "$200"
+script = ExtResource("4_fpda8")
 
 [node name="PlaneButton" type="Button" parent="."]
 layout_mode = 0
@@ -113,6 +117,7 @@ mouse_filter = 2
 theme_override_colors/default_color = Color(1, 1, 0.47058824, 1)
 theme_override_font_sizes/normal_font_size = 9
 text = "$500"
+script = ExtResource("4_fpda8")
 
 [node name="LumberjackButton" type="Button" parent="."]
 layout_mode = 0
@@ -134,6 +139,7 @@ theme_override_colors/default_color = Color(1, 1, 0.47058824, 1)
 theme_override_font_sizes/normal_font_size = 9
 text = "$75
 "
+script = ExtResource("4_fpda8")
 
 [node name="RangerButton" type="Button" parent="."]
 layout_mode = 0
@@ -154,6 +160,7 @@ mouse_filter = 2
 theme_override_colors/default_color = Color(1, 1, 0.47058824, 1)
 theme_override_font_sizes/normal_font_size = 9
 text = "$125"
+script = ExtResource("4_fpda8")
 
 [node name="CloseCampButton" type="Button" parent="."]
 layout_mode = 0
@@ -174,3 +181,4 @@ mouse_filter = 2
 theme_override_colors/default_color = Color(1, 1, 0.47058824, 1)
 theme_override_font_sizes/normal_font_size = 9
 text = "$0"
+script = ExtResource("4_fpda8")

@@ -2,6 +2,8 @@ extends Button
 
 var ranger_unit := preload("res://units/ranger.tscn")
 
+const cost = 150
+
 func _ready():
 	"""
 	
@@ -27,7 +29,24 @@ func _on_button_pressed():
 	ranger.lookout_pos = compute_spawn_from_target(level)
 	ranger.position = ranger.lookout_pos
 	level.add_child(ranger)
+	
+	var ui = game.get_node("UIContainer")
+	var eco = ui.get_node("UIEconomy")
+	eco.cash -= cost
+	eco.update()
 
 func compute_spawn_from_target(level):
 	var level_gen = level.get_node("Level_generate")
 	return level_gen.lookout.global_position
+
+func _process(delta: float) -> void:
+	var game = get_tree().get_current_scene()
+	var ui = game.get_node("UIContainer")
+	var eco = ui.get_node("UIEconomy")
+	if eco.cash < cost:
+		disabled = true
+		modulate = Color(0.3, 0.3 , 0.3)
+	else: 
+		disabled = false
+		modulate = Color(1, 1 , 1)
+	

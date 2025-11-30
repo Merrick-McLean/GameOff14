@@ -1,5 +1,7 @@
 extends Button
 
+const cost = 400
+
 func _ready():
 	"""
 	
@@ -18,3 +20,20 @@ func _on_button_pressed():
 	action_manager.set_action_state(action)
 	
 	await action.completed
+	
+	var ui = game.get_node("UIContainer")
+	var eco = ui.get_node("UIEconomy")
+	eco.cash -= cost
+	eco.update()
+
+func _process(delta: float) -> void:
+	var game = get_tree().get_current_scene()
+	var ui = game.get_node("UIContainer")
+	var eco = ui.get_node("UIEconomy")
+	if eco.cash < cost:
+		disabled = true
+		modulate = Color(0.3, 0.3 , 0.3)
+	else: 
+		disabled = false
+		modulate = Color(1, 1 , 1)
+	
