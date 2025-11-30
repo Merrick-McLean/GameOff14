@@ -13,6 +13,6 @@ func _new_summer():
 		cash += camp.revenue
 		camp.revenue = 0
 	var text = $Sprite2D/RichTextLabel
-	text.Text = cash
+	text.text = str(cash)
 	
 	
