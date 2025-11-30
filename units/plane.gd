@@ -28,6 +28,10 @@ var doused = false
 # preview graphics
 var preview_line: Node2D
 
+# retardent graphics
+var last_effect_pos: Vector2 = Vector2(INF, INF)
+var effect_spacing := 50.0
+
 func _ready():
 	"""
 	On ready function when plane is initialized
@@ -81,11 +85,11 @@ func check_target_line_status() -> void:
 	#var closest: Vector2 = a + (b - a) * progress
 	#var dist := global_position.distance_to(closest)
 	# dist < 5.0
-	if  progress > 0.0 and progress < 1.0:
-		print("Plane plays retardent animation")
+	if  progress > 0.0 and progress < 1.0 and last_effect_pos.distance_to(global_position) >= effect_spacing:
+		last_effect_pos = global_position
+		spawn_retardant_effect(a + (b - a) * progress)
 	
 	if progress == 1.0 and not doused:
-		print("spray")
 		doused = true
 		for tree in target_list:
 			tree.douse_retardent(fire_power, non_fire_power)
@@ -105,6 +109,12 @@ func apply_direction() -> void:
 	if destination.x < global_position.x:
 		animation.flip_h = true
 		rotation *= -1
+
+func spawn_retardant_effect(pos: Vector2) -> void:
+	var effect_scene := preload("res://units/PlaneRetardantEffect.tscn")
+	var effect := effect_scene.instantiate()
+	get_tree().current_scene.add_child(effect)
+	effect.global_position = pos
 
 func prepare_displays():
 	"""

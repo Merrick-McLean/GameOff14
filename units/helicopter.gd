@@ -160,6 +160,7 @@ func drop_water() -> void: # could use updates for efficiency
 	for result in results:
 		var tree = result.collider.get_parent()
 		if tree and tree.has_method("douse_water") and tree.current_state == tree.state.on_fire:
+			spawn_water_effect(target)
 			tree.douse_water(water_power)
 			water_dropped = true
 	
@@ -190,6 +191,12 @@ func move_towards_point(delta: float, point: Vector2) -> void:
 		animation.flip_h = true
 	elif direction.x > 0:
 		animation.flip_h = false
+
+func spawn_water_effect(pos: Vector2) -> void:
+	var effect_scene := preload("res://units/HeliWaterEffect.tscn")
+	var effect := effect_scene.instantiate()
+	get_tree().current_scene.add_child(effect)
+	effect.global_position = pos
 
 func prepare_displays():
 	"""

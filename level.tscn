@@ -28,6 +28,7 @@ script = ExtResource("1_f2txt")
 position = Vector2(0, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Bounds"]
+position = Vector2(960, 539)
 shape = SubResource("RectangleShape2D_0b4ue")
 
 [node name="weather_control" parent="." instance=ExtResource("6_1ainy")]

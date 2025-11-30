@@ -1,0 +1,57 @@
+[gd_scene load_steps=12 format=3 uid="uid://mc4f55fpktir"]
+
+[ext_resource type="Script" uid="uid://bt4njfiindp08" path="res://units/heli_water_effect.gd" id="1_iftb0"]
+[ext_resource type="Texture2D" uid="uid://cvfbg17dufnpk" path="res://assets/Troops/Effect Animations/HelicopterWater1.png" id="1_pxgau"]
+[ext_resource type="Texture2D" uid="uid://ubtwmgfm0qb" path="res://assets/Troops/Effect Animations/HelicopterWater2.png" id="2_iftb0"]
+[ext_resource type="Texture2D" uid="uid://dmrrwwf6n3aj0" path="res://assets/Troops/Effect Animations/HelicopterWater3.png" id="3_dy2iu"]
+[ext_resource type="Texture2D" uid="uid://5jwwkndj2e0f" path="res://assets/Troops/Effect Animations/HelicopterWater4.png" id="4_euq04"]
+[ext_resource type="Texture2D" uid="uid://b7d0rnmoy0dn3" path="res://assets/Troops/Effect Animations/HelicopterWater5.png" id="5_8hv5p"]
+[ext_resource type="Texture2D" uid="uid://yhsjbcr5lhny" path="res://assets/Troops/Effect Animations/HelicopterWater6.png" id="6_gsxk3"]
+[ext_resource type="Texture2D" uid="uid://vgr2obs87hjj" path="res://assets/Troops/Effect Animations/HelicopterWater7.png" id="7_11s8w"]
+[ext_resource type="Texture2D" uid="uid://b5km5di0q1g4p" path="res://assets/Troops/Effect Animations/HelicopterWater8.png" id="8_h8pfe"]
+[ext_resource type="Texture2D" uid="uid://bnwppvdchqvb6" path="res://assets/Troops/Effect Animations/HelicopterWater9.png" id="9_q5s8s"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7716y"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_pxgau")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_iftb0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_dy2iu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_euq04")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_8hv5p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_gsxk3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_11s8w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_h8pfe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_q5s8s")
+}],
+"loop": false,
+"name": &"water",
+"speed": 6.0
+}]
+
+[node name="HeliWaterEffect" type="Node2D"]
+script = ExtResource("1_iftb0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(4, 40)
+scale = Vector2(0.75, 0.75)
+sprite_frames = SubResource("SpriteFrames_7716y")
+animation = &"water"
+frame_progress = 0.5231651

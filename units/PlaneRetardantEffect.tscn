@@ -1,0 +1,53 @@
+[gd_scene load_steps=11 format=3 uid="uid://cte7kf22hytsg"]
+
+[ext_resource type="Texture2D" uid="uid://ceov74uhyjypy" path="res://assets/Troops/Effect Animations/PlaneSubstanceAnimation1.png" id="1_dpcwf"]
+[ext_resource type="Script" uid="uid://dgspgcy1hxd7k" path="res://units/plane_retardant_effect.gd" id="1_jog8e"]
+[ext_resource type="Texture2D" uid="uid://ctpynm72foea0" path="res://assets/Troops/Effect Animations/PlaneSubstanceAnimation2.png" id="2_jog8e"]
+[ext_resource type="Texture2D" uid="uid://iccvhgjgcute" path="res://assets/Troops/Effect Animations/PlaneSubstanceAnimation3.png" id="3_q8fg5"]
+[ext_resource type="Texture2D" uid="uid://b74fh8o4jbt3n" path="res://assets/Troops/Effect Animations/PlaneSubstanceAnimation4.png" id="4_vof62"]
+[ext_resource type="Texture2D" uid="uid://c4v6mvh7eutu1" path="res://assets/Troops/Effect Animations/PlaneSubstanceAnimation5.png" id="5_sgjg7"]
+[ext_resource type="Texture2D" uid="uid://dbgctii56fntp" path="res://assets/Troops/Effect Animations/PlaneSubstanceAnimation6.png" id="6_na8g2"]
+[ext_resource type="Texture2D" uid="uid://7miw5qw75iy4" path="res://assets/Troops/Effect Animations/PlaneSubstanceAnimation7.png" id="7_105j2"]
+[ext_resource type="Texture2D" uid="uid://ehyng3o2a47g" path="res://assets/Troops/Effect Animations/PlaneSubstanceAnimation8.png" id="8_cns33"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7we63"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_dpcwf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_jog8e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_q8fg5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_vof62")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_sgjg7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_na8g2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_105j2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_cns33")
+}],
+"loop": false,
+"name": &"retardent",
+"speed": 6.0
+}]
+
+[node name="PlaneRetardantEffect" type="Node2D"]
+script = ExtResource("1_jog8e")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(5, 19)
+sprite_frames = SubResource("SpriteFrames_7we63")
+animation = &"retardent"
+frame = 7
+frame_progress = 1.0

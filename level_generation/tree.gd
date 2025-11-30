@@ -135,8 +135,6 @@ func _draw() -> void: # make the fire circle
 		var base_r := 40
 		draw_circle(center, base_r * 0.9, Color(1, 0.1, 0.1, 0.7))
 
-
-
 func chop(): # chop tree
 	var new_texture
 	match tree_type:
@@ -148,6 +146,7 @@ func chop(): # chop tree
 			new_texture = load("res://assets/Trees/Oak/OakTreeStump.png")
 	$Sprite2D.texture = new_texture
 	current_state = state.stump
+	queue_redraw()
 
 # decide whether to handle state check here or on troop side...
 func douse_water(power):
@@ -168,9 +167,10 @@ func douse_retardent(fire_power, non_fire_power):
 func protect(foam):
 	protected = true
 	if foam:
-		self.modulate = Color(0.6, 0.35, 0.55)
+		draw_circle(Vector2(0,1), 40 * 0.9, Color(0.6, 0.35, 0.55, 0.7))
 	else:
-		self.modulate = Color(0.8, 0.1, 0.07)
+		draw_circle(Vector2(0,1), 40 * 0.9, Color(0.55, 0.05, 0.15, 0.7))
+	queue_redraw()
 
 #signals for weather
 func _relax():
