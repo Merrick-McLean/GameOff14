@@ -1,6 +1,10 @@
 extends Node2D
 
+#  FIX RADIUSES AND TANKS
+
 @onready var animation := $AnimatedSprite2D
+@onready var water_box := $Water
+@onready var water := $Water/AnimatedWater2D
 
 var leader: Node2D
 var target: Node2D
@@ -15,8 +19,11 @@ var acceleration_time := 0.25
 var variance
 var tree_distance_threshold := 10.0
 
-
 func _ready():
+	water_box.visible = false
+	water.play("spray")
+	water.pause()
+	
 	var coeff = even_or_odd_sign(id)
 	variance = Vector2((coeff * id) * 4, (-coeff * (leader.troop_count - id)) * 4)
 
@@ -33,14 +40,25 @@ func _physics_process(delta: float) -> void:
 		else:
 			animation.play("idle")
 			if target.current_state == target.state.on_fire:
-				target.douse_water(leader.water_power) 
-				leader.water_tank -= leader.tank_use
+				spray_tree()
 			else: 
 				leader.troop_status[id] = false
+				target.occupied = false
 				target = null
+				water_box.visible = false
+				water.stop()
 
 func even_or_odd_sign(x: int) -> int:
 	return 1 if x % 2 == 0 else -1
+
+func spray_tree():
+	if not water.is_playing():
+		water_box.visible = true
+		water.play("spray")
+		var dir = (target.global_position - global_position)
+		water_box.rotation = dir.angle()
+	target.douse_water(leader.water_power) 
+	leader.water_tank -= leader.tank_use
 
 # need to add some variance and lag to the movement - makes it more interesting
 func move_towards_point(delta: float, point: Vector2) -> void:

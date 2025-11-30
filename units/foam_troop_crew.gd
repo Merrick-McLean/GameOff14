@@ -1,7 +1,8 @@
 extends Node2D
 
 @onready var animation := $AnimatedSprite2D
-@onready var foam := $AnimatedFoam2D
+@onready var foam_box := $Foam
+@onready var foam := $Foam/AnimatedFoam2D
 
 var leader: Node2D
 var target: Node2D
@@ -21,6 +22,10 @@ var current_moisture_contribution = 0.0
 var max_moisture_contribution = 0.1
 
 func _ready():
+	foam_box.visible = false
+	foam.play("spray")
+	foam.pause()
+	
 	var coeff = even_or_odd_sign(id)
 	variance = Vector2((coeff * id) * 4, (-coeff * (leader.troop_count - id)) * 4)
 
@@ -38,18 +43,29 @@ func _physics_process(delta: float) -> void:
 			animation.play("idle")
 			if target.current_state == target.state.alive and not target.protected and leader.foam_tank > 0:
 				if current_moisture_contribution < max_moisture_contribution:
-					target.douse_foam(foam_power) 
-					current_moisture_contribution += foam_power
-					leader.foam_tank -= (foam_power / max_moisture_contribution) / leader.tank_use
+					spray_foam()
 				else:
 					target.protect(true)
 			else: 
 				target.occupied = false
 				leader.troop_status[id] = false
 				target = null
+				foam_box.visible = false
+				foam.stop()
 
 func even_or_odd_sign(x: int) -> int:
 	return 1 if x % 2 == 0 else -1
+
+func spray_foam():
+		if not foam.is_playing():
+			foam_box.visible = true
+			foam.play("spray")
+			var dir = (target.global_position - global_position)
+			foam_box.rotation = dir.angle()
+		target.douse_foam(foam_power) 
+		current_moisture_contribution += foam_power
+		leader.foam_tank -= (foam_power / max_moisture_contribution) / leader.tank_use
+
 
 func move_towards_point(delta: float, point: Vector2) -> void:
 	"""

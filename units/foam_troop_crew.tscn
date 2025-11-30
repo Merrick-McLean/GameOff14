@@ -81,16 +81,19 @@ animations = [{
 script = ExtResource("1_2wr8q")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -9)
+position = Vector2(0, -10)
 scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_bqi3g")
 animation = &"walk"
+frame = 1
+frame_progress = 0.45728973
 
 [node name="Foam" type="Node2D" parent="."]
 
 [node name="AnimatedFoam2D" type="AnimatedSprite2D" parent="Foam"]
-position = Vector2(15, -1.0000018)
+position = Vector2(14, -2.000002)
 scale = Vector2(0.25, 0.25)
 sprite_frames = SubResource("SpriteFrames_21aoh")
 animation = &"spray"
-frame_progress = 0.9660504
+frame = 3
+frame_progress = 0.470942

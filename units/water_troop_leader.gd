@@ -15,7 +15,7 @@ var source: Vector2
 
 # troop params
 var max_trees := 40
-var radius_val := 40.0 # search for trees region
+var radius_val := 60.0 # search for trees region
 
 var target_list: Array
 var troop_count := 4
@@ -29,10 +29,10 @@ var acceleration_time := 0.25
 
 # amount of water supply
 var water_tank := 1.0
-var tank_use := 0.05 # decide how to impliment (per tree or per tick) - right now per tick
+var tank_use := 0.000005
 var refill_rate := 0.01
 var refilling := false
-var water_power := 0.08 # per tick
+var water_power := 0.005 
 
 # hover graphics
 var target_radius: Node2D
@@ -131,9 +131,10 @@ func _physics_process(delta: float) -> void:
 func command_troops():
 	if troop_status.has(false):
 		for tree in target_list: # currently just starts with closest tree, no risk assessment or anything atm
-			if tree.current_state == tree.state.on_fire:
+			if tree.current_state == tree.state.on_fire and not tree.occupied:
 				for id in range(troop_count):
 					if !troop_status[id]:
+						tree.occupied = true
 						troop_list[id].target = tree
 						troop_status[id] = true
 						return # returns as it only commands one unit per process, could break otherwise

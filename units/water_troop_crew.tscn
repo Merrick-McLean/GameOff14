@@ -94,8 +94,8 @@ frame_progress = 0.8328227
 [node name="Water" type="Node2D" parent="."]
 
 [node name="AnimatedWater2D" type="AnimatedSprite2D" parent="Water"]
-position = Vector2(17, -1)
+position = Vector2(14, -2)
 scale = Vector2(0.25, 0.25)
 sprite_frames = SubResource("SpriteFrames_cterc")
 animation = &"spray"
-frame_progress = 0.84391445
+frame_progress = 0.215326

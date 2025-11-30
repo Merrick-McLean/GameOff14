@@ -16,7 +16,7 @@ var source: Vector2
 # water splash parameters
 var max_trees := 40
 var radius_val := 25.0
-var water_power := 1.0 # up for change
+var water_power := 0.5 # need to tweak
 
 # helicopter movement
 var bobbing_time := 0.0

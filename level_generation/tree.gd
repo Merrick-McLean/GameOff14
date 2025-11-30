@@ -154,13 +154,13 @@ func douse_water(power):
 		moisture += power
 
 func douse_foam(power):
-	if current_state != state.on_fire and not protected:
+	if current_state == state.alive and not protected:
 		moisture += power
 
 func douse_retardent(fire_power, non_fire_power):
 	if current_state == state.on_fire:
 		moisture += fire_power
-	elif not protected:
+	elif current_state == state.alive and not protected:
 		protect(false)
 		moisture += non_fire_power
 
@@ -168,7 +168,7 @@ func protect(foam):
 	protected = true
 	if foam:
 		draw_circle(Vector2(0,1), 40 * 0.9, Color(0.6, 0.35, 0.55, 0.7))
-	else:
+	else: #ie retardent
 		draw_circle(Vector2(0,1), 40 * 0.9, Color(0.55, 0.05, 0.15, 0.7))
 	queue_redraw()
 

@@ -21,8 +21,9 @@ var thickness = 20
 var speed := 275
 
 # retardent values
-var fire_power = 1.0
-var non_fire_power = 0.5
+# need to tweak
+var fire_power = 0.5 # moisture to add to on fire trees
+var non_fire_power = 0.2  # moisture to add to alive trees
 var doused = false
 
 # preview graphics
