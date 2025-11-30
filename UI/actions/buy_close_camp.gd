@@ -1,6 +1,6 @@
 extends Button
 
-const cost = 400
+const cost = 0
 
 func _ready():
 	"""
@@ -30,10 +30,17 @@ func _process(delta: float) -> void:
 	var game = get_tree().get_current_scene()
 	var ui = game.get_node("UIContainer")
 	var eco = ui.get_node("UIEconomy")
-	if eco.cash < cost:
+	var camps = game.get_node("Level/Level_generate").camps
+	
+	var all_closed := true
+	for camp in camps:
+		if camp.open:
+			all_closed = false
+			break
+	
+	if eco.cash < cost or all_closed:
 		disabled = true
 		modulate = Color(0.3, 0.3 , 0.3)
 	else: 
 		disabled = false
 		modulate = Color(1, 1 , 1)
-	
