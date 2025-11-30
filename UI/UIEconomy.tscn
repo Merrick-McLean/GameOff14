@@ -1,5 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://bb1ascbc20sgm"]
+[gd_scene load_steps=3 format=3 uid="uid://bb1ascbc20sgm"]
 
+[ext_resource type="Script" uid="uid://bxrlhjwvgihwn" path="res://UI/economy.gd" id="1_dfm0r"]
 [ext_resource type="Texture2D" uid="uid://hfcgp5oona0f" path="res://assets/UI/UIGoneFishingStraight.png" id="1_n84lp"]
 
 [node name="UIEconomy" type="Control"]
@@ -7,6 +8,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+script = ExtResource("1_dfm0r")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_n84lp")
