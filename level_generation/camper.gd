@@ -12,6 +12,7 @@ var lighter = false
 func _ready():
 	center_point = get_parent().position # start with center
 	pick_new_point()
+	z_index = global_position.y
 	
 func pick_new_point():
 	var angle = randf() * TAU # TAU = PI*2,so gereate random angel

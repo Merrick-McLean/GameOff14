@@ -27,7 +27,6 @@ func spawn_campsite(idx : int):
 	var point = get_parent().seed_points[idx]
 	var camp = camp_scene.instantiate()
 	camp.position = point
-	camp.z_index = point[1]
 	add_child(camp)
 	get_parent().camps.append(camp)
 	

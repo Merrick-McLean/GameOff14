@@ -23,8 +23,6 @@ func _on_tick() -> void:
 	
 	revenue += campers.size()
 	
-	if campers.size() == 0:
-		return  
 
 	var n = randf()
 
@@ -58,9 +56,9 @@ func close_camp() -> void:
 func spawn_camper(pos = Vector2(0,0)) -> void:
 	var camper = camper_scene.instantiate()
 	camper.z_index = global_position.y
-	add_child(camper)
 	campers.append(camper)
 	camper.position = pos
+	add_child(camper)
 
 func light_tree() -> void:
 	if campers.is_empty() or trees.is_empty():
