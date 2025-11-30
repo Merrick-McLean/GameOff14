@@ -17,7 +17,7 @@ var button_offscreen_position: Vector2 = Vector2(-300, 0)
 var economy_onscreen_position: Vector2 = Vector2(0, 25)
 var economy_offscreen_position: Vector2 = Vector2(0, -100)
 
-var wave_onscreen_position: Vector2 = Vector2(100, 1020)
+var wave_onscreen_position: Vector2 = Vector2(100, 900)
 var wave_offscreen_position: Vector2 = Vector2(100, 1100)
 
 func enter() -> void: # need to fix quick clicks hiding the overlay...
