@@ -11,9 +11,6 @@ var camp_tree = false
 @export var camp_fire = 0.99
 var seed
 
-
-
-
 # fire states
 enum state {
 	alive,
@@ -134,6 +131,8 @@ func _draw() -> void: # make the fire circle
 		var center := Vector2(0,1)
 		var base_r := 40
 		draw_circle(center, base_r * 0.9, Color(1, 0.1, 0.1, 0.7))
+	if current_state == state.alive and protected:
+		draw_circle(Vector2(0,1), 40 * 0.9, Color(0.6, 0.35, 0.55, 0.7))
 
 func chop(): # chop tree
 	var new_texture
@@ -161,15 +160,11 @@ func douse_retardent(fire_power, non_fire_power):
 	if current_state == state.on_fire:
 		moisture += fire_power
 	elif current_state == state.alive and not protected:
-		protect(false)
+		protect()
 		moisture += non_fire_power
 
-func protect(foam):
+func protect():
 	protected = true
-	if foam:
-		draw_circle(Vector2(0,1), 40 * 0.9, Color(0.6, 0.35, 0.55, 0.7))
-	else: #ie retardent
-		draw_circle(Vector2(0,1), 40 * 0.9, Color(0.55, 0.05, 0.15, 0.7))
 	queue_redraw()
 
 #signals for weather

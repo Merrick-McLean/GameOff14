@@ -101,13 +101,13 @@ func _physics_process(delta: float) -> void:
 	Logic for what the helicopters current action is
 	either moving, between target and source, refilling or dropping foam
 	"""
-	z_index = int(position.y) + 1
-	if target == null:
-		return
-	
 	# progress bar
 	foam_tank_bar.value = foam_tank * 100.0
 	foam_tank = clamp(foam_tank, 0.0, 1.0)
+
+	z_index = int(position.y) + 1
+	if target == null:
+		return
 	
 	if foam_tank <= 0: 
 		return_foam_crew(delta)
@@ -130,18 +130,25 @@ func return_foam_crew(delta): # need to also add handling to remove children - m
 			foam_troop_radius.queue_free()
 		foam_troop_radius = null
 		
+		for troop in troop_list:
+			if troop and troop.is_inside_tree():
+				troop.queue_free()
+		troop_list.clear()
+		troop_status.clear()
+		
 		self.queue_free() # should wait for foam crew to make it before we free him maybe
 
-func command_troops():
+# this needs work, troops still get assignment to same tree, reassignments dont work - copy ame updates to water troops when done
+func command_troops(): # despite debugging, troops dont seem to reassign to new trees until moved... not sure why
 	if troop_status.has(false):
 		for tree in target_list:
 			if tree.current_state == tree.state.alive and not tree.occupied:
 				for id in range(troop_count):
 					if !troop_status[id]:
+						print("TROOP ASSIGNED", tree)
 						troop_list[id].target = tree
 						tree.occupied = true
 						troop_status[id] = true
-						return 
 
 # PATH FINDING!!!!!
 func move_towards_point(delta: float, point: Vector2) -> void:

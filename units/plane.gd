@@ -13,9 +13,9 @@ var target_line: Array
 var destination: Vector2
 
 # selection size
-var max_length := 250
+var max_length := 400
 var max_trees := 40
-var thickness = 20
+var thickness = 40
 
 # plane values
 var speed := 275

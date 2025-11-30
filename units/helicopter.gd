@@ -15,8 +15,9 @@ var source: Vector2
 
 # water splash parameters
 var max_trees := 40
-var radius_val := 25.0
-var water_power := 0.5 # need to tweak
+var radius_val := 50.0
+var heli_indic_radius := 30.0
+var water_power := 0.75
 
 # helicopter movement
 var bobbing_time := 0.0
@@ -210,12 +211,12 @@ func prepare_displays():
 	
 	source_radius = preload("res://actions/PreviewPoint.gd").new()
 	source_radius.z_index = 999
-	source_radius.radius = radius_val
+	source_radius.radius = heli_indic_radius
 	source_radius.color = Color(0.1, 0.3, 0.6, 0.5)
 	level.add_child(source_radius)
 	
 	heli_radius = preload("res://actions/PreviewPoint.gd").new()
 	heli_radius.z_index = 999
-	heli_radius.radius = radius_val - 5
+	heli_radius.radius = heli_indic_radius
 	heli_radius.color = Color(0.65, 0.75, 0.25, 0.5)
 	self.add_child(heli_radius)

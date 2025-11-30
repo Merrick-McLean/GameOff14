@@ -17,9 +17,10 @@ var acceleration_time := 0.25
 var variance
 var tree_distance_threshold := 10.0
 
-var foam_power := 0.0004
 var current_moisture_contribution = 0.0
 var max_moisture_contribution = 0.1
+var time_to_foam: float = 3.0
+var foam_power: float = max_moisture_contribution / (60 * time_to_foam)
 
 func _ready():
 	foam_box.visible = false
@@ -31,6 +32,7 @@ func _ready():
 
 func _physics_process(delta: float) -> void:
 	z_index = int(position.y) + 1
+	print("CREW TARGET", target)
 	if target == null:
 		if global_position.distance_to(leader.position + variance) > 1.0:
 			move_towards_point(delta, leader.position + variance)
@@ -45,8 +47,9 @@ func _physics_process(delta: float) -> void:
 				if current_moisture_contribution < max_moisture_contribution:
 					spray_foam()
 				else:
-					target.protect(true)
+					target.protect()
 			else: 
+				current_moisture_contribution = 0.0
 				target.occupied = false
 				leader.troop_status[id] = false
 				target = null
@@ -65,7 +68,6 @@ func spray_foam():
 		target.douse_foam(foam_power) 
 		current_moisture_contribution += foam_power
 		leader.foam_tank -= (foam_power / max_moisture_contribution) / leader.tank_use
-
 
 func move_towards_point(delta: float, point: Vector2) -> void:
 	"""

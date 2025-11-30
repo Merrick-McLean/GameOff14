@@ -1,6 +1,6 @@
 extends Node2D
 
-#  FIX RADIUSES AND TANKS
+#  FIX RADIUSES AND TANK VALUES
 
 @onready var animation := $AnimatedSprite2D
 @onready var water_box := $Water
@@ -39,7 +39,7 @@ func _physics_process(delta: float) -> void:
 			move_towards_point(delta, target.position)
 		else:
 			animation.play("idle")
-			if target.current_state == target.state.on_fire:
+			if target.current_state == target.state.on_fire and leader.water_tank > 0:
 				spray_tree()
 			else: 
 				leader.troop_status[id] = false

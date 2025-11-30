@@ -29,10 +29,10 @@ var acceleration_time := 0.25
 
 # amount of water supply
 var water_tank := 1.0
-var tank_use := 0.000005
-var refill_rate := 0.01
+var tank_use := 0.00005
+var refill_rate := 0.005
 var refilling := false
-var water_power := 0.005 
+var water_power := 0.01
 
 # hover graphics
 var target_radius: Node2D
@@ -106,12 +106,12 @@ func _physics_process(delta: float) -> void:
 	either moving, between target and source, refilling or dropping water
 	"""
 	z_index = int(position.y) + 1
-	if target == null:
-		return
-	
 	# progress bar
 	water_tank_bar.value = water_tank * 100.0
 	water_tank = clamp(water_tank, 0.0, 1.0)
+	
+	if target == null:
+		return
 	
 	if refilling:
 		refill_troops()
@@ -137,7 +137,6 @@ func command_troops():
 						tree.occupied = true
 						troop_list[id].target = tree
 						troop_status[id] = true
-						return # returns as it only commands one unit per process, could break otherwise
 
 # PATH FINDING!!!!!
 func move_towards_point(delta: float, point: Vector2) -> void:
