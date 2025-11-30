@@ -185,6 +185,11 @@ func move_towards_point(delta: float, point: Vector2) -> void:
 		
 		velocity = velocity.move_toward(direction.normalized() * cur_speed, delta * 250) # as long as speed is big enough, doesnt seem to be much of a difference
 		global_position += velocity * delta
+	
+	if direction.x < 0:
+		animation.flip_h = true
+	elif direction.x > 0:
+		animation.flip_h = false
 
 func prepare_displays():
 	"""
