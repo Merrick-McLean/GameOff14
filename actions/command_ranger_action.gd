@@ -20,7 +20,7 @@ func enter() -> void:
 	
 	preview_radius = preload("res://actions/PreviewPoint.gd").new()
 	preview_radius.z_index = 999
-	preview_radius.radius = target_ranger.radius_val
+	preview_radius.radius = target_ranger.search_radius_val
 	preview_radius.color = Color(0.1, 0.3, 0.6, 0.5)
 	level.add_child(preview_radius)
 	

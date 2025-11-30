@@ -9,10 +9,13 @@ extends Node2D
 
 # target to drop foam and source to get foam
 var target: Vector2
-var camp: Vector2
+var camp_target = null
+var camp_position: Vector2 = Vector2.ZERO
+var max_objects := 100
 
 # troop params
-var radius_val := 40.0 # search for illegal camps region
+var search_radius_val := 100.0
+var ranger_radius_val := 35.0 # search for illegal camps region
 
 # foam troop movement
 var max_speed := 25.0
@@ -75,17 +78,26 @@ func _physics_process(delta: float) -> void:
 	if target == null:
 		return
 	
-	# progress bar
-	ranger_prog_bar.value = ranger_timer * 100.0
-	ranger_timer -= 1 / (ranger_use *  60)
-	ranger_timer = clamp(ranger_timer, 0.0, 1.0)
-	
 	if ranger_timer <= 0: 
 		return_ranger(delta)
+	elif camp_target != null and camp_position != Vector2.ZERO:
+		ranger_prog_bar.value = ranger_timer * 100.0
+		ranger_timer -= 1.0 / (ranger_use *  60)
+		ranger_timer = clamp(ranger_timer, 0.0, 1.0)
+		if global_position.distance_to(camp_position) > 1.0:
+			move_towards_point(delta, camp_position)
+		else:
+			animation.play("idle")
+			camp_target.close_illegal_camp()
+			camp_target = null
+			camp_position = Vector2.ZERO
 	else:
 		if global_position.distance_to(target) > 1.0:
 			move_towards_point(delta, target)
 		else:
+			ranger_prog_bar.value = ranger_timer * 100.0
+			ranger_timer -= 1.0 / (ranger_use *  60)
+			ranger_timer = clamp(ranger_timer, 0.0, 1.0)
 			campsite_search()
 			animation.play("idle")
 
@@ -104,7 +116,23 @@ func return_ranger(delta): # need to also add handling to remove children - mayb
 		self.queue_free() # should wait for foam crew to make it before we free him maybe
 
 func campsite_search():
-	return
+	var space_state = level.get_world_2d().direct_space_state
+	var campsite_search_area = CircleShape2D.new()
+	campsite_search_area.radius = search_radius_val
+
+	var params = PhysicsShapeQueryParameters2D.new()
+	params.shape = campsite_search_area
+	params.transform = Transform2D(0, target)
+	params.collide_with_areas = false
+	params.collide_with_bodies = true
+	
+	var results = space_state.intersect_shape(params, max_objects)
+	for result in results:
+		var campsite = result.collider.get_parent()
+		if campsite and campsite.has_method("close_illegal_camp"):
+			camp_target = campsite
+			camp_position = campsite.global_position
+			return
 
 func move_towards_point(delta: float, point: Vector2) -> void:
 	"""
@@ -157,12 +185,12 @@ func prepare_displays(): # could have a source as the lookout tower? seems unnne
 	"""
 	target_radius = preload("res://actions/PreviewPoint.gd").new()
 	target_radius.z_index = 999
-	target_radius.radius = radius_val
+	target_radius.radius = search_radius_val
 	target_radius.color = Color(0.1, 0.3, 0.6, 0.5)
 	level.add_child(target_radius)
 	
 	ranger_radius = preload("res://actions/PreviewPoint.gd").new()
 	ranger_radius.z_index = 999
-	ranger_radius.radius = radius_val - 5
+	ranger_radius.radius = ranger_radius_val
 	ranger_radius.color = Color(0.65, 0.75, 0.25, 0.5)
 	self.add_child(ranger_radius)

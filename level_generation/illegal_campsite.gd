@@ -28,9 +28,11 @@ func _on_tick() -> void:
 	elif n > 0.999 and campers.size() < max_campers and open:
 		spawn_camper()
 
-
-func _on_timer_timeout():
+func close_illegal_camp():
 	for camper in campers:
 		camper.queue_free()
 	get_parent().illegal_camps.erase(self)
 	queue_free()
+
+func _on_timer_timeout():
+	close_illegal_camp()
