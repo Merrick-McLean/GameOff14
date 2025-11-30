@@ -27,8 +27,6 @@ var max_speed := 25.0
 var velocity: Vector2 = Vector2.ZERO
 var acceleration_time := 0.25
 
-var travelling := false # temp fix
-
 # amount of water supply
 var water_tank := 1.0
 var tank_use := 0.05 # decide how to impliment (per tree or per tick) - right now per tick
@@ -57,13 +55,10 @@ func _ready():
 	area.mouse_entered.connect(_on_hover_enter)
 	area.mouse_exited.connect(_on_hover_exit)
 	
-	animation.play("idle")
-	
 	target_radius.visible = false
 	source_radius.visible = false
 	water_troop_radius.visible = false
 	
-	lookout_pos = Vector2(200, 200)
 	create_troops()
 
 func create_troops():
@@ -110,7 +105,7 @@ func _physics_process(delta: float) -> void:
 	Logic for what the helicopters current action is
 	either moving, between target and source, refilling or dropping water
 	"""
-	z_index = int(position.y)
+	z_index = int(position.y) + 1
 	if target == null:
 		return
 	
@@ -123,27 +118,23 @@ func _physics_process(delta: float) -> void:
 	elif water_tank < tank_use: # need to add better handling for this/control of crew members - because right now they will get stuck with no tank left
 		if global_position.distance_to(source) > 1.0:
 			move_towards_point(delta, source)
-			travelling = true
 		else:
 			refilling = true
-			travelling = false
 	else:
 		if global_position.distance_to(target) > 1.0:
 			move_towards_point(delta, target)
-			travelling = true
 		else:
 			command_troops()
-			travelling = false
 
 func command_troops():
 	if troop_status.has(false):
-		for tree in target_list:
+		for tree in target_list: # currently just starts with closest tree, no risk assessment or anything atm
 			if tree.current_state == tree.state.on_fire:
 				for id in range(troop_count):
 					if !troop_status[id]:
 						troop_list[id].target = tree
 						troop_status[id] = true
-						break # ensure this break is proper, do not want multiple troops going to same tree
+						return # returns as it only commands one unit per process, could break otherwise
 
 # PATH FINDING!!!!!
 func move_towards_point(delta: float, point: Vector2) -> void:
@@ -154,10 +145,9 @@ func move_towards_point(delta: float, point: Vector2) -> void:
 	"""
 	var direction := point - global_position
 	var distance = direction.length()
-
+	
 	if distance < 1.0:
 		velocity = Vector2.ZERO
-		return 
 	else:
 		var cur_speed := max_speed
 		var acceleration_distance := max_speed * acceleration_time
@@ -166,6 +156,17 @@ func move_towards_point(delta: float, point: Vector2) -> void:
 		
 		velocity = velocity.move_toward(direction.normalized() * cur_speed, delta * 250) # as long as speed is big enough, doesnt seem to be much of a difference
 		global_position += velocity * delta
+	
+	if distance < 1.0:
+		if animation.animation != "idle":
+			animation.play("idle")
+	else:
+		if animation.animation != "walk":
+			animation.play("walk")
+		if direction.x < 0:
+			animation.flip_h = true
+		elif direction.x > 0:
+			animation.flip_h = false
 
 func refill_troops() -> void:
 	"""

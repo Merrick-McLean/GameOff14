@@ -27,12 +27,9 @@ var max_speed := 25.0
 var velocity: Vector2 = Vector2.ZERO
 var acceleration_time := 0.25
 
-var travelling := false # temp fix
-
 # amount of foam supply
 var foam_tank := 1.0
-var tank_use := 0.05 # decide how to impliment (per tree or per tick) - right now per tick
-var foam_power := 0.08 # per tick 
+var tank_use := 10 # this many trees will be fully protected in a single use of these troops
 # also need to add a max moisture or max amount applied per tree
 
 # hover graphics
@@ -55,12 +52,9 @@ func _ready():
 	area.mouse_entered.connect(_on_hover_enter)
 	area.mouse_exited.connect(_on_hover_exit)
 	
-	animation.play("idle")
-	
 	target_radius.visible = false
 	foam_troop_radius.visible = false
 	
-	lookout_pos = Vector2(200, 200)
 	create_troops()
 
 func create_troops():
@@ -107,7 +101,7 @@ func _physics_process(delta: float) -> void:
 	Logic for what the helicopters current action is
 	either moving, between target and source, refilling or dropping foam
 	"""
-	z_index = int(position.y)
+	z_index = int(position.y) + 1
 	if target == null:
 		return
 	
@@ -115,15 +109,13 @@ func _physics_process(delta: float) -> void:
 	foam_tank_bar.value = foam_tank * 100.0
 	foam_tank = clamp(foam_tank, 0.0, 1.0)
 	
-	if foam_tank < tank_use: # need to add better handling for this/control of crew members - because right now they will get stuck with no tank left
+	if foam_tank <= 0: 
 		return_foam_crew(delta)
 	else:
 		if global_position.distance_to(target) > 1.0:
 			move_towards_point(delta, target)
-			travelling = true
 		else:
 			command_troops()
-			travelling = false
 
 func return_foam_crew(delta): # need to also add handling to remove children - maybe add children as children to leader, rather than level?
 	if global_position.distance_to(lookout_pos) > 1.0:
@@ -137,17 +129,18 @@ func return_foam_crew(delta): # need to also add handling to remove children - m
 			foam_troop_radius.queue_free()
 		foam_troop_radius = null
 		
-		self.queue_free()
+		self.queue_free() # should wait for foam crew to make it before we free him maybe
 
 func command_troops():
 	if troop_status.has(false):
 		for tree in target_list:
-			if tree.current_state == tree.state.on_fire:
+			if tree.current_state == tree.state.alive and not tree.occupied:
 				for id in range(troop_count):
 					if !troop_status[id]:
 						troop_list[id].target = tree
+						tree.occupied = true
 						troop_status[id] = true
-						break # ensure this break is proper, do not want multiple troops going to same tree
+						return 
 
 # PATH FINDING!!!!!
 func move_towards_point(delta: float, point: Vector2) -> void:
@@ -157,10 +150,9 @@ func move_towards_point(delta: float, point: Vector2) -> void:
 	"""
 	var direction := point - global_position
 	var distance = direction.length()
-
+	
 	if distance < 1.0:
 		velocity = Vector2.ZERO
-		return 
 	else:
 		var cur_speed := max_speed
 		var acceleration_distance := max_speed * acceleration_time
@@ -169,6 +161,18 @@ func move_towards_point(delta: float, point: Vector2) -> void:
 		
 		velocity = velocity.move_toward(direction.normalized() * cur_speed, delta * 250) # as long as speed is big enough, doesnt seem to be much of a difference
 		global_position += velocity * delta
+	
+	if distance < 1.0:
+		if animation.animation != "idle":
+			animation.play("idle")
+	else:
+		if animation.animation != "walk":
+			animation.play("walk")
+		if direction.x < 0:
+			animation.flip_h = true
+		elif direction.x > 0:
+			animation.flip_h = false
+
 
 func _on_hover_enter():
 	"""
