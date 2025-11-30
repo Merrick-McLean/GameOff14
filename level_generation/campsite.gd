@@ -23,7 +23,6 @@ func _on_tick() -> void:
 	
 	revenue += campers.size()
 	
-
 	var n = randf()
 
 	if n < 0.0005 * campers.size():
@@ -31,7 +30,11 @@ func _on_tick() -> void:
 
 	elif n > 0.9999 and campers.size() < max_campers and open:
 		spawn_camper()
-
+		
+	n = randf()
+	
+	if n < 0.0005:
+		despawn_camper()
 		
 func despawn_camper() -> void:
 	if campers.is_empty():

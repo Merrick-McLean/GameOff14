@@ -1,7 +1,4 @@
 extends Node2D
-
-var _timer: Timer
-
 # fire capabilities
 var fire_reach = 20
 # tree references
@@ -27,11 +24,11 @@ var protected = false
 
 # burn stats
 var burn_rate = 0.005
-var burn_spread_chance = 0.001
+var burn_spread_chance = 0.05
 var hull = 1.0
 var intensity = 0.0
-var evaporate = 0.001
-var moisture = 0.015
+var evaporate = 0.05
+var moisture = 0.020
 
 func _ready():
 	var world_timer = get_tree().get_current_scene().get_node("Level/world_timer")
