@@ -10,7 +10,7 @@ signal illegal_camper_wave
 
 signal new_summer
 
-var interval = 2
+var interval = 20
 var _timer : Timer
 
 var num_of_waves = 0
@@ -24,7 +24,7 @@ enum wave  {
 	relax = 4
 }
 
-var next = randi_range(0,3)
+var next = 0 #randi_range(0,3)
 
 # Fade values
 var fade := 0.0            # Current fade
@@ -93,14 +93,18 @@ func _on_timer_timeout() -> void:
 	if next != 4:
 		next = 4
 	else:
-		next = randi_range(0,3)
+		next = 0#randi_range(0,3)
 	num_of_waves+= 1
-	if num_of_waves > 2:
+	
+	
+	if num_of_waves > 8:
 		new_summer_reset()
 	
 	_timer.wait_time = interval
 	_timer.start()
-
+	var ui = get_tree().get_current_scene().get_node("UIContainer").get_node("UIWave")
+	ui.get_node("Sprite2D/RichTextLabel").text = "Wave " + str(num_of_waves+1)
+	
 
 func new_summer_reset():
 	num_of_waves = 0

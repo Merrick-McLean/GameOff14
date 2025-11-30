@@ -29,8 +29,10 @@ func _on_button_pressed():
 	heli.position = compute_spawn_from_target(level, target_dest)
 	level.add_child(heli)
 	
-	var eco = get_tree().get_current_scene().get_node("UIEconomy")
+	var ui = game.get_node("UIContainer")
+	var eco = ui.get_node("UIEconomy")
 	eco.cash -= cost
+	eco.update()
 
 func compute_spawn_from_target(level, target_pos):
 	var spawn_bounds: Rect2 = level.get_level_rect()
@@ -53,3 +55,14 @@ func compute_spawn_from_target(level, target_pos):
 			min_point = c
 	
 	return min_point
+
+func _process(delta: float) -> void:
+	var game = get_tree().get_current_scene()
+	var ui = game.get_node("UIContainer")
+	var eco = ui.get_node("UIEconomy")
+	if eco.cash < cost:
+		disabled = true
+		modulate = Color(0.3, 0.3 , 0.3)
+	else: 
+		disabled = false
+		modulate = Color(1, 1 , 1)
