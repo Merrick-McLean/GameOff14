@@ -21,20 +21,21 @@ script = ExtResource("3_u44n3")
 [node name="UIContainer" type="CanvasLayer" parent="."]
 
 [node name="UIButtons" parent="UIContainer" instance=ExtResource("1_u44n3")]
-offset_left = -200.0
-offset_right = -200.0
+offset_left = -300.0
+offset_right = -300.0
+scale = Vector2(1.25, 1.25)
 
 [node name="UIEconomy" parent="UIContainer" instance=ExtResource("6_r0x5m")]
-offset_left = 64.0
-offset_top = -64.0
-offset_right = 104.0
-offset_bottom = -24.0
+offset_top = -100.0
+offset_bottom = -60.0
+scale = Vector2(1.5, 1.5)
 
 [node name="UIWave" parent="UIContainer" instance=ExtResource("6_3mrqo")]
-offset_left = 64.0
-offset_top = 700.0
-offset_right = 104.0
-offset_bottom = 740.0
+offset_left = 100.0
+offset_top = 1100.0
+offset_right = 140.0
+offset_bottom = 1140.0
+scale = Vector2(1.5, 1.5)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 offset_left = 5.0

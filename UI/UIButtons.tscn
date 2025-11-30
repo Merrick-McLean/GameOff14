@@ -1,5 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://cv3xhf0q270q6"]
+[gd_scene load_steps=8 format=3 uid="uid://cv3xhf0q270q6"]
 
+[ext_resource type="Texture2D" uid="uid://3hhiae731my2" path="res://assets/UI/UIButtonHolderSign.png" id="1_8hgu8"]
 [ext_resource type="Texture2D" uid="uid://71qaln6behuc" path="res://assets/UI/UIHelicopter.png" id="1_dhe1o"]
 [ext_resource type="Script" uid="uid://bh3dhbbtrcdw3" path="res://UI/actions/buy_water_troops.gd" id="2_cnqyk"]
 [ext_resource type="Script" uid="uid://be8hskrpd31vh" path="res://UI/actions/buy_heli.gd" id="2_dhe1o"]
@@ -11,11 +12,31 @@
 layout_mode = 3
 anchors_preset = 0
 
+[node name="ButtonPost" type="Sprite2D" parent="."]
+position = Vector2(100, 170)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("1_8hgu8")
+
+[node name="ButtonPost2" type="Sprite2D" parent="."]
+position = Vector2(100, 245)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("1_8hgu8")
+
+[node name="ButtonPost3" type="Sprite2D" parent="."]
+position = Vector2(100, 320)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("1_8hgu8")
+
+[node name="ButtonPost4" type="Sprite2D" parent="."]
+position = Vector2(20, 395)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("1_8hgu8")
+
 [node name="WaterTroopButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 25.0
+offset_left = 45.0
 offset_top = 150.0
-offset_right = 85.0
+offset_right = 105.0
 offset_bottom = 210.0
 icon = ExtResource("1_dhe1o")
 script = ExtResource("2_cnqyk")
@@ -33,9 +54,9 @@ text = "$50"
 
 [node name="FoamTroopButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 100.0
+offset_left = 120.0
 offset_top = 150.0
-offset_right = 160.0
+offset_right = 180.0
 offset_bottom = 210.0
 icon = ExtResource("1_dhe1o")
 script = ExtResource("3_ai8rc")
@@ -53,9 +74,9 @@ text = "$150"
 
 [node name="HeliButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 25.0
+offset_left = 45.0
 offset_top = 300.0
-offset_right = 85.0
+offset_right = 105.0
 offset_bottom = 360.0
 icon = ExtResource("1_dhe1o")
 script = ExtResource("2_dhe1o")
@@ -73,9 +94,9 @@ text = "$200"
 
 [node name="PlaneButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 100.0
+offset_left = 120.0
 offset_top = 300.0
-offset_right = 160.0
+offset_right = 180.0
 offset_bottom = 360.0
 icon = ExtResource("1_dhe1o")
 script = ExtResource("3_mvqbr")
@@ -93,9 +114,9 @@ text = "$500"
 
 [node name="LumberjackButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 25.0
+offset_left = 45.0
 offset_top = 225.0
-offset_right = 85.0
+offset_right = 105.0
 offset_bottom = 285.0
 icon = ExtResource("1_dhe1o")
 script = ExtResource("3_q0uhn")
@@ -114,9 +135,9 @@ text = "$75
 
 [node name="RangerButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 100.0
+offset_left = 120.0
 offset_top = 225.0
-offset_right = 160.0
+offset_right = 180.0
 offset_bottom = 285.0
 icon = ExtResource("1_dhe1o")
 
@@ -133,9 +154,9 @@ text = "$125"
 
 [node name="CloseCampButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 25.0
+offset_left = 45.0
 offset_top = 375.0
-offset_right = 85.0
+offset_right = 105.0
 offset_bottom = 435.0
 icon = ExtResource("1_dhe1o")
 
