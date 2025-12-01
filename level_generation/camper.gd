@@ -27,14 +27,11 @@ func pick_new_point():
 		animation.play("walk")
 
 func go_light(tree):
-	print("here3")
 	if lighter == true:
-		print("herefalse")
 		return
 	target_point = tree.position
 	target_tree = tree
 	lighter = true
-	print("herefin")
 
 func _process(_delta): # move and slide here does mose the lifting, just kinda want them to wander around camp
 	var direction = (target_point - global_position).normalized()

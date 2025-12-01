@@ -15,6 +15,7 @@ var source: Vector2
 
 # troop params
 var max_trees := 60
+var radius_troop_val := 30.0 # search for trees region
 var radius_val := 60.0 # search for trees region
 
 var target_list: Array
@@ -216,12 +217,12 @@ func prepare_displays():
 	
 	source_radius = preload("res://actions/PreviewPoint.gd").new()
 	source_radius.z_index = 999
-	source_radius.radius = radius_val
+	source_radius.radius = radius_troop_val
 	source_radius.color = Color(0.1, 0.3, 0.6, 0.5)
 	level.add_child(source_radius)
 	
 	water_troop_radius = preload("res://actions/PreviewPoint.gd").new()
 	water_troop_radius.z_index = 999
-	water_troop_radius.radius = radius_val - 5
+	water_troop_radius.radius = radius_troop_val
 	water_troop_radius.color = Color(0.65, 0.75, 0.25, 0.5)
 	self.add_child(water_troop_radius)

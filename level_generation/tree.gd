@@ -47,6 +47,8 @@ var evaporate = 0.00001
 var moisture = 0.2
 
 func _ready():
+	add_to_group("trees")
+	
 	var world_timer = get_tree().get_current_scene().get_node("Level/world_timer")
 	world_timer.tick.connect(_on_tick)
 	
