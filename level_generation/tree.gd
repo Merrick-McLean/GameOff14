@@ -40,11 +40,11 @@ var occupied = false
 
 # burn stat
 var burn_rate = 0.001 # doubled here
-var burn_spread_chance = 0.0002
+var burn_spread_chance = 0.0003
 var hull = 1.0
 var intensity = 0.1
-var evaporate = 0.001
-var moisture = 0.15
+var evaporate = 0.00001
+var moisture = 0.2
 
 func _ready():
 	var world_timer = get_tree().get_current_scene().get_node("Level/world_timer")
