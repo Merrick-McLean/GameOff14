@@ -4,6 +4,12 @@ extends Node2D
 @onready var ignite_anim = $Ignite
 @onready var tree_sprite = $Sprite2D
 
+#TODO: Known issue, all sprites for trees (different species, stumps, burnt, alive) are not all aligned from base
+# this causes hit box/sprite to be slightly off depending
+# e.g. hit box is set up for oak tree, birch tree and pine tree will be slightly lower
+# e.g. switching from alive oak to burnt oak makes sprite move slightly
+
+# trees having different stats would be cool :)
 
 # fire capabilities
 var fire_reach = 30
