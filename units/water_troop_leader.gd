@@ -29,10 +29,10 @@ var acceleration_time := 0.25
 
 # amount of water supply
 var water_tank := 1.0
-var tank_use := 0.00005
+var tank_use := 0.0001
 var refill_rate := 0.005
 var refilling := false
-var water_power := 0.01
+var water_power := 0.05
 
 # hover graphics
 var target_radius: Node2D

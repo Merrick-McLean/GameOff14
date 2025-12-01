@@ -23,7 +23,7 @@ var speed := 275
 # retardent values
 # need to tweak
 var fire_power = 1.0 # moisture to add to on fire trees
-var non_fire_power = 0.2  # moisture to add to alive trees
+var non_fire_power = 0.75  # moisture to add to alive trees
 var doused = false
 
 # preview graphics
