@@ -4,14 +4,19 @@ extends Node2D
 
 var illegal_camps: Array = []
 
+var illegal_chance = 1.0
+
 func _ready() -> void:
 	spawn_campsites()
 	var world_timer = get_tree().get_current_scene().get_node("Level/world_timer")
 	world_timer.tick.connect(_on_tick)
+	var weather = get_tree().get_current_scene().get_node("Level/weather_control") # node that provides sigals for diffrent weather types
+	weather.relax.connect(_relax)
+	weather.illegal_camper_wave.connect(_illegal_camper_wave) 
 
 func _on_tick():
 	var n = randf()
-	if n > 0.99:
+	if n*illegal_chance > 0.99:
 		spawn_illegal_campsite()
 
 func close_camps():
@@ -28,6 +33,7 @@ func spawn_campsite(idx : int):
 	var camp = camp_scene.instantiate()
 	camp.position = point
 	add_child(camp)
+	camp.source_camp = true
 	get_parent().camps.append(camp)
 	
 func spawn_illegal_campsite():
@@ -44,4 +50,11 @@ func spawn_illegal_campsite():
 	camp.idx = idx
 	camp.set_pos(pos, near_trees)
 	camp.z_index = global_position.y
+	camp.source_camp = false
 	add_child(camp)
+	
+func _illegal_camper_wave():
+	illegal_chance = 1.5
+
+func _relax():
+	illegal_chance = 1.0

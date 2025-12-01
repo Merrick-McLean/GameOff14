@@ -24,7 +24,7 @@ enum wave  {
 	relax = 4
 }
 
-var next = 0 #randi_range(0,3)
+var next = randi_range(0,3)
 
 # Fade values
 var fade := 0.0            # Current fade
@@ -93,7 +93,7 @@ func _on_timer_timeout() -> void:
 	if next != 4:
 		next = 4
 	else:
-		next = 0#randi_range(0,3)
+		next = randi_range(0,3)
 	num_of_waves+= 1
 	
 	

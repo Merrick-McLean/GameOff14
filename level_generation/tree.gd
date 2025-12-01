@@ -11,6 +11,8 @@ var camp_tree = false
 @export var camp_fire = 0.99
 var seed
 
+var rain = 0
+
 # fire states
 enum state {
 	alive,
@@ -24,12 +26,12 @@ var current_state: state = state.alive
 var protected = false
 var occupied = false
 
-# burn stats
-var burn_rate = 0.0001
-var burn_spread_chance = 0.001
+# burn stat
+var burn_rate = 0.001
+var burn_spread_chance = 0.0003
 var hull = 1.0
-var intensity = 0.0
-var evaporate = 0.1
+var intensity = 0.1
+var evaporate = 0.001
 var moisture = 0.1
 
 func _ready():
@@ -39,10 +41,7 @@ func _ready():
 	var weather = get_tree().get_current_scene().get_node("Level/weather_control") # node that provides sigals for diffrent weather types
 	weather.relax.connect(_relax)
 	weather.wet_wave.connect(_wet_wave) 
-	#weather.storm_wave.connect(_storm_wave) 
 	weather.heat_wave.connect(_heat_wave) 
-
-
 
 func setup():
 	#runs after all trees made
@@ -51,6 +50,7 @@ func setup():
 			neighbors.append(tree) #calc trees close enough to affect 
 
 func _on_tick():
+	moisture += rain - evaporate/10
 	match current_state: #state machine
 		state.alive:
 			for tree in neighbors:
@@ -59,7 +59,7 @@ func _on_tick():
 					if randf() > 1 - burn_spread_chance:
 						ignite()
 		state.on_fire: 
-			intensity = sin(hull*PI + 0.3)*3/5 + 0.4 - max(moisture, 0) * 0.1
+			intensity = sin(hull*PI + 0.3)*3/5 + 0.4 - max(moisture, 0)*0.1
 			if intensity <= 0:
 				if hull > 0:
 					recover()
@@ -68,7 +68,7 @@ func _on_tick():
 					burn_out()
 					return
 			hull -= burn_rate
-			moisture -= evaporate/(1-intensity)
+			moisture -= evaporate
 			for tree in neighbors:
 				if tree.current_state == state.on_fire:
 					moisture -= evaporate
@@ -170,10 +170,9 @@ func protect():
 #signals for weather
 func _relax():
 	evaporate = 0.00001 # back to normal
-
+	rain	 = 0
 func _wet_wave(): # make the trees wetter
-	moisture += 0.1
+	rain = 0.00001
 	
 func _heat_wave(): # double evap while heat wave - a but of const moist once
-	moisture -= 0.01
 	evaporate *= 2

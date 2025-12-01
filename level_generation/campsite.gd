@@ -7,6 +7,8 @@ var fire_chance: float = 0.0
 var open: bool = true
 var source_camp = false
 
+var camper_chance = 1.0
+
 var revenue = 0
 
 @export var max_campers: int = 10
@@ -18,6 +20,10 @@ func _ready() -> void:
 	world_timer.tick.connect(_on_tick)
 	z_index = global_position.y
 	spawn_camper()
+	
+	var weather = get_tree().get_current_scene().get_node("Level/weather_control") # node that provides sigals for diffrent weather types
+	weather.relax.connect(_relax)
+	weather.camper_wave.connect(_camper_wave) 
 
 func _on_tick() -> void:
 	
@@ -28,7 +34,7 @@ func _on_tick() -> void:
 	if n < 0.0005 * campers.size():
 		light_tree()
 
-	elif n > 0.9999 and campers.size() < max_campers and open:
+	elif n*camper_chance > 0.9999 and campers.size() < max_campers and open:
 		spawn_camper()
 		
 	n = randf()
@@ -70,3 +76,8 @@ func light_tree() -> void:
 	var tree = trees.pick_random()
 	camper.go_light(tree)
 	
+func _relax():
+	camper_chance = 1.5
+	
+func _camper_wave():
+	camper_chance = 1.0

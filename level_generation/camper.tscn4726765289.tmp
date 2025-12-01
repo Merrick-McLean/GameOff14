@@ -16,4 +16,4 @@ disabled = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("2_u2nh2")
-animation = &"idle"
+animation = &"walk"

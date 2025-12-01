@@ -15,6 +15,9 @@ func _ready():
 	center_point = get_parent().position # start with center
 	pick_new_point()
 	z_index = global_position.y
+	if not get_parent().source_camp:
+		switch_animation("res://assets/Troops/camper2.tres")
+	animation.play("walk")
 	
 func pick_new_point():
 	var angle = randf() * TAU # TAU = PI*2,so gereate random angel
@@ -49,3 +52,7 @@ func _process(_delta): # move and slide here does mose the lifting, just kinda w
 		lighter = false
 
 		pick_new_point()
+
+func switch_animation(path: String):
+	var anim : SpriteFrames = load(path)
+	animation.sprite_frames = anim
