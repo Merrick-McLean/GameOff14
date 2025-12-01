@@ -5,6 +5,9 @@ extends Camera2D
 @export var min_zoom := Vector2(0.5, 0.5)   # minimum zoom in
 @export var max_zoom := Vector2(3.0, 3.0)   # maximum zoom out
 
+var min_bound := Vector2(100, 0)
+var max_bound := Vector2(1850, 1200)
+
 var panning := false                        # if we are currently panning
 var last_mouse_pos := Vector2.ZERO          # position of mouse
 var pan_velocity := Vector2.ZERO            # to track current drag velocity
@@ -19,6 +22,7 @@ func _process(delta):
 			pan_momentum = pan_momentum.lerp(Vector2.ZERO, pan_momentum_decay * delta)
 	else:
 		pan_velocity = Vector2.ZERO
+	position = position.clamp(min_bound, max_bound)
 
 func _input(event):
 	# Handle zoom with mouse wheel

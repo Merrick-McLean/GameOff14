@@ -1,14 +1,42 @@
-[gd_scene load_steps=8 format=3 uid="uid://v25q5yp8st2y"]
+[gd_scene load_steps=11 format=3 uid="uid://v25q5yp8st2y"]
 
 [ext_resource type="Script" uid="uid://cw7t1m5c8rr0" path="res://park_name/park_name_gen.gd" id="1_sb48q"]
 [ext_resource type="PackedScene" uid="uid://cv3xhf0q270q6" path="res://UI/UIButtons.tscn" id="1_u44n3"]
 [ext_resource type="PackedScene" uid="uid://nf7ensfke5r2" path="res://level.tscn" id="1_wbfu4"]
+[ext_resource type="Texture2D" uid="uid://deq7evrapgydy" path="res://assets/background/pixelated_table.png" id="1_yx171"]
 [ext_resource type="Script" uid="uid://dbl0sh3lkwanq" path="res://actions/action_manager.gd" id="3_u44n3"]
 [ext_resource type="PackedScene" uid="uid://ccclk5it05ktd" path="res://audio/music_control.tscn" id="5_t88pq"]
 [ext_resource type="PackedScene" uid="uid://db8jgupq38yy4" path="res://UI/UIWave.tscn" id="6_3mrqo"]
 [ext_resource type="PackedScene" uid="uid://bb1ascbc20sgm" path="res://UI/UIEconomy.tscn" id="6_r0x5m"]
+[ext_resource type="FontFile" uid="uid://c003yv43j6jnu" path="res://assets/font/pcsenior.ttf" id="8_2vekm"]
+[ext_resource type="Texture2D" uid="uid://wgeac53ikg3u" path="res://assets/background/pixelated_paper.png" id="8_joorw"]
 
 [node name="Game" type="Node2D"]
+
+[node name="TableTexture" type="Sprite2D" parent="."]
+position = Vector2(3192, -666)
+texture = ExtResource("1_yx171")
+flip_h = true
+
+[node name="TableTexture2" type="Sprite2D" parent="."]
+position = Vector2(-904, -666)
+texture = ExtResource("1_yx171")
+
+[node name="TableTexture3" type="Sprite2D" parent="."]
+position = Vector2(-904, 2054)
+texture = ExtResource("1_yx171")
+flip_v = true
+
+[node name="TableTexture4" type="Sprite2D" parent="."]
+position = Vector2(3192, 2054)
+texture = ExtResource("1_yx171")
+flip_h = true
+flip_v = true
+
+[node name="PaperTexture" type="Sprite2D" parent="."]
+position = Vector2(954.00006, 501)
+scale = Vector2(2.0784574, 2.0784574)
+texture = ExtResource("8_joorw")
 
 [node name="Level" parent="." instance=ExtResource("1_wbfu4")]
 
@@ -37,10 +65,12 @@ offset_bottom = 1140.0
 scale = Vector2(1.5, 1.5)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
-offset_left = 5.0
-offset_top = -65.0
-offset_right = 505.0
-offset_bottom = -20.0
-theme_override_font_sizes/normal_font_size = 28
+offset_left = 43.0
+offset_top = -106.0
+offset_right = 1685.0
+offset_bottom = -61.0
+theme_override_colors/default_color = Color(0.23648036, 0.2007348, 0.033392392, 1)
+theme_override_fonts/normal_font = ExtResource("8_2vekm")
+theme_override_font_sizes/normal_font_size = 32
 text = "Unnamed Park"
 script = ExtResource("1_sb48q")
