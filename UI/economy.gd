@@ -13,7 +13,7 @@ func _new_summer():
 	var camps = get_tree().get_current_scene().get_node("Level/Level_generate").camps
 	var revenue = 0
 	for camp in camps:
-		revenue += int(camp.revenue)
+		revenue += int(camp.revenue/10)
 		camp.revenue = 0
 	var text = $Sprite2D/RichTextLabel
 	cash += revenue

@@ -31,19 +31,19 @@ func _ready() -> void:
 
 func _on_tick() -> void:
 	
-	revenue += campers.size()/10
+	revenue += campers.size()
 	
 	var n = randf()
 
 	if n < 0.00001 * campers.size():
 		light_tree()
 
-	if n*camper_chance > 0.9999 and campers.size() < max_campers and open:
+	if n*camper_chance > 0.999 and campers.size() < max_campers and open:
 		spawn_camper()
 		
 	n = randf()
 	
-	if n < 0.0005:
+	if n < 0.0001:
 		despawn_camper()
 		
 func despawn_camper() -> void:
