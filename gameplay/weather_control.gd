@@ -10,7 +10,7 @@ signal illegal_camper_wave
 
 signal new_summer
 
-var interval = 20
+var interval = 30
 var _timer : Timer
 
 var num_of_waves = 0
