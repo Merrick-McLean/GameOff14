@@ -15,13 +15,13 @@ var source: Vector2
 
 # water splash parameters
 var max_trees := 40
-var radius_val := 50.0
+var radius_val := 75.0
 var heli_indic_radius := 30.0
-var water_power := 0.75
+var water_power := 1.5
 
 # helicopter movement
 var bobbing_time := 0.0
-var max_speed := 75.0
+var max_speed := 125.0
 var velocity: Vector2 = Vector2.ZERO
 var acceleration_time := 0.25
 

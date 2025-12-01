@@ -93,6 +93,7 @@ func check_target_line_status() -> void:
 	if progress == 1.0 and not doused:
 		doused = true
 		for tree in target_list:
+			print(tree)
 			tree.douse_retardent(fire_power, non_fire_power)
 
 func despawn_plane():

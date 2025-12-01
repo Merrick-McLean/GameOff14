@@ -20,14 +20,14 @@ var chopping = false
 var chop_time = 0.5
 
 # Lumberjack movement
-var max_speed := 25.0
+var max_speed := 30.0
 var velocity: Vector2 = Vector2.ZERO
 var acceleration_time := 0.25
 
 # selection size
-var max_length := 175
-var max_trees := 40
-var thickness = 20
+var max_length := 200
+var max_trees := 80
+var thickness = 25
 
 # preview graphics
 var lumberjack_radius: Node2D
