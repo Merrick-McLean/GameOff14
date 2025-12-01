@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://rbitxahkrmx3"]
+[gd_scene load_steps=5 format=3 uid="uid://rbitxahkrmx3"]
 
 [ext_resource type="Script" uid="uid://gi3dn26uejjp" path="res://loading_screen.gd" id="1_mggpi"]
 [ext_resource type="Texture2D" uid="uid://duq473un4pfn0" path="res://assets/image_1.png" id="2_htrc2"]
+[ext_resource type="Texture2D" uid="uid://3hhiae731my2" path="res://assets/UI/UIButtonHolderSign.png" id="3_fgney"]
+[ext_resource type="FontFile" uid="uid://c003yv43j6jnu" path="res://assets/font/pcsenior.ttf" id="4_74xf4"]
 
 [node name="Loading_screen" type="Control"]
 layout_mode = 3
@@ -9,23 +11,23 @@ anchors_preset = 0
 script = ExtResource("1_mggpi")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(0.51418716, 0.51418716, 0.51418716, 1)
 position = Vector2(959, 540)
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("2_htrc2")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 0
-offset_left = 43.0
-offset_top = 915.0
-offset_right = 511.0
-offset_bottom = 1028.0
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(543, 910)
+scale = Vector2(8, 8)
+texture = ExtResource("3_fgney")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
-offset_left = 53.0
-offset_top = 950.0
-offset_right = 487.0
-offset_bottom = 1012.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+offset_left = 166.0
+offset_top = 945.0
+offset_right = 1016.0
+offset_bottom = 1007.0
+theme_override_colors/font_color = Color(0.8545091, 0.7622928, 0.3704083, 1)
+theme_override_fonts/font = ExtResource("4_74xf4")
 theme_override_font_sizes/font_size = 50
-text = "Generating World ..."
+text = "Generating World..."
