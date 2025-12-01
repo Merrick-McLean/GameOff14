@@ -17,7 +17,7 @@ var source: Vector2
 var max_trees := 40
 var radius_val := 75.0
 var heli_indic_radius := 30.0
-var water_power := 1.5
+var water_power := 10.0
 
 # helicopter movement
 var bobbing_time := 0.0
