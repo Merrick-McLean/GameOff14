@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://djcn1vtkvcift"]
+[gd_scene load_steps=12 format=3 uid="uid://djcn1vtkvcift"]
 
 [ext_resource type="Script" uid="uid://b570wovunx1d4" path="res://units/foam_troop_leader.gd" id="1_bbnku"]
 [ext_resource type="Texture2D" uid="uid://dais4ltfn2cbo" path="res://assets/Troops/FoamTrooper1.png" id="2_pnvfu"]
 [ext_resource type="Texture2D" uid="uid://k8g68jd5mkto" path="res://assets/Troops/FoamTrooper2.png" id="3_7nm42"]
 [ext_resource type="Texture2D" uid="uid://bpcpj8vks7ndk" path="res://assets/Troops/FoamTrooper3.png" id="4_irejx"]
+[ext_resource type="Texture2D" uid="uid://c3xlqvlesyiik" path="res://assets/UI/CharacterIndicator.png" id="5_irejx"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_bbnku"]
 animations = [{
@@ -76,3 +77,9 @@ offset_bottom = 10.000001
 scale = Vector2(1, 1.75)
 texture_under = SubResource("GradientTexture1D_bbnku")
 texture_progress = SubResource("GradientTexture1D_m8bqi")
+
+[node name="Indicator" type="Sprite2D" parent="."]
+z_index = 4000
+position = Vector2(-1.9073486e-06, -23)
+scale = Vector2(0.46875, 0.484375)
+texture = ExtResource("5_irejx")

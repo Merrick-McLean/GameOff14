@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://u07p8e0344fk"]
+[gd_scene load_steps=12 format=3 uid="uid://u07p8e0344fk"]
 
 [ext_resource type="Texture2D" uid="uid://brdkovo230twf" path="res://assets/Troops/Ranger1.png" id="1_6rfll"]
 [ext_resource type="Script" uid="uid://qjvrwbs1cf6e" path="res://units/ranger.gd" id="1_siy1t"]
 [ext_resource type="Texture2D" uid="uid://ceyo7jeev0vdp" path="res://assets/Troops/Ranger2.png" id="2_siy1t"]
 [ext_resource type="Texture2D" uid="uid://bs0ng6gbxrtfy" path="res://assets/Troops/Ranger3.png" id="3_uvu21"]
+[ext_resource type="Texture2D" uid="uid://c3xlqvlesyiik" path="res://assets/UI/CharacterIndicator.png" id="5_al2uj"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_al2uj"]
 animations = [{
@@ -75,3 +76,9 @@ offset_bottom = 10.000001
 scale = Vector2(1, 1.75)
 texture_under = SubResource("GradientTexture1D_77fe2")
 texture_progress = SubResource("GradientTexture1D_bixr0")
+
+[node name="Indicator" type="Sprite2D" parent="."]
+z_index = 4000
+position = Vector2(-1.9073486e-06, -23)
+scale = Vector2(0.46875, 0.484375)
+texture = ExtResource("5_al2uj")
