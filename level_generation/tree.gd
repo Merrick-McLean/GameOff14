@@ -210,5 +210,7 @@ func _heat_wave(): # double evap while heat wave - a but of const moist once
 	evaporate *= 2
 
 func _new_summer():
-	if state.on_fire:
-		recover() 
+	if hull > 0:
+		recover()
+	else:
+		burn_out()
