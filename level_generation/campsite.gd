@@ -1,6 +1,8 @@
 extends Node2D
 class_name Camp
 
+@onready var smoke = $smoke
+
 var trees: Array = []
 var campers: Array = []
 var fire_chance: float = 0.0
@@ -58,7 +60,8 @@ func close_camp() -> void:
 	for tribute in campers:
 		tribute.hide()
 		tribute.queue_free()
-
+	
+	smoke.visible = false
 	campers.clear()
 	open = false
 

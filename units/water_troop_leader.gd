@@ -14,7 +14,7 @@ var target: Vector2
 var source: Vector2
 
 # troop params
-var max_trees := 40
+var max_trees := 60
 var radius_val := 60.0 # search for trees region
 
 var target_list: Array
@@ -32,7 +32,7 @@ var water_tank := 1.0
 var tank_use := 0.0001
 var refill_rate := 0.005
 var refilling := false
-var water_power := 0.05
+var water_power := 0.04
 
 # hover graphics
 var target_radius: Node2D
@@ -48,6 +48,8 @@ func _ready():
 	Sets up Z vaue and connects to necessary input detection
 	Sets up helper visuals
 	"""
+	add_to_group("troops")
+	
 	area.input_pickable = true
 	area.connect("input_event", Callable(self, "_on_input_event"))
 	prepare_displays()
