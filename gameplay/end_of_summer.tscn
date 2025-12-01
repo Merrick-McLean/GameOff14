@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://0j3da0rd3xy7"]
+[gd_scene load_steps=3 format=3 uid="uid://0j3da0rd3xy7"]
 
 [ext_resource type="Script" uid="uid://mid68wcksgfd" path="res://gameplay/end_of_summer.gd" id="1_0ipjy"]
+[ext_resource type="FontFile" uid="uid://c003yv43j6jnu" path="res://assets/font/pcsenior.ttf" id="2_mc2c3"]
 
 [node name="end_of_summer" type="CanvasLayer"]
 script = ExtResource("1_0ipjy")
@@ -10,7 +11,18 @@ offset_left = -9.0
 offset_top = -16.0
 offset_right = 1946.0
 offset_bottom = 1129.0
-color = Color(0, 0, 0, 0.45882353)
+color = Color(0.0627451, 0.02745098, 0, 0.54901963)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+custom_minimum_size = Vector2(50, 50)
+offset_left = 595.0
+offset_top = 127.0
+offset_right = 1361.0
+offset_bottom = 250.0
+theme_override_colors/default_color = Color(0.9411765, 0.9411765, 0.47058824, 1)
+theme_override_fonts/normal_font = ExtResource("2_mc2c3")
+theme_override_font_sizes/normal_font_size = 50
+text = "SUMMER COMPLETE"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchors_preset = -1
@@ -18,24 +30,22 @@ anchor_left = 0.26900002
 anchor_top = 0.18100001
 anchor_right = 0.72
 anchor_bottom = 0.61
-offset_left = -0.4800415
-offset_top = 0.519989
-offset_right = -0.4000244
-offset_bottom = 0.2000122
-
-[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer"]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-theme_override_font_sizes/normal_font_size = 30
-text = "Congratulations, you survived another summer! Keep Going"
+offset_left = -265.48004
+offset_top = 210.51999
+offset_right = 253.59998
+offset_bottom = 318.2
 
 [node name="money" type="RichTextLabel" parent="VBoxContainer"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
-theme_override_font_sizes/normal_font_size = 30
+theme_override_colors/default_color = Color(0.9411765, 0.9411765, 0.47058824, 1)
+theme_override_fonts/normal_font = ExtResource("2_mc2c3")
+theme_override_font_sizes/normal_font_size = 28
 text = "This summer you earned: "
 
 [node name="cash" type="RichTextLabel" parent="VBoxContainer"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
-theme_override_font_sizes/normal_font_size = 30
+theme_override_colors/default_color = Color(0.9411765, 0.9411765, 0.47058824, 1)
+theme_override_fonts/normal_font = ExtResource("2_mc2c3")
+theme_override_font_sizes/normal_font_size = 28

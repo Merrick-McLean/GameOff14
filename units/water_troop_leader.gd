@@ -32,7 +32,7 @@ var water_tank := 1.0
 var tank_use := 0.0001
 var refill_rate := 0.005
 var refilling := false
-var water_power := 0.04
+var water_power := 0.0375
 
 # hover graphics
 var target_radius: Node2D

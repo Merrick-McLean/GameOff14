@@ -18,7 +18,7 @@ var variance
 var tree_distance_threshold := 10.0
 
 var current_moisture_contribution = 0.0
-var max_moisture_contribution = 1.0
+var max_moisture_contribution = 1.5
 var time_to_foam: float = 3.0
 var foam_power: float = max_moisture_contribution / (60 * time_to_foam)
 
