@@ -80,6 +80,6 @@ texture_progress = SubResource("GradientTexture1D_m8bqi")
 
 [node name="Indicator" type="Sprite2D" parent="."]
 z_index = 4000
-position = Vector2(-1.9073486e-06, -23)
-scale = Vector2(0.46875, 0.484375)
+position = Vector2(-1.9073486e-06, -18)
+scale = Vector2(0.3, 0.3)
 texture = ExtResource("5_irejx")

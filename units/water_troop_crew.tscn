@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cb3dm4rd2x5ik"]
+[gd_scene load_steps=17 format=3 uid="uid://cb3dm4rd2x5ik"]
 
 [ext_resource type="Texture2D" uid="uid://w84dc5k153do" path="res://assets/Troops/FireFighter.png" id="1_fvu33"]
 [ext_resource type="Script" uid="uid://bq1ii0ewdd2ys" path="res://units/water_troop_crew.gd" id="1_tppvh"]
@@ -13,7 +13,6 @@
 [ext_resource type="Texture2D" uid="uid://dpvwubg3m8f4a" path="res://assets/Troops/Effect Animations/FireFighter_WaterAnimation6.png" id="11_yy2so"]
 [ext_resource type="Texture2D" uid="uid://beo1cdhs4dakb" path="res://assets/Troops/Effect Animations/FireFighter_WaterAnimation7.png" id="12_dpag5"]
 [ext_resource type="Texture2D" uid="uid://d1vjgac7iecli" path="res://assets/Troops/Effect Animations/FireFighter_WaterAnimation8.png" id="12_w1vk5"]
-[ext_resource type="Texture2D" uid="uid://c3xlqvlesyiik" path="res://assets/UI/CharacterIndicator.png" id="14_hv55j"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ahh2m"]
 animations = [{
@@ -100,9 +99,3 @@ scale = Vector2(0.25, 0.25)
 sprite_frames = SubResource("SpriteFrames_cterc")
 animation = &"spray"
 frame_progress = 0.27431595
-
-[node name="Indicator" type="Sprite2D" parent="."]
-z_index = 4000
-position = Vector2(-1.9073486e-06, -23)
-scale = Vector2(0.46875, 0.484375)
-texture = ExtResource("14_hv55j")
