@@ -2,6 +2,7 @@ extends Button
 
 var plane_unit := preload("res://units/Plane.tscn")
 @onready var cost_text := $PlaneCost
+@onready var action_manager = get_tree().get_current_scene().get_node("action_manager")
 
 const cost = 800
 
@@ -27,6 +28,9 @@ func _on_button_pressed():
 	action_manager.set_action_state(action)
 	
 	await action.completed
+	
+	if plane.target_line == null or plane.target_line.is_empty():
+		return
 	
 	var target_start = plane.target_line[0]
 	var target_end = plane.target_line[1]
@@ -55,7 +59,7 @@ func _process(delta: float) -> void:
 	var game = get_tree().get_current_scene()
 	var ui = game.get_node("UIContainer")
 	var eco = ui.get_node("UIEconomy")
-	if eco.cash < cost:
+	if eco.cash < cost or action_manager.action_state is not SelectAction:
 		disabled = true
 		modulate = Color(0.3, 0.3 , 0.3)
 	else: 

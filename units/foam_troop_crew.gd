@@ -34,7 +34,6 @@ func _ready():
 
 func _physics_process(delta: float) -> void:
 	z_index = int(position.y) + 1
-	print("CREW TARGET", target)
 	if target == null:
 		if global_position.distance_to(leader.position + variance) > 1.0:
 			move_towards_point(delta, leader.position + variance)

@@ -1,6 +1,7 @@
 extends Button
 
 @onready var cost_text := $CloseCampCost
+@onready var action_manager = get_tree().get_current_scene().get_node("action_manager")
 
 const cost = 0
 
@@ -41,7 +42,7 @@ func _process(delta: float) -> void:
 			all_closed = false
 			break
 	
-	if eco.cash < cost or all_closed:
+	if eco.cash < cost or all_closed or action_manager.action_state is not SelectAction:
 		disabled = true
 		modulate = Color(0.3, 0.3 , 0.3)
 	else: 
