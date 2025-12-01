@@ -1,4 +1,16 @@
 extends Node2D
+
+@onready var burn_anim = $Burn
+@onready var ignite_anim = $Ignite
+@onready var tree_sprite = $Sprite2D
+
+#TODO: Known issue, all sprites for trees (different species, stumps, burnt, alive) are not all aligned from base
+# this causes hit box/sprite to be slightly off depending
+# e.g. hit box is set up for oak tree, birch tree and pine tree will be slightly lower
+# e.g. switching from alive oak to burnt oak makes sprite move slightly
+
+# trees having different stats would be cool :)
+
 # fire capabilities
 var fire_reach = 30
 # tree references
@@ -42,6 +54,10 @@ func _ready():
 	weather.relax.connect(_relax)
 	weather.wet_wave.connect(_wet_wave) 
 	weather.heat_wave.connect(_heat_wave) 
+	
+	ignite_anim.animation_finished.connect(_on_ignite_finished)
+	ignite_anim.visible = false
+	burn_anim.visible = false
 
 func setup():
 	#runs after all trees made
@@ -80,12 +96,30 @@ func is_within_distance(node_a: Node2D, node_b: Node2D, radius: float) -> bool: 
 	return distance <= radius
 
 func ignite(): #called when a tree is offically on fire
-	self.modulate = Color(1,0,0)
+	tree_sprite.modulate = Color(0.8, 0.3, 0.0, 1.0)
 	current_state = state.on_fire
 	queue_redraw()
+	
+	ignite_anim.visible = true
+	burn_anim.visible = false
+	ignite_anim.play("ignite")
+
+func _on_ignite_finished():
+	if current_state != state.on_fire:
+		return
+	ignite_anim.visible = false
+	burn_anim.visible = true
+	burn_anim.play("burn")   # set to loop in the spriteframes
+
+func stop_fire_animations():
+	ignite_anim.stop()
+	burn_anim.stop()
+	ignite_anim.visible = false
+	burn_anim.visible = false
 
 func recover(): #called when a tree was on fire but not burnt
-	self.modulate = get_parent().get_color_for_index(seed)
+	stop_fire_animations()
+	tree_sprite.modulate = get_parent().get_color_for_index(seed)
 	current_state = state.alive
 	var new_texture
 	match tree_type:
@@ -99,6 +133,7 @@ func recover(): #called when a tree was on fire but not burnt
 	queue_redraw()
 			
 func burn_out(): # called when a tree dies
+	stop_fire_animations()
 	current_state = state.burnt
 	var new_texture
 	match tree_type:
@@ -127,10 +162,6 @@ func set_texture(idx : int):
 	$Sprite2D.texture = new_texture
 
 func _draw() -> void: # make the fire circle
-	if current_state == state.on_fire:
-		var center := Vector2(0,1)
-		var base_r := 40
-		draw_circle(center, base_r * 0.9, Color(1, 0.1, 0.1, 0.7))
 	if current_state == state.alive and protected:
 		draw_circle(Vector2(0,1), 40 * 0.9, Color(0.6, 0.35, 0.55, 0.7))
 

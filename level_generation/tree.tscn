@@ -1,10 +1,98 @@
-[gd_scene load_steps=4 format=3 uid="uid://cxndkcbf3v24y"]
+[gd_scene load_steps=24 format=3 uid="uid://cxndkcbf3v24y"]
 
 [ext_resource type="Script" uid="uid://b6wmv74s2a8hr" path="res://level_generation/tree.gd" id="1_brfkd"]
 [ext_resource type="Texture2D" uid="uid://bfgjxmvtyygut" path="res://assets/Trees/Oak/OakTree.png" id="2_nnvrw"]
+[ext_resource type="Texture2D" uid="uid://bel6nutcw5emc" path="res://assets/fx/Fireanimation1.png" id="3_jhub4"]
+[ext_resource type="Texture2D" uid="uid://dunv16ygbgvp3" path="res://assets/fx/Fireanimation2.png" id="4_hc21n"]
+[ext_resource type="Texture2D" uid="uid://i1chqigpeoox" path="res://assets/fx/Fireanimation3.png" id="5_pvbqy"]
+[ext_resource type="Texture2D" uid="uid://2nvidcldu8gp" path="res://assets/fx/Fireanimation4.png" id="6_0vcuk"]
+[ext_resource type="Texture2D" uid="uid://nwxsfltscpr6" path="res://assets/fx/Fireanimation5.png" id="7_l6fum"]
+[ext_resource type="Texture2D" uid="uid://dr6smi537gdrc" path="res://assets/fx/Fireanimation6.png" id="8_geshj"]
+[ext_resource type="Texture2D" uid="uid://bwy3u5pjgiomi" path="res://assets/fx/Fireanimation7.png" id="9_kvuy1"]
+[ext_resource type="Texture2D" uid="uid://c765ipuvnf2h3" path="res://assets/fx/Ignition1.png" id="10_4owhj"]
+[ext_resource type="Texture2D" uid="uid://baxtnjqpje4ih" path="res://assets/fx/Ignition2.png" id="11_13e1y"]
+[ext_resource type="Texture2D" uid="uid://ugabmyaq8lyc" path="res://assets/fx/Ignition3.png" id="12_nvuw6"]
+[ext_resource type="Texture2D" uid="uid://deiex777qgg7v" path="res://assets/fx/Ignition4.png" id="13_3mm0n"]
+[ext_resource type="Texture2D" uid="uid://c2dfxu2ridfim" path="res://assets/fx/Ignition5.png" id="14_brbtb"]
+[ext_resource type="Texture2D" uid="uid://d2s13n28rtaso" path="res://assets/fx/Ignition6.png" id="15_sue7j"]
+[ext_resource type="Texture2D" uid="uid://4heuhx53yxj1" path="res://assets/fx/Ignition7.png" id="16_5ast8"]
+[ext_resource type="Texture2D" uid="uid://bwwsgw73k14ih" path="res://assets/fx/Ignition8.png" id="17_lwibm"]
+[ext_resource type="Texture2D" uid="uid://cyngfgfvby5if" path="res://assets/fx/Ignition9.png" id="18_32ghv"]
+[ext_resource type="Texture2D" uid="uid://b3ngofxlcddm7" path="res://assets/fx/Ignition10.png" id="19_in4xq"]
+[ext_resource type="Texture2D" uid="uid://bl78ldt8x6mbn" path="res://assets/fx/Ignition11.png" id="20_nqbpb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nnvrw"]
 size = Vector2(50.000034, 80.000015)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ecnmh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_jhub4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_hc21n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_pvbqy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_0vcuk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_l6fum")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_geshj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_kvuy1")
+}],
+"loop": true,
+"name": &"burn",
+"speed": 10.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4owhj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_4owhj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_13e1y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_nvuw6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_3mm0n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_brbtb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_sue7j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_5ast8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_lwibm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_32ghv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_in4xq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_nqbpb")
+}],
+"loop": false,
+"name": &"ignite",
+"speed": 10.0
+}]
 
 [node name="tree" type="Node2D"]
 scale = Vector2(0.35, 0.35)
@@ -22,3 +110,19 @@ position = Vector2(-0.9999989, -40.999996)
 position = Vector2(0.99999905, 1)
 scale = Vector2(0.99999917, 0.99999917)
 shape = SubResource("RectangleShape2D_nnvrw")
+
+[node name="Burn" type="AnimatedSprite2D" parent="."]
+z_index = 2
+position = Vector2(-10, -70.714264)
+sprite_frames = SubResource("SpriteFrames_ecnmh")
+animation = &"burn"
+frame = 5
+frame_progress = 0.9010803
+
+[node name="Ignite" type="AnimatedSprite2D" parent="."]
+z_index = 2
+position = Vector2(2.8571427, -69)
+sprite_frames = SubResource("SpriteFrames_4owhj")
+animation = &"ignite"
+frame = 10
+frame_progress = 1.0
