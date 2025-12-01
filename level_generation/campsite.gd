@@ -75,12 +75,10 @@ func spawn_camper(pos = Vector2(0,0)) -> void:
 	add_child(camper)
 
 func light_tree() -> void:
-	print("here1")
 	if campers.is_empty():
 		return
 	var camper = campers.pick_random()
 	var tree = trees.pick_random()
-	print("here2")
 	camper.go_light(tree)
 	
 func _relax():

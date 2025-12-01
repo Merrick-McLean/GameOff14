@@ -28,7 +28,7 @@ var velocity: Vector2 = Vector2.ZERO
 var acceleration_time := 0.25
 
 # amount of foam supply
-var foam_tank := 0.5
+var foam_tank := 1.0
 var tank_use := 20 # this many trees will be fully protected in a single use of these troops
 # also need to add a max moisture or max amount applied per tree
 

@@ -18,6 +18,9 @@ func toggle_pause():
 func activate(cash):
 	despawn_troops()
 	toggle_pause()
+	
+	
+	
 	self.visible = true
 	var cash_text = $VBoxContainer/cash
 	cash_text.text = str(cash)
