@@ -17,11 +17,11 @@ func _new_summer():
 		camp.revenue = 0
 	var text = $Sprite2D/RichTextLabel
 	cash += revenue
-	text.text = str(cash)
+	text.text = "$" + str(int(cash))
 	pause_menu.activate(revenue)
 	
 func update():
 	var text = $Sprite2D/RichTextLabel
-	text.text = str(cash)
+	text.text = "$" + str(int(cash))
 	
 	
