@@ -1,6 +1,5 @@
-[gd_scene load_steps=13 format=3 uid="uid://cpi3tj44n0gsc"]
+[gd_scene load_steps=12 format=3 uid="uid://cpi3tj44n0gsc"]
 
-[ext_resource type="Texture2D" uid="uid://w84dc5k153do" path="res://assets/Troops/FireFighter.png" id="1_fkklu"]
 [ext_resource type="Script" uid="uid://dvh1unqmkvaso" path="res://units/water_troop_leader.gd" id="1_mr0cg"]
 [ext_resource type="Texture2D" uid="uid://dp0ejuphijeor" path="res://assets/Troops/FireFighter1.png" id="3_qphnv"]
 [ext_resource type="Texture2D" uid="uid://dsacsuqgn01hd" path="res://assets/Troops/FireFighter2.png" id="4_brkqy"]
@@ -11,7 +10,7 @@
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_fkklu")
+"texture": ExtResource("3_qphnv")
 }],
 "loop": true,
 "name": &"idle",

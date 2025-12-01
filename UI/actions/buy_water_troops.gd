@@ -22,7 +22,6 @@ func _on_button_pressed():
 	var level = game.get_node("Level")
 	var leader = water_troop_leader.instantiate()
 	
-	var action_manager = game.get_node("action_manager")
 	var action = preload("res://actions/command_water_troops_action.gd").new()
 	action.target_leader = leader
 	action_manager.set_action_state(action)

@@ -4,12 +4,21 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8sj3r"]
 shader = ExtResource("1_8sj3r")
-shader_parameter/speed = 1.5
-shader_parameter/density = 0.5
-shader_parameter/brightness = 0.7
-shader_parameter/wetwave = false
-shader_parameter/heatwave = false
 shader_parameter/fade = 0.0
+shader_parameter/heatwave = false
+shader_parameter/wetwave = false
+shader_parameter/brightness = 0.7
+shader_parameter/rain_amount = 200.0
+shader_parameter/near_rain_length = 0.2
+shader_parameter/far_rain_length = 0.1
+shader_parameter/near_rain_width = 1.0
+shader_parameter/far_rain_width = 0.5
+shader_parameter/near_rain_transparency = 1.0
+shader_parameter/far_rain_transparency = 0.5
+shader_parameter/rain_color = Color(0.8, 0.8, 0.8, 1)
+shader_parameter/base_rain_speed = 0.5
+shader_parameter/additional_rain_speed = 0.5
+shader_parameter/slant = 0.2
 
 [node name="shader_layer" type="CanvasLayer"]
 

@@ -1,6 +1,6 @@
 extends Button
 
-var helicopter := preload("res://units/Helicopter.tscn")
+var helicopter := preload("res://units/helicopter.tscn")
 @onready var cost_text := $HeliCost
 @onready var action_manager = get_tree().get_current_scene().get_node("action_manager")
 
@@ -22,7 +22,6 @@ func _on_button_pressed():
 	var level = game.get_node("Level")
 	var heli = helicopter.instantiate()
 	
-	var action_manager = game.get_node("action_manager")
 	var action = preload("res://actions/command_heli_action.gd").new()
 	action.target_heli = heli
 	action_manager.set_action_state(action)
@@ -60,7 +59,7 @@ func compute_spawn_from_target(level, target_pos):
 	
 	return min_point
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var game = get_tree().get_current_scene()
 	var ui = game.get_node("UIContainer")
 	var eco = ui.get_node("UIEconomy")

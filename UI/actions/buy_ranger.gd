@@ -23,7 +23,6 @@ func _on_button_pressed():
 	var level = game.get_node("Level")
 	var ranger = ranger_unit.instantiate()
 	
-	var action_manager = game.get_node("action_manager")
 	var action = preload("res://actions/command_ranger_action.gd").new()
 	action.target_ranger = ranger
 	action_manager.set_action_state(action)

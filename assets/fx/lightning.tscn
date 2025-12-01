@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b6hdyauxerl4e"]
 
 [ext_resource type="SpriteFrames" uid="uid://nem5dbx4g8fe" path="res://assets/fx/lightning.tres" id="1_4pb7r"]
-[ext_resource type="Script" uid="uid://jtixk3vhgnhl" path="res://assets/fx/lightning.gd" id="1_cep6t"]
+[ext_resource type="Script" path="res://assets/fx/lightning.gd" id="1_cep6t"]
 
 [node name="lightning" type="Node2D"]
 script = ExtResource("1_cep6t")
