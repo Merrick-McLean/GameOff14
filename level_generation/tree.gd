@@ -54,6 +54,7 @@ func _ready():
 	weather.relax.connect(_relax)
 	weather.wet_wave.connect(_wet_wave) 
 	weather.heat_wave.connect(_heat_wave) 
+	weather.new_summer.connect(_new_summer)
 	
 	ignite_anim.animation_finished.connect(_on_ignite_finished)
 	ignite_anim.visible = false
@@ -207,3 +208,7 @@ func _wet_wave(): # make the trees wetter
 	
 func _heat_wave(): # double evap while heat wave - a but of const moist once
 	evaporate *= 2
+
+func _new_summer():
+	if state.on_fire:
+		recover() 
