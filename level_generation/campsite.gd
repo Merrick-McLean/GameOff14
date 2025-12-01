@@ -36,7 +36,7 @@ func _on_tick() -> void:
 	if n < 0.00001 * campers.size():
 		light_tree()
 
-	elif n*camper_chance > 0.9999 and campers.size() < max_campers and open:
+	if n*camper_chance > 0.9999 and campers.size() < max_campers and open:
 		spawn_camper()
 		
 	n = randf()
@@ -73,14 +73,16 @@ func spawn_camper(pos = Vector2(0,0)) -> void:
 	add_child(camper)
 
 func light_tree() -> void:
-	if campers.is_empty() or trees.is_empty():
+	print("here1")
+	if campers.is_empty():
 		return
 	var camper = campers.pick_random()
 	var tree = trees.pick_random()
+	print("here2")
 	camper.go_light(tree)
 	
 func _relax():
-	camper_chance = 1.5
+	camper_chance = 1.0
 	
 func _camper_wave():
-	camper_chance = 1.0
+	camper_chance = 1.5

@@ -16,7 +16,7 @@ func _ready() -> void:
 
 func _on_tick():
 	var n = randf()
-	if n*illegal_chance > 0.9995:
+	if n*illegal_chance > 0.9999:
 		spawn_illegal_campsite()
 
 func close_camps():
@@ -46,11 +46,12 @@ func spawn_illegal_campsite():
 	var idx = idx_range.pick_random() # need to not make this manual
 	var pos = get_parent().seed_points[idx]
 	var near_trees = get_parent().seed_tree_groups[idx]
-	illegal_camps.append(camp)
 	camp.idx = idx
-	camp.set_pos(pos, near_trees)
 	camp.z_index = global_position.y
 	camp.source_camp = false
+	camp.position = pos
+	camp.trees = near_trees
+	illegal_camps.append(camp)
 	add_child(camp)
 	
 func _illegal_camper_wave():

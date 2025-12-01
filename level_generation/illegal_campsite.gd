@@ -17,16 +17,15 @@ func _ready():
 	_timer.autostart = true
 	_timer.timeout.connect(_on_timer_timeout)
 	add_child(_timer)
-	spawn_camper()
+	for i in range(randi_range(7,10)):
+		spawn_camper()
+	var world_timer = get_tree().get_current_scene().get_node("Level/world_timer")
+	world_timer.tick.connect(_on_tick)
 
 func _on_tick() -> void:
 	var n = randf()
-
-	if n < 0.0025 * campers.size():
+	if n < 0.0001 * campers.size():
 		light_tree()
-
-	elif n > 0.999 and campers.size() < max_campers and open:
-		spawn_camper()
 
 func close_illegal_camp():
 	for camper in campers:
