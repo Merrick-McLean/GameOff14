@@ -13,11 +13,19 @@ position = Vector2(959, 540)
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("2_htrc2")
 
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 43.0
+offset_top = 915.0
+offset_right = 511.0
+offset_bottom = 1028.0
+
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
 offset_left = 53.0
 offset_top = 950.0
 offset_right = 487.0
 offset_bottom = 1012.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 50
 text = "Generating World ..."
