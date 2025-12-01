@@ -1,5 +1,7 @@
 extends Button
 
+@onready var cost_text := $CloseCampCost
+
 const cost = 0
 
 func _ready():
@@ -8,6 +10,7 @@ func _ready():
 	"""
 	pressed.connect(_on_button_pressed)
 	tooltip_text = "Shutdown Campsite"
+	cost_text.text = "$" + str(cost)
 
 func _on_button_pressed():
 	"""

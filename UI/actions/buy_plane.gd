@@ -1,6 +1,8 @@
 extends Button
 
 var plane_unit := preload("res://units/Plane.tscn")
+@onready var cost_text := $PlaneCost
+
 const cost = 400
 
 func _ready():
@@ -9,6 +11,7 @@ func _ready():
 	"""
 	pressed.connect(_on_button_pressed)
 	tooltip_text = "Airtanker"
+	cost_text.text = "$" + str(cost)
 
 func _on_button_pressed():
 	"""

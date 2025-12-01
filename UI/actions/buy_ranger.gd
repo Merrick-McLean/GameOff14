@@ -1,6 +1,7 @@
 extends Button
 
 var ranger_unit := preload("res://units/ranger.tscn")
+@onready var cost_text := $RangerCost
 
 const cost = 150
 
@@ -8,8 +9,10 @@ func _ready():
 	"""
 	
 	"""
+	
 	pressed.connect(_on_button_pressed)
 	tooltip_text = "Park Ranger"
+	cost_text.text = "$" + str(cost)
 
 func _on_button_pressed():
 	"""

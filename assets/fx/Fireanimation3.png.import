@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bacev40086xlr"
-path="res://.godot/imported/PineTree.png-67724acc7124af50d048e5dcb98ab8d1.ctex"
+uid="uid://i1chqigpeoox"
+path="res://.godot/imported/Fireanimation3.png-a82edb055537bda9ec804be92e456814.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Trees/Pine/PineTree.png"
-dest_files=["res://.godot/imported/PineTree.png-67724acc7124af50d048e5dcb98ab8d1.ctex"]
+source_file="res://assets/fx/Fireanimation3.png"
+dest_files=["res://.godot/imported/Fireanimation3.png-a82edb055537bda9ec804be92e456814.ctex"]
 
 [params]
 

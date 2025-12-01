@@ -1,6 +1,7 @@
 extends Button
 
 var water_troop_leader := preload("res://units/water_troop_leader.tscn")
+@onready var cost_text := $WaterTroopCost
 
 const cost = 100
 
@@ -10,6 +11,7 @@ func _ready():
 	"""
 	pressed.connect(_on_button_pressed)
 	tooltip_text = "Water Crew"
+	cost_text.text = "$" + str(cost)
 
 func _on_button_pressed():
 	"""

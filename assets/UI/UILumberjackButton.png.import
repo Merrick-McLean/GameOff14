@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bacev40086xlr"
-path="res://.godot/imported/PineTree.png-67724acc7124af50d048e5dcb98ab8d1.ctex"
+uid="uid://bm6rewhw0q382"
+path="res://.godot/imported/UILumberjackButton.png-6fd2a18d596f5e1c9afbb805c68898cd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Trees/Pine/PineTree.png"
-dest_files=["res://.godot/imported/PineTree.png-67724acc7124af50d048e5dcb98ab8d1.ctex"]
+source_file="res://assets/UI/UILumberjackButton.png"
+dest_files=["res://.godot/imported/UILumberjackButton.png-6fd2a18d596f5e1c9afbb805c68898cd.ctex"]
 
 [params]
 

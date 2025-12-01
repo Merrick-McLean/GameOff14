@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bacev40086xlr"
-path="res://.godot/imported/PineTree.png-67724acc7124af50d048e5dcb98ab8d1.ctex"
+uid="uid://bybs1d3cahbaw"
+path="res://.godot/imported/FireLookoutTower.png-69f27d8508b0ead40c418469f17845f1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Trees/Pine/PineTree.png"
-dest_files=["res://.godot/imported/PineTree.png-67724acc7124af50d048e5dcb98ab8d1.ctex"]
+source_file="res://assets/Troops/FireLookoutTower.png"
+dest_files=["res://.godot/imported/FireLookoutTower.png-69f27d8508b0ead40c418469f17845f1.ctex"]
 
 [params]
 

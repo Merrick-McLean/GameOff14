@@ -1,6 +1,7 @@
 extends Button
 
 var lumberjack_unit := preload("res://units/Lumberjack.tscn")
+@onready var cost_text := $LumberjackCost
 
 const cost = 300
 
@@ -10,6 +11,7 @@ func _ready():
 	"""
 	pressed.connect(_on_button_pressed)
 	tooltip_text = "Lumberjack"
+	cost_text.text = "$" + str(cost)
 
 func _on_button_pressed():
 	"""
