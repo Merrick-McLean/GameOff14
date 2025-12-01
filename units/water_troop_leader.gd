@@ -129,14 +129,16 @@ func _physics_process(delta: float) -> void:
 			animation.play("idle")
 
 func command_troops():
-	if troop_status.has(false):
-		for tree in target_list: # currently just starts with closest tree, no risk assessment or anything atm
-			if tree.current_state == tree.state.on_fire and not tree.occupied:
-				for id in range(troop_count):
-					if !troop_status[id]:
-						tree.occupied = true
-						troop_list[id].target = tree
-						troop_status[id] = true
+	if not troop_status.has(false):
+		return
+	for id in range(troop_count):
+		if !troop_status[id] and troop_list[id].target == null:
+			for tree in target_list:
+				if tree.current_state == tree.state.on_fire and not tree.occupied:
+					troop_list[id].target = tree
+					troop_status[id] = true
+					tree.occupied = true
+					break
 
 # PATH FINDING!!!!!
 func move_towards_point(delta: float, point: Vector2) -> void:

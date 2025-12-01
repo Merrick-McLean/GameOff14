@@ -49,12 +49,13 @@ func _physics_process(delta: float) -> void:
 				else:
 					target.protect()
 			else: 
-				current_moisture_contribution = 0.0
-				target.occupied = false
-				leader.troop_status[id] = false
-				target = null
-				foam_box.visible = false
-				foam.stop()
+				if target.protected or target.current_state != target.state.alive or leader.foam_tank <= 0:
+					current_moisture_contribution = 0.0
+					target.occupied = false
+					leader.troop_status[id] = false
+					target = null
+					foam_box.visible = false
+					foam.stop()
 
 func even_or_odd_sign(x: int) -> int:
 	return 1 if x % 2 == 0 else -1

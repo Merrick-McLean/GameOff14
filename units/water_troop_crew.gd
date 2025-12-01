@@ -42,11 +42,12 @@ func _physics_process(delta: float) -> void:
 			if target.current_state == target.state.on_fire and leader.water_tank > 0:
 				spray_tree()
 			else: 
-				leader.troop_status[id] = false
-				target.occupied = false
-				target = null
-				water_box.visible = false
-				water.stop()
+				if target.current_state != target.state.on_fire or leader.water_tank <= 0:
+					leader.troop_status[id] = false
+					target.occupied = false
+					target = null
+					water_box.visible = false
+					water.stop()
 
 func even_or_odd_sign(x: int) -> int:
 	return 1 if x % 2 == 0 else -1
