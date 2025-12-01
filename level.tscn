@@ -15,6 +15,8 @@ size = Vector2(2198, 1552)
 script = ExtResource("1_f2txt")
 
 [node name="Camera2D" parent="." instance=ExtResource("1_0b4ue")]
+position = Vector2(946, 519)
+zoom = Vector2(0.5, 0.5)
 
 [node name="shader_layer" parent="." instance=ExtResource("3_n6hdu")]
 
