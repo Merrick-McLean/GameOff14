@@ -57,9 +57,9 @@ scale = Vector2(1.5, 1.5)
 
 [node name="UIWave" parent="UIContainer" instance=ExtResource("6_3mrqo")]
 offset_left = 100.0
-offset_top = 950.0
+offset_top = 975.0
 offset_right = 140.0
-offset_bottom = 990.0
+offset_bottom = 1015.0
 scale = Vector2(1.5, 1.5)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
