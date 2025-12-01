@@ -3,66 +3,47 @@ shader_type canvas_item;
 uniform float fade : hint_range(0.0, 1.0) = 0.0; // for opacity control
 uniform bool heatwave = false;
 uniform bool wetwave = false;
+uniform float brightness = 0.7;
 
-uniform int count: hint_range(0, 2000) = 500;
-uniform float slant: hint_range(-0.1, 0.1) = -0.01;
-uniform float speed: hint_range(25.0, 100.0) = 75.0;
-uniform float blur: hint_range(0.0005, 0.1) = 0.002;
-uniform vec4 colour: source_color = vec4(1.0, 1.0, 1.0, 1.0);
-uniform vec2 size = vec2(0.005, 0.2);
 
-uniform float brightness = 0.8;
-
-float line_sdf(vec2 p, vec2 s) {
-    vec2 d = abs(p) - s;
-    return min(max(d.x, d.y), 0.0) + length(max(d, 0.0));
-}
-
-float Hash(float x) {
-    return fract(sin(x * 18.34) * 51.78);
-}
-
-float Hash2(float x) {
-    return fract(sin(x * 25.42) * 21.24);
-}
+uniform float rain_amount = 200.0;
+uniform float near_rain_length : hint_range(0.01, 1.0) = 0.2;
+uniform float far_rain_length : hint_range(0.01, 1.0) = 0.1;
+uniform float near_rain_width : hint_range(0.1, 1.0) = 1.0;
+uniform float far_rain_width : hint_range(0.1, 1.0) = 0.5;
+uniform float near_rain_transparency : hint_range(0.1, 1.0) = 1.0;
+uniform float far_rain_transparency : hint_range(0.1, 1.0) = 0.5;
+// Replace the below reference to source_color with hint_color if you are using a version of Godot before 4.0.
+uniform vec4 rain_color : source_color = vec4(0.8, 0.8, 0.8, 1.0);
+uniform float base_rain_speed : hint_range(0.1, 1.0) = 0.5;
+uniform float additional_rain_speed : hint_range(0.1, 1.0) = 0.5;
+uniform float slant : hint_range(-1.0, 1.0) = 0.2;
 
 
 void fragment() {
-	if(wetwave && false){
-    vec2 s = size * 0.1;
-    float time = TIME + 1000.0;
-    vec2 uv = UV;
-    uv.x += uv.y * slant;
-    float output = 0.0;
-    
-    for (int i = 1; i <= count; i++) {
-        float h1 = Hash(float(i));
-        float h2 = Hash2(float(i));
+	if(wetwave){
+    // To control the rainfall from your program comment out the below line and add a new uniform above as:
+// uniform float time = 10000.0;
+// Then update the time uniform from your _physics_process function by adding delta. You can then pause the rainfall by not changing the time uniform.
+	float time = 10000.0 + TIME;
 
-        float sl = h1 * uv.y * -slant;
-        float pos_mod_x = h1 * 1.2;
-        float pos_mod_y = max(h2 * speed, pos_mod_x * speed);
-        vec2 position = vec2(pos_mod_x + sl, -mod(-pos_mod_y * time * 0.1, -1.));
-        float sdf = line_sdf(uv - position, s);
-        output += clamp(- sdf / blur, 0.0, 1.0);
-    }
-	
-		    // Background color (blue-ish)
-		vec3 background_color = vec3(0.2, 0.3, 0.6); // slightly desaturated, dark blue
+// Uncomment the following line if you are applying the shader to a TextureRect and using a version of Godot before 4.0.
+//	COLOR = texture(TEXTURE,UV);
 
-		vec3 final_color = mix(
-		    background_color,    
-		    colour.rgb,           
-		    clamp(output * fade, 0.0, 1.0)
-		);
+	vec2 uv = vec2(0.0);
+	float remainder = mod(UV.x - UV.y * slant, 1.0 / rain_amount);
+	uv.x = (UV.x - UV.y * slant) - remainder;
+	float rn = fract(sin(uv.x * rain_amount));
+	uv.y = fract((UV.y + rn));
 
-		COLOR = vec4(final_color*-fade, 0.4);
+// Blurred trail. Works well for rain:
+//	COLOR = mix(COLOR, rain_color, smoothstep(1.0 - (far_rain_length + (near_rain_length - far_rain_length) * rn), 1.0, fract(uv.y - time * (base_rain_speed + additional_rain_speed * rn))) * (far_rain_transparency + (near_rain_transparency - far_rain_transparency) * rn) * step(remainder * rain_amount, far_rain_width + (near_rain_width - far_rain_width) * rn));
+
+// No trail. Works well for snow:
+	COLOR = fade * mix(COLOR, rain_color, step(1.0 - (far_rain_length + (near_rain_length - far_rain_length) * rn), fract(uv.y - time * (base_rain_speed + additional_rain_speed * rn))) * (far_rain_transparency + (near_rain_transparency - far_rain_transparency) * rn) * step(remainder * rain_amount, far_rain_width + (near_rain_width - far_rain_width) * rn));
+
 	}
 	
-	if (wetwave){
-		float amount = brightness * fade;
-        COLOR = vec4(vec3(0.1, 0.1, 0.8) * amount, 0.25 * fade);
-	}
 
     if (heatwave) {
         float amount = brightness * fade;

@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://rbitxahkrmx3"]
+
+[ext_resource type="Script" uid="uid://gi3dn26uejjp" path="res://loading_screen.gd" id="1_o323o"]
+
+[node name="Loading_screen" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_o323o")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 53.0
+offset_top = 950.0
+offset_right = 487.0
+offset_bottom = 1012.0
+theme_override_font_sizes/font_size = 50
+text = "Generating World ..."

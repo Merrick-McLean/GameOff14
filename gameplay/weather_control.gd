@@ -24,7 +24,7 @@ enum wave  {
 	relax = 4
 }
 
-var next = randi_range(0,3)
+var next = 0
 
 # Fade values
 var fade := 0.0            # Current fade
@@ -68,6 +68,7 @@ func _on_timer_timeout() -> void:
 			shader_material.set_shader_parameter("wetwave", true)
 			shader_material.set_shader_parameter("heatwave", false)
 			fade_target = 1.0   # fade IN wetwave
+			get_parent().get_node("lightning").play()
 
 		1: # HEAT WAVE
 			emit_signal("heat_wave")

@@ -356,6 +356,7 @@ func spawn_tree(min_x, max_x, min_y, max_y):
 	tree.z_index = random_y
 	tree.seed = idxes[0]
 	tree.set_texture(idxes[0]) #main idx
+	trees.append(tree)
 	add_child(tree)
 	tree.modulate = get_color_for_index(idxes[0])
 	set_camptree(tree)

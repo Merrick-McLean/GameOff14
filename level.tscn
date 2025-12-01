@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://nf7ensfke5r2"]
+[gd_scene load_steps=10 format=3 uid="uid://nf7ensfke5r2"]
 
 [ext_resource type="PackedScene" uid="uid://boqnhwkcmdneh" path="res://gameplay/camera.tscn" id="1_0b4ue"]
 [ext_resource type="Script" uid="uid://imym1jbbrtw0" path="res://level.gd" id="1_f2txt"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cb44m6144hhdw" path="res://gameplay/player.tscn" id="3_oi3di"]
 [ext_resource type="PackedScene" uid="uid://iskybyrkguuk" path="res://level_generation/level_generate.tscn" id="4_0b4ue"]
 [ext_resource type="PackedScene" uid="uid://c8obpf36pbca3" path="res://gameplay/weather_control.tscn" id="6_1ainy"]
+[ext_resource type="PackedScene" uid="uid://b6hdyauxerl4e" path="res://assets/fx/lightning.tscn" id="8_km5ld"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0b4ue"]
 size = Vector2(2198, 1552)
@@ -34,3 +35,7 @@ position = Vector2(975, 500)
 shape = SubResource("RectangleShape2D_0b4ue")
 
 [node name="weather_control" parent="." instance=ExtResource("6_1ainy")]
+
+[node name="lightning" parent="." instance=ExtResource("8_km5ld")]
+z_index = 4096
+position = Vector2(7, 22)
