@@ -25,9 +25,9 @@ var velocity: Vector2 = Vector2.ZERO
 var acceleration_time := 0.25
 
 # selection size
-var max_length := 300
+var max_length := 225
 var max_trees := 150
-var thickness = 25
+var thickness = 22
 
 # preview graphics
 var lumberjack_radius: Node2D

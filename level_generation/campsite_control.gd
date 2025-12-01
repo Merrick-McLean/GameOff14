@@ -35,7 +35,7 @@ func spawn_campsite(idx : int):
 	add_child(camp)
 	camp.source_camp = true
 	get_parent().camps.append(camp)
-	
+
 func spawn_illegal_campsite():
 	var camp = illegal_camp_scene.instantiate()
 	var idx_range = range(5,25) # hardcoded but fine for now

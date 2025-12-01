@@ -2,6 +2,7 @@ extends Button
 
 var ranger_unit := preload("res://units/ranger.tscn")
 @onready var cost_text := $RangerCost
+@onready var action_manager = get_tree().get_current_scene().get_node("action_manager")
 
 const cost = 150
 
@@ -46,7 +47,7 @@ func _process(delta: float) -> void:
 	var game = get_tree().get_current_scene()
 	var ui = game.get_node("UIContainer")
 	var eco = ui.get_node("UIEconomy")
-	if eco.cash < cost:
+	if eco.cash < cost or action_manager.action_state is not SelectAction:
 		disabled = true
 		modulate = Color(0.3, 0.3 , 0.3)
 	else: 

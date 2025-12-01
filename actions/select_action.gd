@@ -21,9 +21,10 @@ var wave_onscreen_position: Vector2 = Vector2(100, 900)
 var wave_offscreen_position: Vector2 = Vector2(100, 1100)
 
 func enter() -> void: # need to fix quick clicks hiding the overlay...
-	buttons_enter()
-	economy_enter()
-	wave_enter()
+	#buttons_enter()
+	#economy_enter()
+	#wave_enter()
+	return
 
 func buttons_enter():
 	ui_buttons.position = button_offscreen_position
@@ -53,9 +54,10 @@ func wave_enter():
 			 .set_ease(Tween.EaseType.EASE_OUT)
 
 func exit():
-	button_exit()
-	economy_exit()
-	wave_exit()
+	#button_exit()
+	#economy_exit()
+	#wave_exit()
+	return
 
 func button_exit():
 	var tween = ui_buttons.create_tween()

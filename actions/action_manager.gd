@@ -2,6 +2,7 @@ extends Node2D
 
 # ActionStates COMMAND_WATER, CALL_WATER, CALL_RET, CALL_FOAM, COMMAND_FOAM, BURN, BREAK 
 # determines which action is being used
+@export var select_action : SelectAction
 @export var action_state: ActionState = null
 @export var currency := 0
 
