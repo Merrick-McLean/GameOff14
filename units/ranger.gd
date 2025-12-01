@@ -18,7 +18,7 @@ var search_radius_val := 100.0
 var ranger_radius_val := 35.0 # search for illegal camps region
 
 # foam troop movement
-var max_speed := 25.0
+var max_speed := 30.0
 var velocity: Vector2 = Vector2.ZERO
 var acceleration_time := 0.25
 
