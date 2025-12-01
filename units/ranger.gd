@@ -15,7 +15,7 @@ var max_objects := 100
 
 # troop params
 var search_radius_val := 100.0
-var ranger_radius_val := 35.0 # search for illegal camps region
+var ranger_radius_val := 50.0 # search for illegal camps region
 
 # foam troop movement
 var max_speed := 30.0
@@ -39,6 +39,8 @@ func _ready():
 	Sets up and connects to necessary input detection
 	Sets up helper visuals
 	"""
+	add_to_group("troops")
+	
 	area.input_pickable = true
 	area.connect("input_event", Callable(self, "_on_input_event"))
 	prepare_displays()

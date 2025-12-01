@@ -20,6 +20,8 @@ var variance
 var tree_distance_threshold := 10.0
 
 func _ready():
+	add_to_group("subtroops")
+	
 	water_box.visible = false
 	water.play("spray")
 	water.pause()

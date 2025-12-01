@@ -23,6 +23,8 @@ var time_to_foam: float = 3.0
 var foam_power: float = max_moisture_contribution / (60 * time_to_foam)
 
 func _ready():
+	add_to_group("subtroops")
+	
 	foam_box.visible = false
 	foam.play("spray")
 	foam.pause()

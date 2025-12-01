@@ -39,6 +39,8 @@ func _ready():
 	Sets up Z vaue and connects to necessary input detection
 	Sets up helper visuals
 	"""
+	add_to_group("troops")
+	
 	z_index = 1500
 	area.input_pickable = true
 	area.connect("input_event", Callable(self, "_on_input_event"))

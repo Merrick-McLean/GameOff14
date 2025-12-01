@@ -39,7 +39,7 @@ var protected = false
 var occupied = false
 
 # burn stat
-var burn_rate = 0.0005
+var burn_rate = 0.001 # doubled here
 var burn_spread_chance = 0.0002
 var hull = 1.0
 var intensity = 0.1

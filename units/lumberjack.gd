@@ -25,8 +25,8 @@ var velocity: Vector2 = Vector2.ZERO
 var acceleration_time := 0.25
 
 # selection size
-var max_length := 200
-var max_trees := 80
+var max_length := 300
+var max_trees := 150
 var thickness = 25
 
 # preview graphics
@@ -40,6 +40,8 @@ func _ready():
 	Sets up Z vaue and connects to necessary input detection
 	Sets up helper visuals
 	"""
+	add_to_group("troops")
+	
 	area.input_pickable = true
 	area.connect("input_event", Callable(self, "_on_input_event"))
 	prepare_displays()
