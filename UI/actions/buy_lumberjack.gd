@@ -3,7 +3,7 @@ extends Button
 var lumberjack_unit := preload("res://units/Lumberjack.tscn")
 @onready var cost_text := $LumberjackCost
 
-const cost = 300
+const cost = 100
 
 func _ready():
 	"""
