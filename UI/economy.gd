@@ -5,7 +5,7 @@ var cash
 func _ready(): 
 	var weather = get_tree().get_current_scene().get_node("Level/weather_control")
 	weather.new_summer.connect(_new_summer)
-	cash = 5000
+	cash = 1000
 	update()
 
 func _new_summer():
@@ -13,7 +13,7 @@ func _new_summer():
 	var camps = get_tree().get_current_scene().get_node("Level/Level_generate").camps
 	var revenue = 0
 	for camp in camps:
-		revenue += camp.revenue
+		revenue += int(camp.revenue)
 		camp.revenue = 0
 	var text = $Sprite2D/RichTextLabel
 	cash += revenue

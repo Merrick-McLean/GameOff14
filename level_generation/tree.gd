@@ -40,7 +40,7 @@ var occupied = false
 
 # burn stat
 var burn_rate = 0.0005
-var burn_spread_chance = 0.0001
+var burn_spread_chance = 0.00005
 var hull = 1.0
 var intensity = 0.1
 var evaporate = 0.001
@@ -75,7 +75,7 @@ func _on_tick():
 					if randf() > 1 - burn_spread_chance:
 						ignite()
 		state.on_fire: 
-			intensity = sin(hull*PI + 0.3)*3/5 + 0.4 - max(moisture, 0)*0.1
+			intensity = sin(hull*PI + 0.3)*3/5 + 0.4 - max(moisture, 0)
 			if intensity <= 0:
 				if hull > 0:
 					recover()

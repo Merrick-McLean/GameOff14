@@ -27,7 +27,7 @@ func _ready() -> void:
 
 func _on_tick() -> void:
 	
-	revenue += campers.size()/10
+	revenue += int(campers.size()/10)
 	
 	var n = randf()
 
