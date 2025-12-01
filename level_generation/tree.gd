@@ -190,8 +190,6 @@ func douse_foam(power):
 func douse_retardent(fire_power, non_fire_power):
 	if current_state == state.on_fire:
 		moisture += fire_power
-		print("HIT")
-		print(moisture)
 	elif current_state == state.alive and not protected:
 		protect()
 		moisture += non_fire_power
