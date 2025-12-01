@@ -29,7 +29,7 @@ var acceleration_time := 0.25
 
 # amount of foam supply
 var foam_tank := 1.0
-var tank_use := 10 # this many trees will be fully protected in a single use of these troops
+var tank_use := 20 # this many trees will be fully protected in a single use of these troops
 # also need to add a max moisture or max amount applied per tree
 
 # hover graphics
@@ -139,16 +139,18 @@ func return_foam_crew(delta): # need to also add handling to remove children - m
 		self.queue_free() # should wait for foam crew to make it before we free him maybe
 
 # this needs work, troops still get assignment to same tree, reassignments dont work - copy ame updates to water troops when done
-func command_troops(): # despite debugging, troops dont seem to reassign to new trees until moved... not sure why
-	if troop_status.has(false):
-		for tree in target_list:
-			if tree.current_state == tree.state.alive and not tree.occupied:
-				for id in range(troop_count):
-					if !troop_status[id]:
-						print("TROOP ASSIGNED", tree)
-						troop_list[id].target = tree
-						tree.occupied = true
-						troop_status[id] = true
+# despite debugging, troops dont seem to reassign to new trees until moved... not sure why
+func command_troops():
+	if not troop_status.has(false):
+		return
+	for id in range(troop_count):
+		if !troop_status[id] and troop_list[id].target == null:
+			for tree in target_list:
+				if tree.current_state == tree.state.alive and not tree.occupied and not tree.protected:
+					troop_list[id].target = tree
+					troop_status[id] = true
+					tree.occupied = true
+					break
 
 # PATH FINDING!!!!!
 func move_towards_point(delta: float, point: Vector2) -> void:

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cod6dkyhrw137" path="res://level_generation/illegal_campsite.gd" id="1_c7p6c"]
 [ext_resource type="Texture2D" uid="uid://cea4dulp5kgjk" path="res://assets/Troops/Tent.png" id="2_6tmmy"]
-[ext_resource type="Texture2D" uid="uid://u0bdqlse6khp" path="res://assets/Troops/smoke_dev.png" id="3_6tmmy"]
+[ext_resource type="Texture2D" uid="uid://pfvlpr5a5oq5" path="res://assets/Troops/smoke.png" id="3_6tmmy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6tmmy"]
 size = Vector2(80.000084, 65.00007)
@@ -15,8 +15,10 @@ script = ExtResource("1_c7p6c")
 texture = ExtResource("2_6tmmy")
 
 [node name="HERE I AM!" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.7058824)
 z_index = 4090
-position = Vector2(154.99998, -247.49998)
+position = Vector2(0, -165)
+scale = Vector2(3, 3)
 texture = ExtResource("3_6tmmy")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]

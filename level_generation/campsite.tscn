@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://w4tngpee65w5" path="res://level_generation/campsite.gd" id="1_gotxa"]
 [ext_resource type="Texture2D" uid="uid://cea4dulp5kgjk" path="res://assets/Troops/Tent.png" id="1_h1cor"]
-[ext_resource type="Texture2D" uid="uid://u0bdqlse6khp" path="res://assets/Troops/smoke_dev.png" id="3_je87a"]
+[ext_resource type="Texture2D" uid="uid://pfvlpr5a5oq5" path="res://assets/Troops/smoke.png" id="3_je87a"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2jcta"]
 size = Vector2(130.00006, 125.00007)
@@ -24,7 +24,8 @@ z_index = 1
 texture = ExtResource("1_h1cor")
 
 [node name="HERE I AM!" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.7058824)
 z_index = 4096
-position = Vector2(154.99997, -247.49995)
-scale = Vector2(0.99999994, 0.99999994)
+position = Vector2(0, -165)
+scale = Vector2(3, 3)
 texture = ExtResource("3_je87a")
