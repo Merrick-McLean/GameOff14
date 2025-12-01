@@ -26,10 +26,12 @@ func _ready() -> void:
 	var weather = get_tree().get_current_scene().get_node("Level/weather_control") # node that provides sigals for diffrent weather types
 	weather.relax.connect(_relax)
 	weather.camper_wave.connect(_camper_wave) 
+	weather.new_summer.connect(_new_summer) 
+	
 
 func _on_tick() -> void:
 	
-	revenue += int(campers.size()/10)
+	revenue += campers.size()/10
 	
 	var n = randf()
 
@@ -86,3 +88,6 @@ func _relax():
 	
 func _camper_wave():
 	camper_chance = 1.5
+	
+func _new_summer():
+	open = true

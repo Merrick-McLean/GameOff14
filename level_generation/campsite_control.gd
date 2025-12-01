@@ -16,7 +16,7 @@ func _ready() -> void:
 
 func _on_tick():
 	var n = randf()
-	if n*illegal_chance > 0.9999:
+	if n*illegal_chance > 0.999:
 		spawn_illegal_campsite()
 
 func close_camps():
