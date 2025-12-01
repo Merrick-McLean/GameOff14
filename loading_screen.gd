@@ -11,11 +11,8 @@ func _ready():
 func _process(_delta):
 	if not is_loading:
 		return
-	
 	var status = ResourceLoader.load_threaded_get_status(target_scene_path, progress_arr)
-
 	$Label.text = "Generating World ..." 
-
 	if status == ResourceLoader.THREAD_LOAD_LOADED:
 		var scene_res = ResourceLoader.load_threaded_get(target_scene_path)
 		if scene_res:

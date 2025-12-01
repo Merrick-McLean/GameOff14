@@ -1,11 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://rbitxahkrmx3"]
+[gd_scene load_steps=3 format=3 uid="uid://rbitxahkrmx3"]
 
 [ext_resource type="Script" uid="uid://gi3dn26uejjp" path="res://loading_screen.gd" id="1_mggpi"]
+[ext_resource type="Texture2D" uid="uid://duq473un4pfn0" path="res://assets/image_1.png" id="2_htrc2"]
 
 [node name="Loading_screen" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_mggpi")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(959, 540)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_htrc2")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
