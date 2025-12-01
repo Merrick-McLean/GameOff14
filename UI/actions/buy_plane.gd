@@ -3,7 +3,7 @@ extends Button
 var plane_unit := preload("res://units/Plane.tscn")
 @onready var cost_text := $PlaneCost
 
-const cost = 400
+const cost = 800
 
 func _ready():
 	"""

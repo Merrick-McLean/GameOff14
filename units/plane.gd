@@ -14,7 +14,7 @@ var destination: Vector2
 
 # selection size
 var max_length := 400
-var max_trees := 40
+var max_trees := 200
 var thickness = 40
 
 # plane values
@@ -22,7 +22,7 @@ var speed := 275
 
 # retardent values
 # need to tweak
-var fire_power = 0.5 # moisture to add to on fire trees
+var fire_power = 1.0 # moisture to add to on fire trees
 var non_fire_power = 0.2  # moisture to add to alive trees
 var doused = false
 
