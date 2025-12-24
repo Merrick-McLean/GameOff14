@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cv3xhf0q270q6"]
+[gd_scene load_steps=19 format=3 uid="uid://cv3xhf0q270q6"]
 
 [ext_resource type="Texture2D" uid="uid://3hhiae731my2" path="res://assets/UI/UIButtonHolderSign.png" id="1_8hgu8"]
 [ext_resource type="Texture2D" uid="uid://71qaln6behuc" path="res://assets/UI/UIHelicopter.png" id="1_dhe1o"]
@@ -16,6 +16,8 @@
 [ext_resource type="Texture2D" uid="uid://bm6rewhw0q382" path="res://assets/UI/UILumberjackButton.png" id="11_oxmmb"]
 [ext_resource type="Texture2D" uid="uid://dgyb5pf83xhr8" path="res://assets/UI/UIRangerButton.png" id="13_knk1s"]
 [ext_resource type="Texture2D" uid="uid://bjdljblpxy4vb" path="res://assets/UI/UITentButton.png" id="15_43c0a"]
+[ext_resource type="Texture2D" uid="uid://mn2femr1doul" path="res://assets/UI/UISettingButton.png" id="17_8rtqo"]
+[ext_resource type="Script" uid="uid://epa7soeootvx" path="res://UI/settings_button.gd" id="18_s618c"]
 
 [node name="UIButtons" type="Control"]
 layout_mode = 3
@@ -187,3 +189,41 @@ theme_override_colors/default_color = Color(1, 1, 0.47058824, 1)
 theme_override_font_sizes/normal_font_size = 9
 text = "$XXX"
 script = ExtResource("4_fpda8")
+
+[node name="SettingsButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1399.0
+offset_top = -1.0
+offset_right = 1535.0
+offset_bottom = 135.0
+icon = ExtResource("17_8rtqo")
+script = ExtResource("18_s618c")
+
+[node name="ReturnToGame" type="Button" parent="SettingsButton"]
+layout_mode = 0
+offset_left = -649.0
+offset_top = 232.0
+offset_right = -533.0
+offset_bottom = 257.0
+text = "Return to Game"
+
+[node name="QuitToMenu" type="Button" parent="SettingsButton"]
+layout_mode = 0
+offset_left = -641.0
+offset_top = 263.0
+offset_right = -541.0
+offset_bottom = 288.0
+text = "Quit to Menu"
+
+[node name="QuitGame" type="Button" parent="SettingsButton"]
+layout_mode = 0
+offset_left = -633.0
+offset_top = 293.0
+offset_right = -551.0
+offset_bottom = 318.0
+text = "Quit Game
+"
+
+[connection signal="pressed" from="SettingsButton/ReturnToGame" to="SettingsButton" method="_on_return_to_game_pressed"]
+[connection signal="pressed" from="SettingsButton/QuitToMenu" to="SettingsButton" method="_on_quit_to_menu_pressed"]
+[connection signal="pressed" from="SettingsButton/QuitGame" to="SettingsButton" method="_on_quit_game_pressed"]

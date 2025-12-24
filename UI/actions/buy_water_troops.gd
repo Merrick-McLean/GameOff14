@@ -50,3 +50,4 @@ func _process(delta: float) -> void:
 	else: 
 		disabled = false
 		modulate = Color(1, 1 , 1)
+	
