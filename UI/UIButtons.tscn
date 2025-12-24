@@ -199,31 +199,29 @@ offset_bottom = 135.0
 icon = ExtResource("17_8rtqo")
 script = ExtResource("18_s618c")
 
-[node name="ReturnToGame" type="Button" parent="SettingsButton"]
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsButton"]
 layout_mode = 0
-offset_left = -649.0
-offset_top = 232.0
-offset_right = -533.0
-offset_bottom = 257.0
+offset_left = -909.0
+offset_top = 223.0
+offset_right = -289.0
+offset_bottom = 351.0
+
+[node name="ReturnToGame" type="Button" parent="SettingsButton/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
 text = "Return to Game"
 
-[node name="QuitToMenu" type="Button" parent="SettingsButton"]
-layout_mode = 0
-offset_left = -641.0
-offset_top = 263.0
-offset_right = -541.0
-offset_bottom = 288.0
+[node name="QuitToMenu" type="Button" parent="SettingsButton/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
 text = "Quit to Menu"
 
-[node name="QuitGame" type="Button" parent="SettingsButton"]
-layout_mode = 0
-offset_left = -633.0
-offset_top = 293.0
-offset_right = -551.0
-offset_bottom = 318.0
+[node name="QuitGame" type="Button" parent="SettingsButton/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
 text = "Quit Game
 "
 
-[connection signal="pressed" from="SettingsButton/ReturnToGame" to="SettingsButton" method="_on_return_to_game_pressed"]
-[connection signal="pressed" from="SettingsButton/QuitToMenu" to="SettingsButton" method="_on_quit_to_menu_pressed"]
-[connection signal="pressed" from="SettingsButton/QuitGame" to="SettingsButton" method="_on_quit_game_pressed"]
+[connection signal="pressed" from="SettingsButton/VBoxContainer/ReturnToGame" to="SettingsButton" method="_on_return_to_game_pressed"]
+[connection signal="pressed" from="SettingsButton/VBoxContainer/QuitToMenu" to="SettingsButton" method="_on_quit_to_menu_pressed"]
+[connection signal="pressed" from="SettingsButton/VBoxContainer/QuitGame" to="SettingsButton" method="_on_quit_game_pressed"]

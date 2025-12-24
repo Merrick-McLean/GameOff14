@@ -26,11 +26,23 @@ texture = ExtResource("2_7vrkn")
 
 [node name="PlayGameButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 30
 text = "Play"
 
 [node name="QuitGameButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 30
 text = "Quit Game"
+
+[node name="Title" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 444.0
+offset_top = 179.0
+offset_right = 1511.0
+offset_bottom = 243.0
+theme_override_colors/current_line_color = Color(0.25, 0.25, 0.26, 0.8)
+theme_override_font_sizes/font_size = 55
+text = "Wildfire Management Simulator 2025 edition"
 
 [connection signal="pressed" from="VBoxContainer/PlayGameButton" to="." method="_on_play_game_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/QuitGameButton" to="." method="_on_quit_game_button_pressed"]
