@@ -93,7 +93,7 @@ func generate_voronoi():
 	for i in num_trees:
 		spawn_tree(0.0, screen_size.x, 0.0, screen_size.y)
 
-	# Build tree adjacency (might wanna tink bout using kd)
+	# Build tree adjacency (might wanna think bout using kd)
 	for tree_group in seed_tree_groups:
 		for tree in tree_group:
 			tree.other_trees += tree_group  

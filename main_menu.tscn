@@ -29,6 +29,11 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Play"
 
+[node name="SettingsButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Settings"
+
 [node name="QuitGameButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
@@ -45,4 +50,5 @@ theme_override_font_sizes/font_size = 55
 text = "Wildfire Management Simulator 2025 edition"
 
 [connection signal="pressed" from="VBoxContainer/PlayGameButton" to="." method="_on_play_game_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/QuitGameButton" to="." method="_on_quit_game_button_pressed"]

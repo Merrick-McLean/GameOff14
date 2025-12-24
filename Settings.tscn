@@ -1,0 +1,71 @@
+[gd_scene load_steps=2 format=3 uid="uid://cipf0cediedef"]
+
+[ext_resource type="Script" uid="uid://c4wsf73kw76sp" path="res://settingsPage.gd" id="1_bvb5x"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bvb5x")
+
+[node name="DifficultyContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 863.0
+offset_top = 141.0
+offset_right = 903.0
+offset_bottom = 181.0
+
+[node name="EasyDifficultyButton" type="Button" parent="DifficultyContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Easy"
+
+[node name="MediumDifficultyButton" type="Button" parent="DifficultyContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Medium"
+
+[node name="HardDiffiultyButton" type="Button" parent="DifficultyContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Hard"
+
+[node name="MapSizeContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 458.0
+offset_top = 212.0
+offset_right = 498.0
+offset_bottom = 252.0
+
+[node name="SmallMapButton" type="Button" parent="MapSizeContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Small"
+
+[node name="MediumMapButton" type="Button" parent="MapSizeContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Medium"
+
+[node name="LargeMapButton" type="Button" parent="MapSizeContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Large"
+
+[node name="OutputSaveContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 805.0
+offset_top = 57.0
+offset_right = 1089.0
+offset_bottom = 97.0
+
+[node name="ReturnToMainMenuButton" type="Button" parent="OutputSaveContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Return to Main Menu
+"
+
+[connection signal="pressed" from="OutputSaveContainer/ReturnToMainMenuButton" to="." method="_on_return_to_main_menu_button_pressed"]

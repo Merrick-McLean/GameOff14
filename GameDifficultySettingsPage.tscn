@@ -1,0 +1,106 @@
+[gd_scene load_steps=3 format=3 uid="uid://bqtcrpi85xhu4"]
+
+[ext_resource type="Script" uid="uid://fpdtl431vg6q" path="res://game_difficulty_settings_page.gd" id="1_ocrq1"]
+[ext_resource type="Texture2D" uid="uid://duq473un4pfn0" path="res://assets/image_1.png" id="2_y0sce"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ocrq1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(960.4999, 540.00006)
+scale = Vector2(1.5426044, 1.4917127)
+texture = ExtResource("2_y0sce")
+
+[node name="DifficultyOptionBox" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 783.0
+offset_top = 235.0
+offset_right = 1167.0
+offset_bottom = 463.0
+
+[node name="EasyDifficultyButton" type="Button" parent="DifficultyOptionBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Easy"
+
+[node name="MediumDifficultyButton" type="Button" parent="DifficultyOptionBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Medium"
+
+[node name="HardDifficultyButton" type="Button" parent="DifficultyOptionBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Hard"
+
+[node name="MapSizeOptionBox" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 781.0
+offset_top = 551.0
+offset_right = 1173.0
+offset_bottom = 806.0
+
+[node name="SmallMapSizeButton" type="Button" parent="MapSizeOptionBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Small"
+
+[node name="MediumMapSizeButton" type="Button" parent="MapSizeOptionBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Medium"
+
+[node name="LargeMapSizeButton" type="Button" parent="MapSizeOptionBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Large"
+
+[node name="OutputBox" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 778.0
+offset_top = 952.0
+offset_right = 1177.0
+offset_bottom = 1044.0
+
+[node name="StartGameButton" type="Button" parent="OutputBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Start Game"
+
+[node name="MainMenuButton" type="Button" parent="OutputBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Back to Main Menu"
+
+[node name="DifficultyTitle" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 880.0
+offset_top = 150.0
+offset_right = 1069.0
+offset_bottom = 203.0
+theme_override_font_sizes/font_size = 45
+text = "Difficulty"
+
+[node name="MapSizeTitle" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 891.0
+offset_top = 457.0
+offset_right = 1070.0
+offset_bottom = 511.0
+theme_override_font_sizes/font_size = 45
+text = "Map Size"
+
+[connection signal="pressed" from="DifficultyOptionBox/EasyDifficultyButton" to="." method="_on_easy_difficulty_button_pressed"]
+[connection signal="pressed" from="DifficultyOptionBox/MediumDifficultyButton" to="." method="_on_medium_difficulty_button_pressed"]
+[connection signal="pressed" from="DifficultyOptionBox/HardDifficultyButton" to="." method="_on_hard_difficulty_button_pressed"]
+[connection signal="pressed" from="MapSizeOptionBox/SmallMapSizeButton" to="." method="_on_small_map_size_button_pressed"]
+[connection signal="pressed" from="MapSizeOptionBox/MediumMapSizeButton" to="." method="_on_medium_map_size_button_pressed"]
+[connection signal="pressed" from="MapSizeOptionBox/LargeMapSizeButton" to="." method="_on_large_map_size_button_pressed"]
+[connection signal="pressed" from="OutputBox/StartGameButton" to="." method="_on_start_game_button_pressed"]
+[connection signal="pressed" from="OutputBox/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
