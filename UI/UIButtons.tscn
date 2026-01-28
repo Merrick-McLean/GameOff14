@@ -195,6 +195,7 @@ text = "$XXX"
 script = ExtResource("4_fpda8")
 
 [node name="SettingsButton" type="Button" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 1399.0
 offset_top = -1.0
